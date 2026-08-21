@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0A0A0B; color: #F4F4F2; font-family: "Instrument Sans", Helvetica, Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  a { color: #F4F4F2; text-decoration: none; }
+  a:hover { color: #E1102A; }
+  ::selection { background: #E1102A; color: #fff; }
+</style>
+</helmet>
+
+<div style="background:#0A0A0B;min-height:100vh">
+
+<header style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:14px 28px;background:rgba(10,10,11,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.09)">
+  <a href="Simulacao Raul.dc.html" style="display:flex;align-items:center;gap:12px">
+    <span style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:900;font-size:16px;letter-spacing:-.04em">R</span>
+    <span style="display:flex;flex-direction:column;line-height:1.15">
+      <strong style="font-family:Archivo,sans-serif;font-size:14px;font-weight:800;letter-spacing:.02em">RAUL CARVALHO</strong>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#8B8B93;letter-spacing:.1em;text-transform:uppercase">Blog · dúvidas explicadas</span>
+    </span>
+  </a>
+  <a href="Simulacao Raul.dc.html#simulacao" style="display:inline-flex;align-items:center;padding:11px 20px;background:#E1102A;color:#fff;font-weight:600;font-size:13px" style-hover="background:#F5122F;color:#fff">Fazer minha simulação</a>
+</header>
+
+<section style="max-width:1200px;margin:0 auto;padding:84px 28px 48px;border-bottom:1px solid rgba(255,255,255,.09)">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">Conteúdos</span>
+  <h1 style="margin:16px 0 18px;max-width:26ch;font-family:Archivo,sans-serif;font-size:clamp(36px,5.6vw,76px);line-height:.92;font-weight:900;letter-spacing:-.045em">Cada dúvida explicada em vídeo e por escrito.</h1>
+  <p style="margin:0;max-width:60ch;font-size:17px;line-height:1.6;color:#A8A8B2;text-wrap:pretty">O mesmo conteúdo que o Raul publica no Instagram, aqui em formato de leitura. Você assiste, lê, entende — e só depois decide se quer conversar.</p>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:48px 28px 24px">
+  <article style="display:flex;flex-wrap:wrap;gap:32px;align-items:center;background:#131317;border:1px solid rgba(255,255,255,.12)">
+    <div style="flex:1 1 320px;min-width:0;aspect-ratio:16/10;background:#0E0E11;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
+      <span style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:#E1102A;color:#fff;font-size:17px">▶</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#8B8B93;text-transform:uppercase">Vídeo em destaque · trocar</span>
+    </div>
+    <div style="flex:1 1 320px;min-width:0;padding:32px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#E1102A;text-transform:uppercase">Destaque · 6 min de leitura</span>
+      <h2 style="margin:14px 0 14px;font-family:Archivo,sans-serif;font-size:clamp(24px,3vw,38px);line-height:1.02;font-weight:800;letter-spacing:-.035em">Troca de dívidas: como usar o consórcio para quitar um financiamento</h2>
+      <p style="margin:0 0 22px;font-size:16px;line-height:1.6;color:#B4B4BE;text-wrap:pretty">O passo a passo da estratégia, quando ela compensa, o que olhar no saldo devedor e os erros que fazem a conta virar contra você.</p>
+      <a href="#post" style="display:inline-flex;padding:15px 24px;border:1px solid rgba(255,255,255,.24);font-weight:600;font-size:14px" style-hover="border-color:#E1102A;color:#fff">Ler o conteúdo →</a>
+    </div>
+  </article>
+</section>
+
+<section style="max-width:1200px;margin:0 auto;padding:24px 28px 84px">
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+    <sc-for list="{{ posts }}" as="p" hint-placeholder-count="6">
+      <article style="display:flex;flex-direction:column;background:#131317;border:1px solid rgba(255,255,255,.11)" style-hover="border-color:rgba(225,16,42,.6)">
+        <div style="aspect-ratio:16/10;background:#0E0E11;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;align-items:center;justify-content:center">
+          <span style="display:flex;align-items:center;justify-content:center;width:40px;height:40px;background:#E1102A;color:#fff;font-size:13px">▶</span>
+        </div>
+        <div style="display:flex;flex-direction:column;flex:1;padding:22px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#7A7A84;text-transform:uppercase">{{ p.tag }} · {{ p.tempo }}</span>
+          <h3 style="margin:12px 0 10px;font-family:Archivo,sans-serif;font-size:20px;line-height:1.15;font-weight:700;letter-spacing:-.025em;text-wrap:pretty">{{ p.title }}</h3>
+          <p style="margin:0 0 18px;font-size:14px;line-height:1.6;color:#A8A8B2;text-wrap:pretty">{{ p.resumo }}</p>
+          <a href="#post" style="margin-top:auto;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#E1102A;text-transform:uppercase">Ler →</a>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+</section>
+
+<section id="post" style="border-top:1px solid rgba(255,255,255,.09);background:#0E0E11">
+  <div style="max-width:1200px;margin:0 auto;padding:84px 28px;display:flex;flex-wrap:wrap;gap:56px;align-items:flex-start">
+    <article style="flex:2 1 420px;min-width:0">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#E1102A;text-transform:uppercase">Post modelo · estrutura de referência</span>
+      <h2 style="margin:16px 0 20px;font-family:Archivo,sans-serif;font-size:clamp(30px,4.4vw,56px);line-height:.95;font-weight:900;letter-spacing:-.04em;text-wrap:balance">Troca de dívidas: como usar o consórcio para quitar um financiamento</h2>
+      <p style="margin:0 0 28px;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:#6E6E78;text-transform:uppercase">Por Raul Carvalho · Maringá/PR · atualizado em agosto de 2026</p>
+
+      <div style="aspect-ratio:16/9;background:#131317;border:1px solid rgba(255,255,255,.12);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;margin-bottom:34px">
+        <span style="display:flex;align-items:center;justify-content:center;width:52px;height:52px;background:#E1102A;color:#fff;font-size:17px">▶</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#8B8B93;text-transform:uppercase">Reel do Instagram embutido aqui</span>
+      </div>
+
+      <p style="margin:0 0 22px;font-size:18px;line-height:1.7;color:#DCDCE2;text-wrap:pretty">Quem financiou um imóvel ou um carro paga duas coisas: o bem e os juros. Na maioria dos contratos longos, a segunda parte pesa mais do que a primeira. A troca de dívida é a estratégia de usar o crédito de um consórcio para quitar esse saldo e passar a pagar taxa de administração no lugar de juros compostos.</p>
+
+      <h3 style="margin:34px 0 12px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.025em">Quando faz sentido</h3>
+      <p style="margin:0 0 22px;font-size:17px;line-height:1.7;color:#C3C3CB;text-wrap:pretty">Faz sentido quando o custo total do financiamento que você tem hoje é maior que o custo total do consórcio até a contemplação, considerando o tempo que você ainda vai pagar. Sem esse cálculo, é chute. Com ele, a decisão fica óbvia em poucos minutos.</p>
+
+      <h3 style="margin:34px 0 12px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.025em">O que levantar antes</h3>
+      <div style="display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.12);margin-bottom:26px">
+        <div style="background:#0E0E11;padding:18px 20px;font-size:16px;color:#DCDCE2">Saldo devedor atualizado do financiamento</div>
+        <div style="background:#0E0E11;padding:18px 20px;font-size:16px;color:#DCDCE2">Valor da parcela atual e quantas faltam</div>
+        <div style="background:#0E0E11;padding:18px 20px;font-size:16px;color:#DCDCE2">Taxa de juros efetiva do contrato</div>
+        <div style="background:#0E0E11;padding:18px 20px;font-size:16px;color:#DCDCE2">Quanto você tem disponível para lance</div>
+      </div>
+
+      <h3 style="margin:34px 0 12px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.025em">Os erros mais comuns</h3>
+      <p style="margin:0 0 22px;font-size:17px;line-height:1.7;color:#C3C3CB;text-wrap:pretty">O primeiro é entrar contando com contemplação rápida garantida. O segundo é escolher um crédito acima da capacidade real de pagamento, o que transforma a estratégia em problema no mês seis. O terceiro é não ler as regras de lance do grupo antes de assinar.</p>
+
+      <blockquote style="margin:34px 0;padding:26px 28px;background:#131317;border-left:3px solid #E1102A;font-family:Archivo,sans-serif;font-size:clamp(20px,2.4vw,28px);line-height:1.2;font-weight:700;letter-spacing:-.02em;text-wrap:balance">A parcela mais cara é aquela que você nunca começou a pagar — e por isso nunca saiu do lugar.</blockquote>
+
+      <p style="margin:0 0 34px;font-size:17px;line-height:1.7;color:#C3C3CB;text-wrap:pretty">Se você quer saber se essa estratégia serve para o seu caso, a simulação guiada leva 90 segundos e já mostra o cenário na tela antes de qualquer conversa.</p>
+
+      <a href="Simulacao Raul.dc.html#simulacao" style="display:inline-flex;padding:18px 28px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:700;font-size:15px" style-hover="background:#F5122F;color:#fff">Fazer a simulação guiada →</a>
+    </article>
+
+    <aside style="position:sticky;top:100px;flex:1 1 260px;min-width:0;max-width:340px;display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.12)">
+      <div style="background:#131317;padding:24px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Neste post</span>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px;font-size:14px;color:#B4B4BE">
+          <span>Quando faz sentido</span>
+          <span>O que levantar antes</span>
+          <span>Os erros mais comuns</span>
+        </div>
+      </div>
+      <div style="background:#131317;padding:24px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Continue</span>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-top:14px;font-size:15px">
+          <a href="#post" style="color:#F4F4F2">Lance livre, fixo e embutido →</a>
+          <a href="#post" style="color:#F4F4F2">O que é taxa de administração →</a>
+          <a href="#post" style="color:#F4F4F2">Alavancagem de capital →</a>
+        </div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<footer style="border-top:1px solid rgba(255,255,255,.09)">
+  <div style="max-width:1200px;margin:0 auto;padding:44px 28px;display:flex;flex-wrap:wrap;gap:18px;justify-content:space-between;align-items:center">
+    <a href="Simulacao Raul.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">← Voltar para a página principal</a>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#5C5C66;letter-spacing:.06em">© 2026 Raul Carvalho · Ademicon · Maringá/PR</span>
+  </div>
+</footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      posts: [
+        { tag: 'Contemplação', tempo: '4 min', title: 'Lance livre, fixo e embutido: qual usar e quando', resumo: 'As três formas de ofertar lance, o que cada uma faz com o seu crédito e como planejar a reserva.' },
+        { tag: 'Custos', tempo: '3 min', title: 'Taxa de administração não é juro. Entenda a diferença', resumo: 'Por que a conta do consórcio se comporta de forma diferente da de um financiamento.' },
+        { tag: 'Estratégia', tempo: '5 min', title: 'Alavancagem de capital com consórcio', resumo: 'Como usar crédito maior que o capital disponível para gerar patrimônio, e os riscos envolvidos.' },
+        { tag: 'Objeções', tempo: '4 min', title: 'Por que tanta gente fala mal de consórcio', resumo: 'Quase sempre o problema não é o produto: é a expectativa vendida errado na hora da contratação.' },
+        { tag: 'Moradia', tempo: '4 min', title: 'Aluguel x consórcio: a conta de 10 anos', resumo: 'O que acontece com o mesmo valor mensal nos dois caminhos ao longo de uma década.' },
+        { tag: 'Primeiros passos', tempo: '3 min', title: 'Como começar no consórcio sem apertar o orçamento', resumo: 'Escolha de crédito, prazo e grupo para a parcela caber no mês do começo ao fim.' }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

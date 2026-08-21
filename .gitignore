@@ -1,0 +1,16 @@
+# Lixo do WSL (metadados de download do Windows)
+*:Zone.Identifier
+
+# Sessões do companion de brainstorm (contêm chave de sessão — nunca commitar)
+.superpowers/
+
+# Deploy
+.vercel/
+
+# Node
+node_modules/
+npm-debug.log*
+
+# SO
+.DS_Store
+Thumbs.db

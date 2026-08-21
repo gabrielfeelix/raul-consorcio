@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="description" content="Simulação guiada: descubra a estratégia de consórcio que combina com seu objetivo, seu prazo e o que cabe no seu mês." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: #0A0A0B; color: #F4F4F2; font-family: "Instrument Sans", Helvetica, Arial, sans-serif; }
+  * { box-sizing: border-box; }
+  a { color: #F4F4F2; text-decoration: none; }
+  a:hover { color: #E1102A; }
+  input, select, textarea, button { font-family: inherit; }
+  ::selection { background: #E1102A; color: #fff; }
+  @keyframes rfloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+  @keyframes rmarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</helmet>
+
+<div style="max-width:100%;overflow-x:hidden;background:#0A0A0B">
+
+<header style="position:sticky;top:0;z-index:60;display:flex;align-items:center;justify-content:space-between;flex-wrap:nowrap;gap:20px;padding:14px 28px;background:rgba(10,10,11,.86);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.09)">
+  <a href="#topo" style="display:flex;align-items:center;gap:12px;flex:0 1 auto;min-width:0;height:34px;overflow:hidden">
+    <span style="flex:0 0 auto;display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:900;font-size:16px;letter-spacing:-.04em">R</span>
+    <span style="display:flex;flex-direction:column;justify-content:center;min-width:0;height:34px;line-height:1.15;overflow:hidden">
+      <strong style="font-family:Archivo,sans-serif;font-size:14px;font-weight:800;letter-spacing:.02em;white-space:nowrap">RAUL CARVALHO</strong>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#8B8B93;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Especialista em consórcio · Maringá</span>
+    </span>
+  </a>
+  <nav style="display:flex;flex-wrap:nowrap;flex:1 1 auto;min-width:0;overflow-x:auto;scrollbar-width:none;gap:22px;align-items:center;font-size:13px;color:#B4B4BB">
+    <a href="#objecoes" style="color:#B4B4BB;white-space:nowrap">Objeções</a>
+    <a href="#estrategias" style="color:#B4B4BB;white-space:nowrap">Estratégias</a>
+    <a href="#simulacao" style="color:#B4B4BB;white-space:nowrap">Simulação</a>
+    <a href="#raul" style="color:#B4B4BB;white-space:nowrap">Quem é o Raul</a>
+    <a href="#faq" style="color:#B4B4BB;white-space:nowrap">Dúvidas</a>
+  </nav>
+  <a href="#simulacao" style="flex:0 0 auto;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;padding:11px 20px;background:#E1102A;color:#fff;font-weight:600;font-size:13px" style-hover="background:#F5122F;color:#fff">Simular</a>
+</header>
+
+<section id="topo" data-screen-label="Hero" style="position:relative;min-height:calc(100vh - 63px);display:flex;align-items:flex-end;overflow:hidden;border-bottom:1px solid rgba(255,255,255,.09)">
+  <div style="position:absolute;inset:0;background:#101013;background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.045) 0 2px,transparent 2px 11px)"></div>
+  <div style="position:absolute;inset:0;background:rgba(9,9,11,.7)"></div>
+  <div style="position:absolute;top:24px;right:28px;z-index:2;display:flex;align-items:center;gap:10px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;color:#6E6E78;text-transform:uppercase">
+    <span style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border:1px solid rgba(255,255,255,.18);color:#8B8B93;font-size:11px">▶</span>
+    <span>slot de vídeo de fundo · loop mudo 8–12s</span>
+  </div>
+  <div style="position:relative;width:100%;padding:120px 28px 56px;max-width:1320px;margin:0 auto;display:flex;flex-wrap:wrap;gap:40px;align-items:flex-end">
+    <div style="flex:1 1 520px;min-width:0">
+      <span style="display:inline-flex;align-items:center;gap:9px;padding:8px 14px;border:1px solid rgba(225,16,42,.55);background:rgba(225,16,42,.1);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#FF6B79">Simulação guiada · 90 segundos</span>
+      <h1 style="margin:22px 0 0;font-family:Archivo,sans-serif;font-size:clamp(42px,7.2vw,104px);line-height:.9;font-weight:900;letter-spacing:-.045em;text-wrap:balance">Você não está longe do seu objetivo.<br /><span style="background:#E1102A;padding:0 .12em;color:#fff">Você está preso no talvez.</span></h1>
+      <p style="margin:26px 0 0;max-width:56ch;font-size:clamp(16px,1.5vw,20px);line-height:1.55;color:#C3C3CB;text-wrap:pretty">Responda 7 perguntas rápidas e veja na tela o caminho que faz sentido para o seu momento: quanto de crédito, qual prazo típico e o que cabe no seu mês. Sem contratar nada, sem falar com ninguém antes de entender.</p>
+      <div style="display:flex;flex-wrap:wrap;gap:14px;margin-top:34px">
+        <a href="#simulacao" style="display:inline-flex;align-items:center;gap:10px;padding:18px 30px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:700;font-size:16px" style-hover="background:#F5122F;color:#fff">Começar minha simulação →</a>
+        <a href="#estrategias" style="display:inline-flex;align-items:center;gap:10px;padding:18px 30px;border:1px solid rgba(255,255,255,.25);color:#F4F4F2;font-weight:600;font-size:15px" style-hover="border-color:#E1102A;color:#fff">Ver as 3 estratégias</a>
+      </div>
+      <p style="margin:20px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:#6E6E78;text-transform:uppercase">Nenhum compromisso · resultado na própria tela</p>
+    </div>
+    <sc-if value="{{ showDepoimento }}" hint-placeholder-val="{{ true }}">
+      <aside style="flex:0 1 320px;min-width:0;margin-left:auto;background:#141418;border:1px solid rgba(255,255,255,.12);padding:16px;animation:rfloat 7s ease-in-out infinite">
+        <div style="display:flex;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid rgba(255,255,255,.09)">
+          <span style="width:30px;height:30px;background:#22222A;border:1px solid rgba(255,255,255,.12)"></span>
+          <span style="display:flex;flex-direction:column;line-height:1.2">
+            <strong style="font-size:13px">Cliente · Maringá/PR</strong>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#7A7A84;letter-spacing:.08em">PRINT DO WHATSAPP · TROCAR</span>
+          </span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding:14px 0">
+          <span style="align-self:flex-start;max-width:88%;background:#1D1D23;padding:10px 12px;font-size:13px;line-height:1.45;color:#DCDCE2">Raul, fechei o financiamento em 2021 e nunca mais parei de pagar juros. Tem saída?</span>
+          <span style="align-self:flex-end;max-width:88%;background:#E1102A;color:#fff;padding:10px 12px;font-size:13px;line-height:1.45">Tem. Chama isso de troca de dívida. Me manda o saldo devedor que eu te mostro o cenário.</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;padding-top:12px;border-top:1px solid rgba(255,255,255,.09);font-family:'JetBrains Mono',monospace;font-size:10px;color:#7A7A84;letter-spacing:.08em;text-transform:uppercase">
+          <span style="width:6px;height:6px;background:#E1102A;border-radius:50%"></span>Conversa real · imagem substituível
+        </div>
+      </aside>
+    </sc-if>
+  </div>
+</section>
+
+<div style="overflow:hidden;border-bottom:1px solid rgba(255,255,255,.09);background:#0E0E11;padding:14px 0">
+  <div style="display:flex;width:max-content;gap:44px;animation:rmarquee 28s linear infinite;font-family:Archivo,sans-serif;font-weight:700;font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:#4E4E58">
+    <span>Menos impulsividade · Mais estratégia</span><span style="color:#E1102A">◆</span><span>Sair do aluguel</span><span style="color:#E1102A">◆</span><span>Troca de dívidas</span><span style="color:#E1102A">◆</span><span>Alavancagem de capital</span><span style="color:#E1102A">◆</span><span>Contemplação</span><span style="color:#E1102A">◆</span>
+    <span>Menos impulsividade · Mais estratégia</span><span style="color:#E1102A">◆</span><span>Sair do aluguel</span><span style="color:#E1102A">◆</span><span>Troca de dívidas</span><span style="color:#E1102A">◆</span><span>Alavancagem de capital</span><span style="color:#E1102A">◆</span><span>Contemplação</span><span style="color:#E1102A">◆</span>
+  </div>
+</div>
+
+<section id="objecoes" data-screen-label="Objeções" style="max-width:1320px;margin:0 auto;padding:96px 28px;border-bottom:1px solid rgba(255,255,255,.09)">
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div style="position:sticky;top:100px;flex:1 1 320px;min-width:0;max-width:520px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">01 · O que te trava</span>
+      <h2 style="margin:16px 0 0;font-family:Archivo,sans-serif;font-size:clamp(32px,4vw,54px);line-height:.98;font-weight:800;letter-spacing:-.04em">Quatro frases que já custaram muito dinheiro pra muita gente.</h2>
+      <p style="margin:20px 0 0;max-width:44ch;font-size:16px;line-height:1.6;color:#A8A8B2">Nenhuma delas é mentira por inteiro. O problema é decidir com base nelas sem ver o cenário todo.</p>
+    </div>
+    <div style="flex:1.6 1 380px;min-width:0;display:flex;flex-direction:column;gap:0;border-top:1px solid rgba(255,255,255,.12)">
+      <sc-for list="{{ objecoes }}" as="o" hint-placeholder-count="4">
+        <div style="display:grid;grid-template-columns:auto minmax(0,1fr);gap:20px;padding:26px 0;border-bottom:1px solid rgba(255,255,255,.12)">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#55555F">{{ o.num }}</span>
+          <div>
+            <strong style="display:block;font-family:Archivo,sans-serif;font-size:clamp(19px,2vw,26px);font-weight:700;letter-spacing:-.02em;color:#7B7B85">“{{ o.claim }}”</strong>
+            <p style="margin:12px 0 0;font-size:16px;line-height:1.6;color:#DCDCE2">{{ o.answer }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="Aluguel vs patrimônio" style="border-bottom:1px solid rgba(255,255,255,.09);background:#0E0E11">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px">
+    <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">02 · A conta que ninguém faz</span>
+    <h2 style="margin:16px 0 42px;max-width:22ch;font-family:Archivo,sans-serif;font-size:clamp(32px,4.6vw,62px);line-height:.95;font-weight:800;letter-spacing:-.04em">Dizem que consórcio demora. O aluguel é eterno.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:2px;background:rgba(255,255,255,.12)">
+      <div style="background:#0E0E11;padding:34px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#7A7A84;text-transform:uppercase">Caminho A · aluguel</span>
+        <p style="margin:18px 0 24px;font-family:Archivo,sans-serif;font-size:26px;line-height:1.15;font-weight:700;letter-spacing:-.02em;color:#9A9AA4">Você paga todo mês.<br />Em 10 anos, o imóvel é de outra pessoa.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:#8B8B95">
+          <span>· Reajuste anual sem contrapartida</span>
+          <span>· Zero patrimônio no fim do período</span>
+          <span>· Nenhuma garantia de permanência</span>
+        </div>
+      </div>
+      <div style="background:#E1102A;padding:34px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:rgba(255,255,255,.75);text-transform:uppercase">Caminho B · consórcio</span>
+        <p style="margin:18px 0 24px;font-family:Archivo,sans-serif;font-size:26px;line-height:1.15;font-weight:700;letter-spacing:-.02em;color:#fff">Você paga todo mês.<br />No fim, o bem é seu.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:rgba(255,255,255,.9)">
+          <span>· Sem juros — taxa de administração diluída</span>
+          <span>· Lance pode antecipar a contemplação</span>
+          <span>· Parcela planejada dentro do seu orçamento</span>
+        </div>
+      </div>
+      <div style="background:#0E0E11;padding:34px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#7A7A84;text-transform:uppercase">Caminho C · financiamento</span>
+        <p style="margin:18px 0 24px;font-family:Archivo,sans-serif;font-size:26px;line-height:1.15;font-weight:700;letter-spacing:-.02em;color:#9A9AA4">Você leva a chave hoje.<br />E paga o imóvel mais de uma vez.</p>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:15px;color:#8B8B95">
+          <span>· Juros compostos ao longo do contrato</span>
+          <span>· Entrada alta e análise de crédito rígida</span>
+          <span>· Pode virar troca de dívida mais à frente</span>
+        </div>
+      </div>
+    </div>
+    <p style="margin:22px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;color:#6E6E78;letter-spacing:.06em">Comparação conceitual. Cada caso depende de valor, prazo, taxas e do grupo escolhido.</p>
+  </div>
+</section>
+
+<section id="estrategias" data-screen-label="Estratégias" style="max-width:1320px;margin:0 auto;padding:96px 28px;border-bottom:1px solid rgba(255,255,255,.09)">
+  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">03 · As três estratégias</span>
+  <h2 style="margin:16px 0 42px;max-width:26ch;font-family:Archivo,sans-serif;font-size:clamp(32px,4.6vw,62px);line-height:.95;font-weight:800;letter-spacing:-.04em">Consórcio é ferramenta. Depende do que você precisa resolver.</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:20px">
+    <sc-for list="{{ estrategias }}" as="e" hint-placeholder-count="3">
+      <article style="display:flex;flex-direction:column;background:#131317;border:1px solid rgba(255,255,255,.11);padding:28px" style-hover="border-color:rgba(225,16,42,.6)">
+        <span style="display:flex;align-items:center;justify-content:center;width:38px;height:38px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:900;font-size:15px">{{ e.n }}</span>
+        <h3 style="margin:22px 0 0;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.025em">{{ e.title }}</h3>
+        <p style="margin:12px 0 20px;font-size:15px;line-height:1.6;color:#B4B4BE;text-wrap:pretty">{{ e.body }}</p>
+        <div style="margin-top:auto;display:flex;flex-direction:column;gap:9px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#8B8B95;text-transform:uppercase">
+          <span>Pra quem: {{ e.para }}</span>
+          <span style="color:#FF6B79">Sinal de alerta: {{ e.alerta }}</span>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+</section>
+
+<section data-screen-label="Contemplação" style="border-bottom:1px solid rgba(255,255,255,.09);background:#0E0E11">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px;display:flex;flex-wrap:wrap;gap:56px;align-items:center">
+    <div style="flex:1.5 1 380px;min-width:0">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">04 · Contemplação</span>
+      <h2 style="margin:16px 0 20px;font-family:Archivo,sans-serif;font-size:clamp(30px,3.8vw,50px);line-height:.98;font-weight:800;letter-spacing:-.04em">Três formas de ser contemplado. Só uma depende de sorte.</h2>
+      <p style="margin:0 0 30px;max-width:46ch;font-size:16px;line-height:1.6;color:#A8A8B2">Entender isso é o que separa quem espera de quem planeja. O lance certo, no grupo certo, encurta o caminho.</p>
+      <div style="display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.12)">
+        <sc-for list="{{ contemplacao }}" as="c" hint-placeholder-count="3">
+          <div style="background:#0E0E11;padding:20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:baseline">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#E1102A;letter-spacing:.1em">{{ c.tag }}</span>
+            <div>
+              <strong style="display:block;font-family:Archivo,sans-serif;font-size:18px;font-weight:700">{{ c.title }}</strong>
+              <p style="margin:6px 0 0;font-size:15px;line-height:1.55;color:#A8A8B2">{{ c.body }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    <div style="position:relative;flex:1 1 280px;min-width:0;max-width:420px;aspect-ratio:9/13;background:#131317;border:1px solid rgba(255,255,255,.12);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:24px">
+      <span style="display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#E1102A;color:#fff;font-size:18px">▶</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#8B8B93;text-transform:uppercase">Reel vertical do Raul</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#55555F">“Como funciona a contemplação” · 9:16</span>
+    </div>
+  </div>
+</section>
+
+<section id="simulacao" data-screen-label="Simulação guiada" style="border-bottom:1px solid rgba(255,255,255,.09)">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div style="position:sticky;top:100px;flex:1 1 320px;min-width:0;max-width:480px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">05 · Simulação guiada</span>
+      <h2 style="margin:16px 0 18px;font-family:Archivo,sans-serif;font-size:clamp(32px,4vw,54px);line-height:.95;font-weight:800;letter-spacing:-.04em">Saia do talvez em 90 segundos.</h2>
+      <p style="margin:0 0 28px;max-width:42ch;font-size:16px;line-height:1.6;color:#A8A8B2">São 7 perguntas. No fim, a própria tela mostra seu perfil, uma faixa estimada de parcela e o caminho recomendado — antes de qualquer conversa.</p>
+      <div style="display:flex;flex-direction:column;gap:14px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12)">
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="color:#E1102A;font-weight:700">01</span><span style="font-size:15px;color:#C3C3CB">Você responde sobre objetivo, prazo e situação atual.</span></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="color:#E1102A;font-weight:700">02</span><span style="font-size:15px;color:#C3C3CB">A tela monta seu pré-diagnóstico na hora.</span></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="color:#E1102A;font-weight:700">03</span><span style="font-size:15px;color:#C3C3CB">Se fizer sentido, você segue pro WhatsApp já contextualizado.</span></div>
+        <div style="display:flex;gap:12px;align-items:flex-start"><span style="color:#E1102A;font-weight:700">04</span><span style="font-size:15px;color:#C3C3CB">O Raul te responde com o cenário, não com uma tabela pronta.</span></div>
+      </div>
+      <p style="margin:26px 0 0;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.06em;color:#6E6E78;text-transform:uppercase">Seus dados vão só pro atendimento. Sem cadastro, sem e-mail.</p>
+    </div>
+
+    <div style="flex:1.8 1 420px;min-width:0;background:#131317;border:1px solid rgba(255,255,255,.12)">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid rgba(255,255,255,.1)">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#8B8B95;text-transform:uppercase">{{ stepLabel }}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#E1102A">{{ stepPercent }}</span>
+      </div>
+      <div style="height:3px;background:rgba(255,255,255,.09)">
+        <div style="height:3px;background:#E1102A;transition:width .35s ease;width:{{ progressWidth }}"></div>
+      </div>
+
+      <div style="padding:34px 26px">
+        <sc-if value="{{ isStep1 }}" hint-placeholder-val="{{ true }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">O que você quer conquistar?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">O ponto de partida é o resultado, não o produto.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+              <sc-for list="{{ optObjetivo }}" as="o" hint-placeholder-count="4">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">
+                  <strong style="font-family:Archivo,sans-serif;font-size:17px;font-weight:700">{{ o.label }}</strong>
+                  <span style="font-size:13px;line-height:1.45;color:#9A9AA4">{{ o.hint }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep2 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">É para usar ou para investir?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">A estratégia muda bastante entre os dois.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px">
+              <sc-for list="{{ optUso }}" as="o" hint-placeholder-count="2">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">
+                  <strong style="font-family:Archivo,sans-serif;font-size:17px;font-weight:700">{{ o.label }}</strong>
+                  <span style="font-size:13px;line-height:1.45;color:#9A9AA4">{{ o.hint }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep3 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">Qual o tamanho do projeto?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">Estimativa já serve. Ninguém precisa acertar na vírgula.</p>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Valor do crédito desejado</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px">
+              <sc-for list="{{ optValor }}" as="o" hint-placeholder-count="5">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Quanto cabe por mês, com tranquilidade</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <sc-for list="{{ optParcela }}" as="o" hint-placeholder-count="5">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep4 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">Para quando é isso?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">O prazo define se a estratégia é lance, prazo longo ou reserva.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <sc-for list="{{ optPrazo }}" as="o" hint-placeholder-count="5">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep5 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">Como está sua situação hoje?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">É aqui que aparecem as saídas que quase ninguém enxerga.</p>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Moradia hoje</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px">
+              <sc-for list="{{ optMoradia }}" as="o" hint-placeholder-count="4">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Tem financiamento ativo?</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px">
+              <sc-for list="{{ optFinanciamento }}" as="o" hint-placeholder-count="3">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Tem valor guardado para dar de lance?</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <sc-for list="{{ optLance }}" as="o" hint-placeholder-count="4">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep6 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">O quanto você já sabe do assunto?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">Serve para o Raul falar na sua régua, sem repetir o que você já domina.</p>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Seu nível sobre consórcio</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px">
+              <sc-for list="{{ optNivel }}" as="o" hint-placeholder-count="4">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Já foi atendido por outro consultor?</span>
+            <div style="display:flex;flex-wrap:wrap;gap:10px">
+              <sc-for list="{{ optAtendido }}" as="o" hint-placeholder-count="3">
+                <button type="button" onClick="{{ o.onSelect }}" style="{{ o.style }}">{{ o.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isStep7 }}">
+          <div>
+            <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,32px);font-weight:800;letter-spacing:-.03em">Para quem é esse diagnóstico?</h3>
+            <p style="margin:10px 0 26px;font-size:15px;color:#A8A8B2">Último passo. Depois disso o resultado aparece aqui na tela.</p>
+            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+              <label style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Seu nome</span>
+                <input type="text" value="{{ nome }}" onInput="{{ onNome }}" placeholder="Como você quer ser chamado" style="background:#0E0E11;border:1px solid rgba(255,255,255,.16);color:#F4F4F2;padding:14px;font-size:15px;outline:none" style-focus="border-color:#E1102A" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">WhatsApp</span>
+                <input type="tel" inputmode="tel" value="{{ fone }}" onInput="{{ onFone }}" placeholder="(44) 99999-9999" style="background:#0E0E11;border:1px solid rgba(255,255,255,.16);color:#F4F4F2;padding:14px;font-size:15px;outline:none" style-focus="border-color:#E1102A" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Cidade / Estado</span>
+                <input type="text" value="{{ cidade }}" onInput="{{ onCidade }}" placeholder="Ex.: Maringá/PR" style="background:#0E0E11;border:1px solid rgba(255,255,255,.16);color:#F4F4F2;padding:14px;font-size:15px;outline:none" style-focus="border-color:#E1102A" />
+              </label>
+              <label style="display:flex;flex-direction:column;gap:8px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Algo importante <span style="color:#55555F">(opcional)</span></span>
+                <input type="text" value="{{ obs }}" onInput="{{ onObs }}" placeholder="Ex.: quero sair do aluguel em 2 anos" style="background:#0E0E11;border:1px solid rgba(255,255,255,.16);color:#F4F4F2;padding:14px;font-size:15px;outline:none" style-focus="border-color:#E1102A" />
+              </label>
+            </div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isResult }}">
+          <div>
+            <span style="display:inline-flex;align-items:center;gap:8px;padding:7px 12px;background:rgba(225,16,42,.12);border:1px solid rgba(225,16,42,.5);font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#FF6B79;text-transform:uppercase">Pré-diagnóstico gerado</span>
+            <h3 style="margin:18px 0 0;font-family:Archivo,sans-serif;font-size:clamp(26px,3.2vw,40px);line-height:1;font-weight:900;letter-spacing:-.035em">{{ dxTitulo }}</h3>
+            <p style="margin:14px 0 26px;font-size:16px;line-height:1.6;color:#C3C3CB;text-wrap:pretty">{{ dxResumo }}</p>
+
+            <sc-if value="{{ showEstimativa }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;background:rgba(255,255,255,.12);margin-bottom:18px">
+                <div style="background:#0E0E11;padding:20px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Crédito de referência</span>
+                  <strong style="display:block;margin-top:10px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.03em">{{ dxCredito }}</strong>
+                </div>
+                <div style="background:#0E0E11;padding:20px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Faixa estimada de parcela</span>
+                  <strong style="display:block;margin-top:10px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.03em;color:#E1102A">{{ dxParcela }}</strong>
+                </div>
+                <div style="background:#0E0E11;padding:20px">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase">Prazo típico do grupo</span>
+                  <strong style="display:block;margin-top:10px;font-family:Archivo,sans-serif;font-size:24px;font-weight:800;letter-spacing:-.03em">{{ dxPrazo }}</strong>
+                </div>
+              </div>
+              <p style="margin:0 0 26px;font-family:'JetBrains Mono',monospace;font-size:11px;line-height:1.6;color:#6E6E78">Estimativa apenas ilustrativa, calculada nesta página a partir das suas respostas. Não é proposta comercial: valores reais dependem do grupo, das taxas vigentes e da análise de crédito.</p>
+            </sc-if>
+
+            <span style="display:block;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#8B8B95;text-transform:uppercase;margin-bottom:12px">Caminho recomendado</span>
+            <div style="display:flex;flex-direction:column;gap:2px;background:rgba(255,255,255,.12);margin-bottom:28px">
+              <sc-for list="{{ dxPassos }}" as="p" hint-placeholder-count="3">
+                <div style="background:#0E0E11;padding:18px 20px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:baseline">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#E1102A">{{ p.n }}</span>
+                  <div>
+                    <strong style="display:block;font-size:15px">{{ p.title }}</strong>
+                    <span style="display:block;margin-top:4px;font-size:14px;line-height:1.55;color:#A8A8B2">{{ p.body }}</span>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+              <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:17px 26px;background:#E1102A;color:#fff;font-family:Archivo,sans-serif;font-weight:700;font-size:15px" style-hover="background:#F5122F;color:#fff">Falar com o Raul sobre esse cenário →</a>
+              <button type="button" onClick="{{ onReiniciar }}" style="padding:17px 22px;background:transparent;border:1px solid rgba(255,255,255,.22);color:#C3C3CB;font-size:14px;cursor:pointer" style-hover="border-color:#E1102A;color:#fff">Refazer simulação</button>
+            </div>
+            <p style="margin:16px 0 0;font-size:13px;color:#8B8B95">Suas respostas vão organizadas na mensagem. Você não precisa explicar tudo de novo.</p>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 26px;border-top:1px solid rgba(255,255,255,.1)">
+          <button type="button" onClick="{{ onVoltar }}" style="{{ backStyle }}">← Voltar</button>
+          <div style="display:flex;align-items:center;gap:16px">
+            <span style="font-size:13px;color:#FF6B79">{{ erro }}</span>
+            <button type="button" onClick="{{ onAvancar }}" style="padding:15px 28px;background:#E1102A;border:none;color:#fff;font-family:Archivo,sans-serif;font-weight:700;font-size:15px;cursor:pointer">{{ nextLabel }}</button>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+
+<section id="raul" data-screen-label="Quem é o Raul" style="border-bottom:1px solid rgba(255,255,255,.09);background:#0E0E11">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px">
+    <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+      <div style="flex:1 1 280px;min-width:0;max-width:420px;aspect-ratio:4/5;background:#131317;border:1px solid rgba(255,255,255,.12);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.12em;color:#8B8B93;text-transform:uppercase">Foto do Raul</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#55555F">retrato vertical · 4:5</span>
+      </div>
+      <div style="flex:1.5 1 380px;min-width:0">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">06 · Quem te atende</span>
+        <h2 style="margin:16px 0 20px;font-family:Archivo,sans-serif;font-size:clamp(30px,4vw,54px);line-height:.96;font-weight:800;letter-spacing:-.04em">Raul Carvalho</h2>
+        <p style="margin:0 0 24px;max-width:52ch;font-size:17px;line-height:1.6;color:#C3C3CB;text-wrap:pretty">Especialista em consórcios pela Ademicon, em Maringá. Trabalha com um princípio simples: menos impulsividade, mais estratégia. Antes de falar de parcela, ele quer entender o objetivo — e diz quando o consórcio não é o caminho.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2px;background:rgba(255,255,255,.12)">
+          <div style="background:#0E0E11;padding:20px"><strong style="display:block;font-family:Archivo,sans-serif;font-size:22px;font-weight:800">Ademicon</strong><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8B95;letter-spacing:.06em">Administradora parceira</span></div>
+          <div style="background:#0E0E11;padding:20px"><strong style="display:block;font-family:Archivo,sans-serif;font-size:22px;font-weight:800">Maringá / PR</strong><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8B95;letter-spacing:.06em">Atendimento presencial e online</span></div>
+          <div style="background:#0E0E11;padding:20px"><strong style="display:block;font-family:Archivo,sans-serif;font-size:22px;font-weight:800">Consultivo</strong><span style="font-family:'JetBrains Mono',monospace;font-size:11px;color:#8B8B95;letter-spacing:.06em">Estratégia antes da proposta</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top:72px">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:16px;margin-bottom:24px">
+        <h3 style="margin:0;font-family:Archivo,sans-serif;font-size:clamp(24px,2.6vw,34px);font-weight:800;letter-spacing:-.03em">Ele explica melhor falando</h3>
+        <a href="https://www.instagram.com/raul_consorcio/" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#E1102A;text-transform:uppercase">Ver tudo no Instagram →</a>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px">
+        <sc-for list="{{ videos }}" as="v" hint-placeholder-count="5">
+          <div style="position:relative;aspect-ratio:9/16;background:#131317;border:1px solid rgba(255,255,255,.12);background-image:repeating-linear-gradient(115deg,rgba(255,255,255,.04) 0 2px,transparent 2px 11px);display:flex;flex-direction:column;justify-content:space-between;padding:16px" style-hover="border-color:rgba(225,16,42,.6)">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.1em;color:#6E6E78;text-transform:uppercase">Reel · 9:16</span>
+            <div>
+              <span style="display:flex;align-items:center;justify-content:center;width:34px;height:34px;background:#E1102A;color:#fff;font-size:12px;margin-bottom:12px">▶</span>
+              <strong style="display:block;font-family:Archivo,sans-serif;font-size:16px;font-weight:700;line-height:1.2;text-wrap:pretty">{{ v.title }}</strong>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="faq" data-screen-label="FAQ" style="border-bottom:1px solid rgba(255,255,255,.09)">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px;display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div style="position:sticky;top:100px;flex:1 1 320px;min-width:0;max-width:460px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;color:#E1102A;text-transform:uppercase">07 · Dúvidas</span>
+      <h2 style="margin:16px 0 18px;font-family:Archivo,sans-serif;font-size:clamp(30px,3.6vw,48px);line-height:.98;font-weight:800;letter-spacing:-.04em">O que todo mundo pergunta antes de decidir.</h2>
+      <p style="margin:0;max-width:38ch;font-size:16px;line-height:1.6;color:#A8A8B2">Ficou algo de fora? O blog tem os conteúdos completos, com vídeo e explicação escrita.</p>
+      <a href="Blog Raul.dc.html" style="display:inline-flex;margin-top:22px;padding:15px 24px;border:1px solid rgba(255,255,255,.22);color:#F4F4F2;font-weight:600;font-size:14px" style-hover="border-color:#E1102A;color:#fff">Ir para o blog →</a>
+    </div>
+    <div style="flex:1.6 1 400px;min-width:0;border-top:1px solid rgba(255,255,255,.12)">
+      <sc-for list="{{ faq }}" as="f" hint-placeholder-count="6">
+        <div style="border-bottom:1px solid rgba(255,255,255,.12)">
+          <button type="button" onClick="{{ f.onToggle }}" style="width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;background:transparent;border:none;color:#F4F4F2;text-align:left;cursor:pointer;font-family:Archivo,sans-serif;font-size:clamp(16px,1.7vw,20px);font-weight:600;letter-spacing:-.02em">
+            <span>{{ f.q }}</span>
+            <span style="color:#E1102A;font-size:20px;flex:0 0 auto">{{ f.sign }}</span>
+          </button>
+          <p style="margin:0;padding:0 0 22px;max-width:64ch;font-size:15px;line-height:1.65;color:#B4B4BE;display:{{ f.display }}">{{ f.a }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section data-screen-label="CTA final" style="background:#E1102A">
+  <div style="max-width:1320px;margin:0 auto;padding:96px 28px;display:flex;flex-direction:column;align-items:flex-start;gap:26px">
+    <h2 style="margin:0;max-width:24ch;font-family:Archivo,sans-serif;font-size:clamp(36px,6vw,86px);line-height:.9;font-weight:900;letter-spacing:-.045em;color:#fff">Antes da parcela, vem o plano.</h2>
+    <p style="margin:0;max-width:52ch;font-size:clamp(16px,1.6vw,20px);line-height:1.5;color:rgba(255,255,255,.92)">Faça a simulação, veja seu cenário na tela e decida com informação. O “talvez” é a única opção que custa caro em qualquer hipótese.</p>
+    <a href="#simulacao" style="display:inline-flex;align-items:center;gap:10px;padding:19px 32px;background:#0A0A0B;color:#fff;font-family:Archivo,sans-serif;font-weight:700;font-size:16px" style-hover="background:#000;color:#fff">Começar minha simulação →</a>
+  </div>
+</section>
+
+<footer style="background:#0A0A0B;border-top:1px solid rgba(255,255,255,.09)">
+  <div style="max-width:1320px;margin:0 auto;padding:56px 28px 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px">
+    <div>
+      <strong style="display:block;font-family:Archivo,sans-serif;font-size:16px;font-weight:800;letter-spacing:.02em">RAUL CARVALHO</strong>
+      <p style="margin:10px 0 0;font-size:14px;line-height:1.6;color:#8B8B95">Especialista em consórcios · Ademicon<br />Maringá / PR</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#A8A8B2">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#6E6E78;text-transform:uppercase">Navegar</span>
+      <a href="#simulacao" style="color:#A8A8B2">Simulação guiada</a>
+      <a href="#estrategias" style="color:#A8A8B2">Estratégias</a>
+      <a href="#faq" style="color:#A8A8B2">Dúvidas frequentes</a>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px;font-size:14px;color:#A8A8B2">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.1em;color:#6E6E78;text-transform:uppercase">Conteúdo</span>
+      <a href="Blog Raul.dc.html" style="color:#A8A8B2">Blog · dúvidas explicadas</a>
+      <a href="https://www.instagram.com/raul_consorcio/" target="_blank" rel="noopener" style="color:#A8A8B2">Instagram @raul_consorcio</a>
+      <a href="{{ waSimples }}" target="_blank" rel="noopener" style="color:#A8A8B2">WhatsApp direto</a>
+    </div>
+  </div>
+  <div style="max-width:1320px;margin:0 auto;padding:20px 28px 44px;border-top:1px solid rgba(255,255,255,.09);display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:11px;color:#5C5C66;letter-spacing:.06em">
+    <span>© 2026 Raul Carvalho · Todos os direitos reservados</span>
+    <span>Consórcio não é investimento financeiro nem garante contemplação em prazo determinado.</span>
+  </div>
+</footer>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;5544988165420&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contato&quot;},&quot;mostrarEstimativa&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Simulação&quot;},&quot;mostrarDepoimento&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Hero&quot;}}">
+class Component extends DCLogic {
+  state = {
+    step: 1, erro: '', faqOpen: 0,
+    a: { objetivo: '', uso: '', valor: '', parcela: '', prazo: '', moradia: '', financiamento: '', lance: '', nivel: '', atendido: '' },
+    nome: '', fone: '', cidade: '', obs: ''
+  };
+
+  pick(k, v) {
+    this.setState(s => ({ a: Object.assign({}, s.a, { [k]: v }), erro: '' }));
+  }
+
+  opt(k, list) {
+    return list.map(o => {
+      const label = typeof o === 'string' ? o : o.label;
+      const on = this.state.a[k] === label;
+      return {
+        label, hint: o.hint || '',
+        style: (o.hint
+          ? 'display:flex;flex-direction:column;gap:8px;align-items:flex-start;text-align:left;padding:20px;cursor:pointer;'
+          : 'display:inline-flex;align-items:center;padding:13px 18px;font-size:14px;cursor:pointer;') +
+          'background:' + (on ? 'rgba(225,16,42,.14)' : '#0E0E11') +
+          ';border:1px solid ' + (on ? '#E1102A' : 'rgba(255,255,255,.16)') +
+          ';color:' + (on ? '#fff' : '#C3C3CB') + ';transition:.15s ease',
+        onSelect: () => this.pick(k, label)
+      };
+    });
+  }
+
+  mid(v, map) { return map[v] || 0; }
+
+  diagnostico() {
+    const a = this.state.a;
+    const valorMid = this.mid(a.valor, { 'Até R$ 50 mil': 40000, 'R$ 50 a 150 mil': 100000, 'R$ 150 a 300 mil': 225000, 'R$ 300 a 500 mil': 400000, 'Acima de R$ 500 mil': 700000 });
+    const capMid = this.mid(a.parcela, { 'Até R$ 500': 450, 'R$ 500 a 1.000': 750, 'R$ 1.000 a 2.000': 1500, 'R$ 2.000 a 4.000': 3000, 'Acima de R$ 4.000': 5500 });
+    const meses = a.objetivo === 'Veículo' ? 80 : a.objetivo === 'Imóvel' ? 200 : 150;
+    const base = valorMid * 1.19 / meses;
+    const fmt = n => 'R$ ' + Math.round(n / 10) * 10 * 1;
+    const brl = n => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+
+    let titulo = 'Perfil: aquisição planejada';
+    let resumo = 'Seu cenário é de construção de patrimônio com parcela sob controle. O caminho passa por escolher o crédito certo e o prazo que mantém a parcela confortável do começo ao fim.';
+    if (a.financiamento === 'Sim, imóvel' || a.financiamento === 'Sim, veículo') {
+      titulo = 'Perfil: troca de dívida';
+      resumo = 'Você já paga juros hoje. A estratégia mais discutida no seu caso é usar o consórcio para quitar o financiamento e trocar juros compostos por taxa de administração.';
+    } else if (a.uso === 'Para investir') {
+      titulo = 'Perfil: alavancagem de capital';
+      resumo = 'Aqui o consórcio funciona como ferramenta de alavancagem: crédito maior que o capital disponível, com lance planejado e foco em rentabilidade do bem.';
+    } else if (a.moradia === 'Pago aluguel') {
+      titulo = 'Perfil: saída do aluguel';
+      resumo = 'Você já tem um custo fixo de moradia que não gera patrimônio. O objetivo é migrar esse valor para uma parcela que termina com o imóvel no seu nome.';
+    }
+
+    const passos = [];
+    if (a.lance && a.lance !== 'Não tenho nada guardado') {
+      passos.push({ n: '01', title: 'Simular lance', body: 'Com valor guardado, faz sentido calcular lance livre e embutido antes de escolher o grupo.' });
+    } else {
+      passos.push({ n: '01', title: 'Definir o grupo e o prazo', body: 'Sem lance inicial, a escolha do grupo e do prazo é o que mais pesa na parcela.' });
+    }
+    if (titulo.indexOf('troca de dívida') > -1) {
+      passos.push({ n: '02', title: 'Levantar o saldo devedor', body: 'Com o saldo em mão, o Raul compara o custo atual do financiamento com o cenário de consórcio.' });
+    } else {
+      passos.push({ n: '02', title: 'Ajustar crédito x parcela', body: 'O crédito é calibrado para a parcela caber no mês sem depender de aperto no orçamento.' });
+    }
+    passos.push({ n: '03', title: 'Conversa de 15 minutos', body: 'Você leva as respostas desta simulação e sai com um cenário claro, mesmo que a resposta seja “ainda não é o momento”.' });
+
+    const alerta = capMid && base > capMid * 1.15
+      ? ' Atenção: pelo que você indicou, a parcela desse crédito tende a ficar acima do que cabe hoje. Ou o prazo aumenta, ou o crédito começa menor.'
+      : capMid ? ' A faixa estimada está dentro do que você indicou como confortável.' : '';
+
+    return {
+      titulo, resumo: resumo + alerta,
+      credito: valorMid ? brl(valorMid) : 'A definir',
+      parcela: valorMid ? brl(base * 0.9) + ' a ' + brl(base * 1.12) : 'A definir',
+      prazo: meses + ' meses',
+      passos
+    };
+  }
+
+  waMsg() {
+    const a = this.state.a, d = this.diagnostico();
+    return encodeURIComponent([
+      'Oi, Raul! Fiz a simulação guiada no seu site.',
+      '',
+      'Diagnóstico da página: ' + d.titulo,
+      'Crédito de referência: ' + d.credito + ' | Faixa estimada de parcela: ' + d.parcela,
+      '',
+      'Objetivo: ' + a.objetivo + ' (' + a.uso + ')',
+      'Valor do projeto: ' + a.valor,
+      'Cabe por mês: ' + a.parcela,
+      'Prazo desejado: ' + a.prazo,
+      'Moradia hoje: ' + a.moradia,
+      'Financiamento ativo: ' + a.financiamento,
+      'Valor para lance: ' + a.lance,
+      'Nível sobre consórcio: ' + a.nivel,
+      'Já foi atendido antes: ' + a.atendido,
+      '',
+      'Nome: ' + this.state.nome,
+      'WhatsApp: ' + this.state.fone,
+      'Cidade/Estado: ' + this.state.cidade,
+      'Observação: ' + (this.state.obs || '—')
+    ].join('\n'));
+  }
+
+  fone(v) {
+    const d = v.replace(/\D/g, '').slice(0, 11);
+    if (d.length <= 2) return d.length ? '(' + d : '';
+    if (d.length <= 6) return '(' + d.slice(0, 2) + ') ' + d.slice(2);
+    if (d.length <= 10) return '(' + d.slice(0, 2) + ') ' + d.slice(2, 6) + '-' + d.slice(6);
+    return '(' + d.slice(0, 2) + ') ' + d.slice(2, 7) + '-' + d.slice(7);
+  }
+
+  valida() {
+    const s = this.state, a = s.a;
+    const req = {
+      1: [a.objetivo, 'Escolha um objetivo.'],
+      2: [a.uso, 'Escolha uma opção.'],
+      3: [a.valor && a.parcela, 'Responda as duas perguntas.'],
+      4: [a.prazo, 'Escolha um prazo.'],
+      5: [a.moradia && a.financiamento && a.lance, 'Falta responder alguma opção.'],
+      6: [a.nivel && a.atendido, 'Falta responder alguma opção.']
+    }[s.step];
+    if (req) { if (!req[0]) { this.setState({ erro: req[1] }); return false; } return true; }
+    if (s.step === 7) {
+      if (!s.nome.trim()) { this.setState({ erro: 'Digite seu nome.' }); return false; }
+      if (s.fone.replace(/\D/g, '').length < 10) { this.setState({ erro: 'WhatsApp incompleto.' }); return false; }
+      if (!s.cidade.trim()) { this.setState({ erro: 'Informe cidade e estado.' }); return false; }
+    }
+    return true;
+  }
+
+  renderVals() {
+    const s = this.state, step = s.step, total = 7;
+    const isResult = step === 8;
+    const d = isResult ? this.diagnostico() : null;
+    const showEst = this.props.mostrarEstimativa !== false;
+    const zap = this.props.whatsapp || '5544988165420';
+
+    const faqData = [
+      { q: 'Consórcio demora muito?', a: 'Depende da estratégia. Sem lance, a contemplação segue o ritmo do grupo. Com lance planejado, o prazo pode encurtar bastante. O que não muda é que o aluguel não tem prazo final.' },
+      { q: 'Qual a diferença entre lance livre, fixo e embutido?', a: 'Lance livre é o valor que você oferece do próprio bolso e concorre com os demais. Lance fixo é um percentual definido pela administradora. Lance embutido usa parte do próprio crédito, reduzindo o valor final que você recebe.' },
+      { q: 'O que é taxa de administração?', a: 'É o custo do serviço da administradora, diluído nas parcelas. Não é juro: ela não incide de forma composta sobre o saldo, o que muda a conta final em relação a um financiamento.' },
+      { q: 'Posso usar o consórcio para quitar um financiamento?', a: 'Sim, é a chamada troca de dívida. Ao ser contemplado, o crédito é usado para quitar o saldo devedor. Faz sentido quando o custo do financiamento é maior que o do consórcio.' },
+      { q: 'Posso antecipar parcelas ou quitar antes?', a: 'Sim. É possível amortizar ou quitar o saldo, e as regras variam por administradora e grupo. Vale conferir isso no contrato antes de assinar.' },
+      { q: 'E se minha renda mudar no meio do caminho?', a: 'Existem caminhos: reduzir o crédito, alongar o prazo ou transferir a cota. O importante é avisar antes de atrasar, porque cada situação tem uma saída diferente.' }
+    ];
+
+    return {
+      showDepoimento: this.props.mostrarDepoimento !== false,
+      showEstimativa: showEst,
+      stepLabel: isResult ? 'Resultado' : 'Passo ' + step + ' de ' + total,
+      stepPercent: isResult ? '100%' : Math.round(step / total * 100) + '%',
+      progressWidth: isResult ? '100%' : Math.round(step / total * 100) + '%',
+      isStep1: step === 1, isStep2: step === 2, isStep3: step === 3, isStep4: step === 4,
+      isStep5: step === 5, isStep6: step === 6, isStep7: step === 7, isResult,
+      showNav: !isResult,
+      nextLabel: step === 7 ? 'Ver meu diagnóstico' : 'Continuar',
+      erro: s.erro,
+      backStyle: 'padding:15px 20px;background:transparent;border:1px solid rgba(255,255,255,.2);color:#A8A8B2;font-size:14px;cursor:pointer;visibility:' + (step === 1 ? 'hidden' : 'visible'),
+      onAvancar: () => { if (this.valida()) this.setState({ step: s.step + 1, erro: '' }); },
+      onVoltar: () => this.setState({ step: Math.max(1, s.step - 1), erro: '' }),
+      onReiniciar: () => this.setState({ step: 1, erro: '' }),
+
+      optObjetivo: this.opt('objetivo', [
+        { label: 'Imóvel', hint: 'Casa, apartamento, terreno ou construção.' },
+        { label: 'Veículo', hint: 'Comprar, trocar ou renovar.' },
+        { label: 'Patrimônio', hint: 'Investir, alavancar, gerar renda.' },
+        { label: 'Ainda não sei', hint: 'Quero entender antes de decidir.' }
+      ]),
+      optUso: this.opt('uso', [
+        { label: 'Para usar', hint: 'Vou morar, dirigir ou utilizar o bem.' },
+        { label: 'Para investir', hint: 'Quero rentabilidade, aluguel ou revenda.' }
+      ]),
+      optValor: this.opt('valor', ['Até R$ 50 mil', 'R$ 50 a 150 mil', 'R$ 150 a 300 mil', 'R$ 300 a 500 mil', 'Acima de R$ 500 mil']),
+      optParcela: this.opt('parcela', ['Até R$ 500', 'R$ 500 a 1.000', 'R$ 1.000 a 2.000', 'R$ 2.000 a 4.000', 'Acima de R$ 4.000']),
+      optPrazo: this.opt('prazo', ['Em até 1 ano', 'De 1 a 3 anos', 'De 3 a 5 anos', 'Mais de 5 anos', 'Ainda planejando']),
+      optMoradia: this.opt('moradia', ['Pago aluguel', 'Financio um imóvel', 'Moro em imóvel próprio', 'Moro com família']),
+      optFinanciamento: this.opt('financiamento', ['Não tenho', 'Sim, imóvel', 'Sim, veículo', 'Sim, outros']),
+      optLance: this.opt('lance', ['Não tenho nada guardado', 'Até 10% do valor', 'Entre 10% e 30%', 'Mais de 30%']),
+      optNivel: this.opt('nivel', ['Começando agora', 'Conheço o básico', 'Já pesquisei bastante', 'Já tive ou tenho cota']),
+      optAtendido: this.opt('atendido', ['Nunca falei com ninguém', 'Já falei, não fechei', 'Estou comparando agora']),
+
+      nome: s.nome, fone: s.fone, cidade: s.cidade, obs: s.obs,
+      onNome: e => this.setState({ nome: e.target.value, erro: '' }),
+      onFone: e => this.setState({ fone: this.fone(e.target.value), erro: '' }),
+      onCidade: e => this.setState({ cidade: e.target.value, erro: '' }),
+      onObs: e => this.setState({ obs: e.target.value }),
+
+      dxTitulo: d ? d.titulo : '', dxResumo: d ? d.resumo : '',
+      dxCredito: d ? d.credito : '', dxParcela: d ? d.parcela : '', dxPrazo: d ? d.prazo : '',
+      dxPassos: d ? d.passos : [],
+      waLink: 'https://wa.me/' + zap + '?text=' + (isResult ? this.waMsg() : ''),
+      waSimples: 'https://wa.me/' + zap,
+
+      objecoes: [
+        { num: '01', claim: 'Consórcio demora demais.', answer: 'Demora comparado a quê? O financiamento entrega a chave hoje e cobra juros por 30 anos. O aluguel entrega a chave hoje e nunca acaba. Com lance planejado, o prazo do consórcio deixa de ser sorte e passa a ser cálculo.' },
+        { num: '02', claim: 'Sai mais caro no fim.', answer: 'A conta que importa é o custo total. Consórcio tem taxa de administração; financiamento tem juros compostos. Em muitos cenários a diferença entre os dois paga uma boa parte da entrada de outro bem.' },
+        { num: '03', claim: 'É meio furada, né?', answer: 'Consórcio é regulado pelo Banco Central e administrado por instituições autorizadas. O que dá errado, quase sempre, é a expectativa: quem entra achando que vai ser contemplado no mês 2 se frustra.' },
+        { num: '04', claim: 'Vou começar quando sobrar dinheiro.', answer: 'A parcela mais cara é a que você nunca começou a pagar. Enquanto o valor não entra em algum plano, ele vira custo de vida — e o objetivo continua no mesmo lugar.' }
+      ],
+      estrategias: [
+        { n: '01', title: 'Sair do aluguel', body: 'Migrar um custo fixo que não gera nada para uma parcela que termina com o imóvel no seu nome. O foco é calibrar crédito e prazo para a parcela não estourar o orçamento.', para: 'quem paga aluguel hoje', alerta: 'escolher crédito acima da capacidade real' },
+        { n: '02', title: 'Troca de dívidas', body: 'Usar o crédito do consórcio para quitar um financiamento e trocar juros compostos por taxa de administração. Só faz sentido depois de comparar o custo total dos dois contratos.', para: 'quem já financia imóvel ou veículo', alerta: 'trocar sem calcular o saldo devedor' },
+        { n: '03', title: 'Alavancagem de capital', body: 'Crédito maior do que o capital disponível hoje, com lance planejado, para gerar renda ou patrimônio. É a estratégia mais técnica das três e exige disciplina de reserva.', para: 'quem investe e pensa em prazo', alerta: 'contar com contemplação rápida garantida' }
+      ],
+      contemplacao: [
+        { tag: 'A', title: 'Sorteio', body: 'Acontece todo mês, entre todos os participantes em dia com o grupo. É a única via que depende de sorte.' },
+        { tag: 'B', title: 'Lance livre', body: 'Você oferece um valor e concorre com as outras ofertas do mês. Quanto melhor o planejamento da reserva, maior a chance.' },
+        { tag: 'C', title: 'Lance embutido', body: 'Usa parte do próprio crédito como lance. Antecipa a contemplação, mas reduz o valor que você recebe no fim.' }
+      ],
+      videos: [
+        { title: 'O que é consórcio, na prática' },
+        { title: 'Como quitar seu financiamento' },
+        { title: 'Lance livre, fixo e embutido' },
+        { title: 'O que é alavancagem de capital' },
+        { title: 'Por que falam mal do consórcio' }
+      ],
+      faq: faqData.map((f, i) => ({
+        q: f.q, a: f.a,
+        sign: s.faqOpen === i ? '−' : '+',
+        display: s.faqOpen === i ? 'block' : 'none',
+        onToggle: () => this.setState({ faqOpen: s.faqOpen === i ? -1 : i })
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
