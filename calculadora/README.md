@@ -14,6 +14,10 @@ Prints do simulador da ConsórcioGO (Embracon) em [`referencias/`](referencias/)
 | [`consorciogo-contemplada-aplicada.png`](referencias/consorciogo-contemplada-aplicada.png) | Carta contemplada e aplicada (alavancagem): crédito, valor final, lucro |
 | [`consorciogo-vs-financiamento.png`](referencias/consorciogo-vs-financiamento.png) | Consórcio × financiamento SAC × Price: prazo, crédito/valor financiado, total pago, juros/taxa, gráficos de pizza |
 
+## Código para reaproveitar
+
+Nenhum código pronto. A base são os prints de referência acima.
+
 ## Comparações
 
 - **Consórcio × financiamento** (SAC e Price).

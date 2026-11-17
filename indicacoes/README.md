@@ -95,6 +95,14 @@ O parceiro preenche ao cadastrar a indicação.
 
 ---
 
+## Código para reaproveitar
+
+| Projeto | Caminho | O que dá para pegar |
+|---|---|---|
+| **CRM 4YU (Garimpo)** | `~/dev/4yu-apps/crm` | Base de CRM: leads, quadro, front Next + shadcn + Supabase. No ar em crm.4yumkt.com.br. |
+| **Traxium** | `~/dev/traxium-saas` | Dashboards e componentes de painel (Next + Radix + Recharts). |
+| **AutoFluxos** | `~/dev/4yu-apps/autofluxos-v2` | Login (better-auth), Supabase com realtime e integração com WhatsApp. |
+
 ## Pendências — o Raul vai passar
 
 - [ ] **Identidade visual** (feita pelo Rodrigo).

@@ -70,6 +70,13 @@ LP para o Raul se vender, usando a **marca dele**: logo, branding e a mesma apre
 - A simulação só abre o WhatsApp no final, **não salva as respostas**.
 - A home abre com a simulação. Na v3 ela vai para o fim.
 
+## Código para reaproveitar
+
+| Projeto | Caminho | Stack |
+|---|---|---|
+| **Website do Gabriel** | `~/dev/4yu-apps/website` ou `~/dev/portfolio` (confirmar qual) | — |
+| **Bertoncini & Mendonça** | `~/dev/bertoncini-mendonca-advogados` | Astro + Supabase + Vercel. Site institucional com blog e painel de artigos no Supabase (dá para pegar para o blog do Raul). |
+
 ## Estrutura
 
 | Caminho | O que é |
