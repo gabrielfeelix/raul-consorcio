@@ -1,4 +1,4 @@
-# LP — Raul Consórcio
+# Website (LP) — Raul Consórcio
 
 Landing page e blog do Raul Carvalho — Raul Consórcios Multimarcas, especialista em consórcios multiempresas.
 
@@ -39,7 +39,7 @@ LP para o Raul se vender, usando a **marca dele**: logo, branding e a mesma apre
 - **Consultiva, não um formulário:** as perguntas têm que dar a sensação de uma conversa com um especialista. **O Raul vai melhorar as perguntas.**
 - Mostra um **resultado prévio curto**, mais ou menos **20%** da análise.
 - Os outros **80%** ficam para a conversa: o Raul entra em contato para falar do caso específico.
-- As **respostas ficam salvas no CRM de indicações** (mesmo banco do sistema em `indicacoes/`). Quem preenche a simulação vira lead no quadro do Raul.
+- As **respostas ficam salvas no CRM de indicações** (mesmo banco do sistema em `plataforma/`). Quem preenche a simulação vira lead no quadro do Raul.
 
 ### Público
 
@@ -82,7 +82,7 @@ LP para o Raul se vender, usando a **marca dele**: logo, branding e a mesma apre
 | Caminho | O que é |
 |---|---|
 | `site/` | **O que está publicado.** Build estático da v2, com as correções de mobile, favicon e títulos. É esta pasta que a Vercel serve. |
-| `*.dc.html` (raiz de `lp/`) | Arquivos originais do canvas do Claude Design, com o runtime `support.js`. Fonte de onde a v2 nasceu — **não refletem as correções aplicadas em `site/`**. |
+| `*.dc.html` (raiz de `website/`) | Arquivos originais do canvas do Claude Design, com o runtime `support.js`. Fonte de onde a v2 nasceu — **não refletem as correções aplicadas em `site/`**. |
 | `assets/` | Foto do Raul e logo da Ademicon, originais em PNG. |
 | `uploads/` | Material de referência: screenshots do Instagram dele, iterações anteriores de layout, vídeo de teste. |
 
@@ -95,7 +95,7 @@ LP para o Raul se vender, usando a **marca dele**: logo, branding e a mesma apre
 
 ## Deploy
 
-Estático, sem build step. A partir de `lp/site/`:
+Estático, sem build step. A partir de `website/site/`:
 
 ```bash
 vercel deploy --prod --yes --scope gabriels-projects-039c9dc7

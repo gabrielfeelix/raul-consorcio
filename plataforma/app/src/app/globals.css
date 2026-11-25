@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Linguagem visual herdada do painel do CT Argel Riboli:
+ * fundo cinza claro liso, barra lateral como ilha branca, cartões brancos com sombra leve,
+ * preto como cor principal, vermelho só como detalhe e estado.
+ * Identidade definitiva do Raul (Rodrigo) entra trocando só os tokens abaixo.
+ */
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-title: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-sunken: var(--sunken);
+  --color-sunken-2: var(--sunken-2);
+  --color-line: var(--line);
+  --color-line-soft: var(--line-soft);
+  --color-ink: var(--ink);
+  --color-on-ink: var(--on-ink);
+  --color-ink-press: var(--ink-press);
+  --color-soft: var(--soft);
+  --color-dim: var(--dim);
+  --color-faint: var(--faint);
+  --color-brand: var(--brand);
+  --color-brand-press: var(--brand-press);
+  --color-brand-weak: var(--brand-weak);
+  --color-ok: var(--ok);
+  --color-ok-weak: var(--ok-weak);
+  --color-warn: var(--warn);
+  --color-warn-weak: var(--warn-weak);
+  --color-danger: var(--danger);
+  --color-danger-weak: var(--danger-weak);
+  --color-info: var(--info);
+  --color-info-weak: var(--info-weak);
+  --color-overlay: var(--overlay);
+  --color-whats: var(--whats);
+  --color-whats-weak: var(--whats-weak);
+  --color-whats-weak-2: var(--whats-weak-2);
+  --color-serie-1: var(--serie-1);
+  --color-serie-2: var(--serie-2);
+  --color-serie-3: var(--serie-3);
+  --color-serie-4: var(--serie-4);
+
+  --shadow-ilha: var(--sombra-ilha);
+  --shadow-card: var(--sombra-card);
+  --shadow-pop: var(--sombra-pop);
+  --shadow-modal: var(--sombra-modal);
+
+  --ease-suave: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-pop: cubic-bezier(0.32, 1.2, 0.42, 1);
+}
+
+:root {
+  color-scheme: light;
+  /* Neutros frios (sem puxar para o bege): cinza limpo entre o branco e o cinza. */
+  --canvas: #f1f2f4;
+  --panel: #ffffff;
+  --sunken: #f4f5f7;
+  --sunken-2: #e9ebef;
+  --line: #e3e5e9;
+  --line-soft: #eef0f3;
+  --ink: #111111;
+  --on-ink: #ffffff;
+  --ink-press: #2a2a2a;
+  --soft: #3a3d44;
+  --dim: #5d616b;
+  --faint: #8b8f99;
+  --brand: #d3201a;
+  --brand-press: #b41a15;
+  --brand-weak: #fcebea;
+  --ok: #157f45;
+  --ok-weak: #e6f4ec;
+  --warn: #a35a06;
+  --warn-weak: #fdf1de;
+  --danger: #b42318;
+  --danger-weak: #fdecea;
+  --info: #2c5282;
+  --info-weak: #e8eef7;
+  --overlay: rgb(17 17 17 / 0.4);
+  --whats: #137a43;
+  --whats-weak: #e5f4ea;
+  --whats-weak-2: #d6eedf;
+  /* Gráficos: escala de cinzas que termina no preto. O vermelho fica fora dos dados. */
+  --serie-1: #111111;
+  --serie-2: #8e8e96;
+  --serie-3: #c4c4ca;
+  --serie-4: #dedee2;
+
+  --sombra-ilha: 0 1px 2px rgb(17 17 17 / 0.04), 0 12px 32px -16px rgb(17 17 17 / 0.18);
+  --sombra-card: 0 1px 2px rgb(17 17 17 / 0.04), 0 4px 16px -8px rgb(17 17 17 / 0.08);
+  --sombra-pop: 0 2px 6px rgb(17 17 17 / 0.06), 0 16px 40px -12px rgb(17 17 17 / 0.22);
+  --sombra-modal: 0 4px 12px rgb(17 17 17 / 0.08), 0 32px 72px -20px rgb(17 17 17 / 0.32);
+}
+
+.dark {
+  color-scheme: dark;
+  --canvas: #0c0c0d;
+  --panel: #161618;
+  --sunken: #1d1d20;
+  --sunken-2: #242428;
+  --line: #2a2a2e;
+  --line-soft: #222225;
+  --ink: #f4f4f5;
+  --on-ink: #0c0c0d;
+  --ink-press: #d4d4d8;
+  --soft: #c4c4ca;
+  --dim: #9a9aa2;
+  --faint: #6e6e76;
+  --brand: #ef3b2d;
+  --brand-press: #d83224;
+  --brand-weak: rgb(239 59 45 / 0.14);
+  --ok: #3dcb82;
+  --ok-weak: rgb(61 203 130 / 0.12);
+  --warn: #f0ae4a;
+  --warn-weak: rgb(240 174 74 / 0.12);
+  --danger: #f2675c;
+  --danger-weak: rgb(242 103 92 / 0.12);
+  --info: #8fb4e8;
+  --info-weak: rgb(143 180 232 / 0.12);
+  --overlay: rgb(0 0 0 / 0.6);
+  --whats: #4fd38f;
+  --whats-weak: rgb(79 211 143 / 0.12);
+  --whats-weak-2: rgb(79 211 143 / 0.18);
+  --serie-1: #f4f4f5;
+  --serie-2: #8b8b94;
+  --serie-3: #4a4a52;
+  --serie-4: #34343a;
+  --sombra-ilha: 0 0 0 1px #222225, 0 12px 32px -16px rgb(0 0 0 / 0.8);
+  --sombra-card: 0 0 0 1px #222225;
+  --sombra-pop: 0 0 0 1px #2a2a2e, 0 16px 40px -12px rgb(0 0 0 / 0.7);
+  --sombra-modal: 0 0 0 1px #2a2a2e, 0 32px 72px -20px rgb(0 0 0 / 0.8);
+}
+
+@layer base {
+  * { border-color: var(--line); }
+  html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--font-sans); font-size: 14px; }
+  .font-mono { font-feature-settings: 'tnum'; }
+  ::selection { background: rgb(211 32 26 / 0.16); }
+}
+
+@keyframes entra-pagina { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes entra-pop { from { opacity: 0; transform: translateY(4px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes entra-menu { from { opacity: 0; transform: translateY(-4px) scale(0.98); } to { opacity: 1; transform: none; } }
+@keyframes entra-direita { from { transform: translateX(100%); } to { transform: none; } }
+@keyframes entra-fundo { from { opacity: 0; } to { opacity: 1; } }
+@keyframes cresce-x { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes brilho { from { background-position: 150% 0; } to { background-position: -50% 0; } }
+@keyframes entra-dica { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+@keyframes sobe-nivel { 0% { opacity: 0; transform: scale(0.6); } 60% { opacity: 1; transform: scale(1.06); } 100% { opacity: 1; transform: scale(1); } }
+@keyframes anel { from { opacity: 0.55; transform: scale(1); } to { opacity: 0; transform: scale(1.9); } }
+@keyframes pulso { 0%, 100% { box-shadow: 0 0 0 0 rgb(211 32 26 / 0.45); } 50% { box-shadow: 0 0 0 6px rgb(211 32 26 / 0); } }
+
+@layer components {
+  .entra-pagina { animation: entra-pagina 240ms var(--ease-suave) both; }
+  .entra-pop { animation: entra-pop 220ms var(--ease-pop) both; }
+  .entra-menu { animation: entra-menu 160ms var(--ease-suave) both; transform-origin: top right; }
+  .entra-direita { animation: entra-direita 280ms var(--ease-suave) both; }
+  .entra-fundo { animation: entra-fundo 200ms ease both; }
+  .cresce-x { animation: cresce-x 700ms var(--ease-suave) both; transform-origin: left; }
+  .pulso { animation: pulso 1.8s ease-in-out infinite; }
+  .entra-dica { animation: entra-dica 150ms var(--ease-suave) both; }
+  .sobe-nivel { animation: sobe-nivel 620ms var(--ease-pop) both; }
+  .anel { animation: anel 1.6s var(--ease-suave) 400ms 2 both; }
+  .cresce-x-lento { animation: cresce-x 1100ms var(--ease-suave) 250ms both; transform-origin: left; }
+
+  .cascata > * { animation: entra-pagina 280ms var(--ease-suave) both; }
+  .cascata > *:nth-child(2) { animation-delay: 40ms; }
+  .cascata > *:nth-child(3) { animation-delay: 80ms; }
+  .cascata > *:nth-child(4) { animation-delay: 120ms; }
+  .cascata > *:nth-child(5) { animation-delay: 160ms; }
+  .cascata > *:nth-child(n + 6) { animation-delay: 200ms; }
+
+  .esqueleto {
+    background: linear-gradient(90deg, var(--sunken) 0%, var(--sunken-2) 50%, var(--sunken) 100%);
+    background-size: 200% 100%;
+    animation: brilho 1.4s ease-in-out infinite;
+    border-radius: 6px;
+  }
+
+  .clicavel { transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 120ms var(--ease-suave); }
+  .clicavel:active:not(:disabled) { transform: translateY(1px) scale(0.99); }
+
+  .rolagem-fina { scrollbar-width: thin; scrollbar-color: var(--line) transparent; }
+  .sem-barra { scrollbar-width: none; }
+  .sem-barra::-webkit-scrollbar { display: none; }
+
+  .campo {
+    height: 40px; width: 100%; border-radius: 11px; border: 1px solid var(--line); background: var(--panel);
+    padding: 0 12px; font-size: 14px; color: var(--ink); outline: none;
+    transition: border-color 150ms ease, box-shadow 150ms ease;
+  }
+  .campo::placeholder { color: var(--faint); }
+  .campo:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgb(17 17 17 / 0.08); }
+  textarea.campo { height: auto; min-height: 96px; padding: 10px 12px; line-height: 1.5; resize: vertical; }
+  .campo:hover:not(:focus):not(:disabled) { border-color: color-mix(in oklab, var(--faint) 45%, var(--line)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; transition-duration: 0.01ms !important; }
+}
+
+@layer utilities {
+  button, a, [role="button"], label[for], [data-href] { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+  button:focus-visible, a:focus-visible, [role="button"]:focus-visible, [tabindex]:not([tabindex="-1"]):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+}

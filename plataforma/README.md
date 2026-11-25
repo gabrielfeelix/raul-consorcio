@@ -1,4 +1,4 @@
-# Sistema de indicações e prêmios
+# Plataforma de indicações e prêmios
 
 Plataforma onde os **clientes/parceiros do Raul** registram e acompanham as pessoas que indicaram, e onde o **Raul** gere essas indicações, os pagamentos e os níveis de cada parceiro. Foco comercial.
 
@@ -94,6 +94,35 @@ O parceiro preenche ao cadastrar a indicação.
 - **WhatsApp** no meio do processo.
 
 ---
+
+## Protótipo (`app/`)
+
+Next 16 + Tailwind 4, com a mesma linguagem visual do painel do CT Argel Riboli (fundo cinza claro, sidebar em ilha branca, preto como cor principal, vermelho só em detalhe, tema escuro opcional).
+
+```bash
+cd plataforma/app && npm install && npm run dev   # http://localhost:3100
+```
+
+- **Ainda sem banco.** Os dados são de exemplo e ficam no navegador (localStorage). A camada `src/lib/loja.tsx` concentra todas as ações, para trocar por Supabase sem mexer nas telas.
+- **Login de demonstração:** abaixo do cartão de login há atalhos para entrar como Raul ou como parceiro. O parceiro Thiago (convite pendente) abre o onboarding guiado.
+- **Raul:** Início (dashboard com período), Indicações (quadro arrastável + lista), tela do lead, Parceiros (convite por e-mail e link para WhatsApp), Pagamentos, Relatórios (exporta CSV), Níveis e prêmios (configurável).
+- **Parceiro:** Início (nível, quanto falta, quando e quanto recebe), Indicar alguém (modal), Minhas indicações (só leitura, com passo a passo), Níveis e prêmios, onboarding guiado.
+- **E-mails automáticos** são simulados: cada mudança relevante fica registrada (tela do parceiro e do lead) e aparece um aviso.
+- **Níveis e comissão são provisórios:** Bronze/Prata/Ouro/Platinum com valor fixo + valor a cada R$ 100 mil e prazo por nível. O Raul passa os definitivos e edita na própria tela.
+- **Etapas usadas:** Novas → Em contato → Sem resposta → Em negociação → Contrato fechado → Comissão paga, e Não avançou.
+
+## Decisões de design
+
+- **Base Apple-like, sem ruído.** Canvas cinza frio e neutro (`#f1f2f4`), cartões brancos com sombra leve, preto como cor de ação e vermelho só em detalhe (marca, campo obrigatório, atraso, item novo). Nenhum cartão preto em métricas, nenhum brilho colorido ou degradê decorativo. O único bloco escuro é o cartão de nível do parceiro, que é o centro emocional da tela dele.
+- **Botões primários pretos.** Um por contexto. WhatsApp usa verde suave (fundo claro, texto verde), não um bloco saturado.
+- **Gráficos legíveis.** Escala de cinzas que termina no preto (`--serie-1..4`); toda parte colorida mostra o número ao passar o mouse ou focar (`Dica`/`DicaGrafico`). Gráfico de barras do início com 300 px de altura e totais na legenda. Porcentagem de variação só aparece quando existe base de comparação.
+- **Gamificação contida.** Insígnias desenhadas em SVG (medalha, troféu no topo; o Raul escolhe só a cor do miolo), barras que enchem uma vez ao abrir, números que contam até o valor, e um único momento de conquista quando um contrato recente faz o parceiro subir de nível (aparece uma vez, sem confete).
+- **Criar é sempre modal.** Nova indicação, novo parceiro, novo nível, fechamento, ajuste do negócio e edição de dados abrem em modal (renderizado no `<body>`, cobrindo a tela toda). Detalhes abrem em página. Ações reversíveis mostram aviso com **Desfazer**.
+- **Controles próprios.** Sem `select` ou `input date` nativos: `Selecao` (com busca e teclado), `CampoData` (calendário), `Marcador` (checkbox), chips para opções curtas. Tabelas com a linha inteira clicável e paginação a partir de 20 itens.
+- **Ajuste do negócio.** O Raul corrige valor da carta e data do fechamento e vê a comissão recalculada pelo nível congelado no fechamento, com a conta exposta (fixo + proporcional). Pode definir a comissão manualmente com motivo; fica no histórico como nota interna.
+- **Busca como paleta de comandos** (Ctrl/⌘ K): ações rápidas, indicações, parceiros e recentes, tudo pelo teclado.
+- **Linguagem profissional.** Português correto, sem gírias; “onboarding guiado” em vez de “tour com balõezinhos”. Etapas para o parceiro: Recebida, Raul fez contato, Em negociação, Contrato fechado, Comissão recebida.
+- **Movimento com propósito.** Entrada curta da página, modais e menus; animações respeitam “reduzir movimento”.
 
 ## Código para reaproveitar
 
