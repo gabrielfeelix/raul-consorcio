@@ -209,3 +209,10 @@
   button:disabled { cursor: not-allowed; }
   button:focus-visible, a:focus-visible, [role="button"]:focus-visible, [tabindex]:not([tabindex="-1"]):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 }
+
+/* Fundo do login: aproximação lenta da foto */
+@keyframes fundo-aproxima {
+  from { transform: scale(1.08); }
+  to { transform: scale(1.0); }
+}
+.fundo-foto { animation: fundo-aproxima 18s cubic-bezier(0.22, 1, 0.36, 1) both; }
