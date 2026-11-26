@@ -294,7 +294,7 @@ export default function Pagamentos() {
           <span className="text-[13px] font-medium text-soft">Data do pagamento</span>
           <CampoData valor={diaPago} onChange={setDiaPago} rotuloAria="Data do pagamento" max={new Date().toISOString().slice(0, 10)} />
         </label>
-        <div className="mt-5 flex flex-col gap-3 rounded-2xl bg-sunken p-4 sm:flex-row sm:items-center">
+        <div className="mt-5 flex flex-col gap-3 rounded-[12px] bg-sunken p-4 sm:flex-row sm:items-center">
           <div className="min-w-0 flex-1">
             <p className="text-[13.5px] font-semibold text-ink">Marcou como pago por engano?</p>
             <p className="text-[12.5px] text-dim">A comissão volta para a lista a pagar, com o vencimento original. O parceiro deixa de ver como recebida.</p>

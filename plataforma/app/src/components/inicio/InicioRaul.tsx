@@ -6,7 +6,7 @@ import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxi
 import { AlertTriangle, ArrowUpRight, Banknote, CheckCircle2, ChevronRight, Clock, Globe, Hourglass, Plus, Send, TrendingUp, UserPlus, Users } from 'lucide-react'
 import { abrirNovaIndicacao, abrirNovoParceiro } from '@/components/acoes/Acoes'
 import { estaParada } from '@/components/indicacoes/Quadro'
-import { Avatar, Card, CardHeader, cx, Dica, DicaGrafico, Medalha, Metrica, Numero, PageHeader, Pilula, Progresso, Segmentado } from '@/components/ds'
+import { Avatar, Botao, BotaoLink, Card, CardHeader, cx, Dica, DicaGrafico, Medalha, Metrica, Numero, PageHeader, Pilula, Progresso, Segmentado } from '@/components/ds'
 import { useLoja } from '@/lib/loja'
 import {
   dataCurta,
@@ -36,8 +36,8 @@ const COR_FUNIL: Record<string, string> = {
   contato: 'var(--serie-2)',
   sem_resposta: 'var(--warn)',
   negociacao: 'var(--soft)',
-  fechado: 'var(--serie-1)',
-  pago: 'var(--serie-1)',
+  fechado: 'var(--serie-destaque)',
+  pago: 'var(--serie-destaque)',
   perdido: 'var(--serie-4)',
 }
 
@@ -67,9 +67,9 @@ export function InicioRaul() {
     const aPagar = pags.filter((p) => !p.pago)
     const aPagar30 = aPagar.filter((p) => diasAte(p.previsto) <= 30)
 
-    // gráfico: dias (até 30d) ou semanas
-    const porSemana = periodo === '90d' || periodo === 'ano'
+    // gráfico: dia em 7d, blocos de 3 dias em 30d, semana em 90d, mês no ano (30 barras duplas viram palitos)
     const baldes: { rotulo: string; completo: string; ini: Date; fim: Date; indicacoes: number; fechados: number }[] = []
+    const fmt = (x: Date) => x.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }).replace('.', '')
     if (periodo === 'hoje') {
       for (let h = 8; h <= 20; h += 2) {
         const ini = new Date(de)
@@ -78,13 +78,35 @@ export function InicioRaul() {
         fim.setHours(h + 2)
         baldes.push({ rotulo: `${h}h`, completo: `Hoje, das ${h}h às ${h + 2}h`, ini, fim, indicacoes: 0, fechados: 0 })
       }
+    } else if (periodo === 'ano') {
+      for (let mes = 0; mes <= agora.getMonth(); mes++) {
+        const ini = new Date(agora.getFullYear(), mes, 1)
+        const fim = new Date(agora.getFullYear(), mes + 1, 1)
+        const nome = ini.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')
+        baldes.push({ rotulo: nome.charAt(0).toUpperCase() + nome.slice(1), completo: ini.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }), ini, fim, indicacoes: 0, fechados: 0 })
+      }
     } else {
-      const passo = porSemana ? 7 : 1
-      for (let d = new Date(de); d <= agora; d = new Date(d.getTime() + passo * 86_400_000)) {
-        const fim = new Date(d.getTime() + passo * 86_400_000)
-        const fmt = (x: Date) => x.toLocaleDateString('pt-BR', { day: 'numeric', month: 'short' }).replace('.', '')
-        const completo = porSemana ? `Semana de ${fmt(d)} a ${fmt(new Date(fim.getTime() - 86_400_000))}` : d.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' })
-        baldes.push({ rotulo: d.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }), completo, ini: new Date(d), fim, indicacoes: 0, fechados: 0 })
+      const passo = periodo === '7d' ? 1 : periodo === '30d' ? 3 : 7
+      // conta de trás para frente, para a última barra terminar hoje
+      const fimTotal = new Date(agora)
+      fimTotal.setHours(23, 59, 59, 999)
+      for (let fim = fimTotal; fim > de; ) {
+        // se sobrar menos de meio passo antes do começo do período, junta nesta barra
+        const sobra = fim.getTime() - passo * 86_400_000 - de.getTime()
+        const ini = sobra < (passo * 86_400_000) / 2 ? new Date(de) : new Date(fim.getTime() - passo * 86_400_000 + 1)
+        const ultimoDia = new Date(fim.getTime() - 1)
+        const completo = passo === 1 ? ini.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long' }) : `De ${fmt(ini)} a ${fmt(ultimoDia)}`
+        const mes = (x: Date) => x.toLocaleDateString('pt-BR', { month: 'short' }).replace('.', '')
+        const rotulo =
+          periodo === '7d'
+            ? ini.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '')
+            : periodo === '30d'
+              ? mes(ini) === mes(ultimoDia)
+                ? `${ini.getDate()}–${ultimoDia.getDate()} ${mes(ini)}`
+                : `${ini.getDate()} ${mes(ini)}–${ultimoDia.getDate()} ${mes(ultimoDia)}`
+              : fmt(ini)
+        baldes.unshift({ rotulo, completo, ini, fim, indicacoes: 0, fechados: 0 })
+        fim = new Date(ini.getTime() - 1)
       }
     }
     for (const b of baldes) {
@@ -131,30 +153,35 @@ export function InicioRaul() {
         actions={<Segmentado opcoes={PERIODOS.map((p) => ({ id: p.id, rotulo: p.curto }))} valor={periodo} onChange={setPeriodo} className="sem-barra max-w-full overflow-x-auto" />}
       />
 
-      <div className="mb-3 grid grid-cols-2 gap-2 sm:gap-3 lg:grid-cols-4">
-        <AcaoRapida icone={<Plus />} titulo="Nova indicação" detalhe="Em nome de um parceiro" onClick={() => abrirNovaIndicacao()} principal />
-        <AcaoRapida icone={<UserPlus />} titulo="Novo parceiro" detalhe="Acesso e convite" onClick={abrirNovoParceiro} />
-        <AcaoRapida
-          icone={<Banknote />}
-          titulo="Comissões a pagar"
-          detalhe={m.aPagar.length ? `${reais(m.aPagar.reduce((s, p) => s + p.valor, 0))}${m.atrasados.length ? ` · ${m.atrasados.length} atrasada${m.atrasados.length > 1 ? 's' : ''}` : ''}` : 'Nada pendente'}
-          alerta={m.atrasados.length > 0}
-          href="/pagamentos"
-        />
-        <AcaoRapida icone={<Hourglass />} titulo="Leads parados" detalhe={m.paradas.length ? `${m.paradas.length} precisam de contato` : 'Nenhum parado'} alerta={m.paradas.length > 0} href="/indicacoes?filtro=parados" />
+      <div role="toolbar" aria-label="Ações" className="-mt-1 mb-5 flex flex-wrap items-center gap-2">
+        <span className="mr-1 hidden text-[12px] font-medium text-faint sm:inline">Ações</span>
+        <Botao variante="marca" onClick={() => abrirNovaIndicacao()}>
+          <Plus /> Nova indicação
+        </Botao>
+        <Botao variante="secundario" onClick={abrirNovoParceiro}>
+          <UserPlus /> Novo parceiro
+        </Botao>
+        <BotaoLink variante="secundario" href="/pagamentos">
+          Comissões a pagar
+          <span className={cx('font-semibold tabular-nums', m.atrasados.length ? 'text-danger' : 'text-dim')}>{m.aPagar.length}</span>
+        </BotaoLink>
+        <BotaoLink variante="secundario" href="/indicacoes?filtro=parados">
+          Leads parados
+          <span className={cx('font-semibold tabular-nums', m.paradas.length ? 'text-warn' : 'text-dim')}>{m.paradas.length}</span>
+        </BotaoLink>
       </div>
 
       <div className="cascata grid grid-cols-2 gap-3 lg:grid-cols-4">
-        <Metrica rotulo="Indicações recebidas" icone={<Send />} valor={<Numero valor={m.doPeriodo.length} />} variacao={variacao(m.doPeriodo.length, m.doAnterior.length)} detalhe={m.doSite ? `${m.doSite} pela simulação do site` : 'Todas vieram de parceiros'} />
-        <Metrica rotulo="Parceiros que indicaram" icone={<Users />} valor={<Numero valor={m.parceirosAtivos.size} />} variacao={variacao(m.parceirosAtivos.size, m.parceirosAnt.size)} detalhe={`de ${dados.parceiros.filter((p) => p.status === 'ativo').length} parceiros ativos`} />
+        <Metrica rotulo="Indicações recebidas" valor={<Numero valor={m.doPeriodo.length} />} variacao={variacao(m.doPeriodo.length, m.doAnterior.length)} detalhe={m.doSite ? `${m.doSite} pela simulação do site` : 'Todas vieram de parceiros'} />
+        <Metrica rotulo="Parceiros que indicaram" valor={<Numero valor={m.parceirosAtivos.size} />} variacao={variacao(m.parceirosAtivos.size, m.parceirosAnt.size)} detalhe={`de ${dados.parceiros.length} ${dados.parceiros.length === 1 ? 'parceiro' : 'parceiros'}`} />
         <Metrica
           rotulo="Contratos fechados"
-          icone={<CheckCircle2 />}
+         
           valor={<Numero valor={m.fechadas.length} />}
           variacao={variacao(m.fechadas.length, m.fechadasAnt.length)}
           detalhe={m.conversao > 0 ? `${Math.round(m.conversao)}% das indicações do período já fecharam` : m.doPeriodo.length ? 'As indicações do período ainda estão em conversa' : 'Nenhuma indicação no período'}
         />
-        <Metrica rotulo="Volume em cartas" icone={<TrendingUp />} valor={<Numero valor={m.volume} formato={reaisCurto} />} variacao={variacao(m.volume, m.volumeAnt)} detalhe={m.ticket ? `Carta média de ${reaisCurto(m.ticket)}` : 'Soma dos contratos fechados'} />
+        <Metrica rotulo="Volume em cartas" valor={<Numero valor={m.volume} formato={reaisCurto} />} variacao={variacao(m.volume, m.volumeAnt)} detalhe={m.ticket ? `Carta média de ${reaisCurto(m.ticket)}` : 'Soma dos contratos fechados'} />
       </div>
 
       <div className="mt-3 grid gap-3 xl:grid-cols-[1fr_380px]">
@@ -165,22 +192,22 @@ export function InicioRaul() {
               <span className="h-2.5 w-2.5 translate-y-px rounded-[3px] bg-serie-3" /> Indicações <b className="font-mono text-[13px] font-semibold text-ink">{totIndic}</b>
             </span>
             <span className="flex items-baseline gap-2 text-[12.5px] text-dim">
-              <span className="h-2.5 w-2.5 translate-y-px rounded-[3px] bg-serie-1" /> Contratos fechados <b className="font-mono text-[13px] font-semibold text-ink">{totFech}</b>
+              <span className="h-2.5 w-2.5 translate-y-px rounded-[3px] bg-serie-destaque" /> Contratos fechados <b className="font-mono text-[13px] font-semibold text-ink">{totFech}</b>
             </span>
           </div>
           <div className="h-[300px] min-h-[260px] flex-1 px-1 pb-3 sm:px-2">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={m.baldes} barGap={1} barCategoryGap={periodo === "30d" ? "10%" : "24%"} margin={{ top: 16, right: 12, left: -20, bottom: 0 }}>
+              <BarChart data={m.baldes} barGap={2} barCategoryGap="16%" margin={{ top: 16, right: 12, left: -20, bottom: 0 }}>
                 <CartesianGrid vertical={false} stroke="var(--line-soft)" />
-                <XAxis dataKey="rotulo" tickLine={false} axisLine={false} tick={{ fill: 'var(--faint)', fontSize: 11 }} interval="preserveStartEnd" minTickGap={22} tickMargin={8} />
+                <XAxis dataKey="rotulo" tickLine={false} axisLine={false} tick={{ fill: 'var(--faint)', fontSize: 11 }} interval={0} tickMargin={8} />
                 <YAxis allowDecimals={false} tickLine={false} axisLine={false} tick={{ fill: 'var(--faint)', fontSize: 11 }} width={44} />
                 <Tooltip
                   cursor={{ fill: 'var(--sunken)', radius: 6 }}
                   content={<DicaGrafico rotuloX={(l) => m.baldes.find((b) => b.rotulo === l)?.completo ?? l} />}
                   isAnimationActive={false}
                 />
-                <Bar dataKey="indicacoes" name="Indicações" fill="var(--serie-3)" radius={[4, 4, 0, 0]} maxBarSize={22} animationDuration={700} />
-                <Bar dataKey="fechados" name="Fechados" fill="var(--serie-1)" radius={[4, 4, 0, 0]} maxBarSize={22} animationDuration={700} />
+                <Bar dataKey="indicacoes" name="Indicações" fill="var(--serie-3)" radius={[4, 4, 0, 0]} maxBarSize={44} animationDuration={700} />
+                <Bar dataKey="fechados" name="Fechados" fill="var(--serie-destaque)" radius={[4, 4, 0, 0]} maxBarSize={44} animationDuration={700} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -222,14 +249,12 @@ export function InicioRaul() {
               {m.atencao.map((i) => (
                 <li key={i.id}>
                   <Link href={`/indicacoes/${i.id}`} className="flex items-center gap-3 border-t border-line-soft px-5 py-2.5 hover:bg-sunken/60">
-                    <span className={cx('flex h-8 w-8 shrink-0 items-center justify-center rounded-full', i.etapa === 'nova' ? 'bg-sunken text-soft' : 'bg-warn-weak text-warn')}>
-                      {i.etapa === 'nova' ? <Clock className="h-4 w-4" /> : <AlertTriangle className="h-4 w-4" />}
-                    </span>
+                    <span className={cx('h-1.5 w-1.5 shrink-0 rounded-full', i.etapa === 'sem_resposta' ? 'bg-warn' : 'bg-faint')} />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-[13.5px] font-medium">{i.nome}</span>
                       <span className="block truncate text-[12px] text-dim">{i.etapa === 'nova' ? `Ainda sem contato · chegou ${haQuanto(i.criadoEm)}` : i.etapa === 'sem_resposta' ? 'Não respondeu · tentar de novo' : `${ETAPAS.find((e) => e.id === i.etapa)?.rotulo} · sem movimento há dias`}</span>
                     </span>
-                    <ArrowUpRight className="h-4 w-4 text-faint" />
+
                   </Link>
                 </li>
               ))}
@@ -244,9 +269,6 @@ export function InicioRaul() {
               const d = diasAte(p.previsto)
               return (
                 <li key={p.indicacao.id} className="flex items-center gap-3 border-t border-line-soft px-5 py-2.5">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sunken text-soft">
-                    <Banknote className="h-4 w-4" />
-                  </span>
                   <span className="min-w-0 flex-1">
                     <span className="block truncate text-[13.5px] font-medium">{p.parceiro.nome}</span>
                     <span className="block truncate text-[12px] text-dim">Indicou {p.indicacao.nome.split(' ')[0]} · {p.nivel.nome}</span>
@@ -338,25 +360,3 @@ export function InicioRaul() {
   )
 }
 
-function AcaoRapida({ icone, titulo, detalhe, onClick, href, principal, alerta }: { icone: React.ReactNode; titulo: string; detalhe: string; onClick?: () => void; href?: string; principal?: boolean; alerta?: boolean }) {
-  const corpo = (
-    <>
-      <span className={cx('flex h-9 w-9 shrink-0 items-center justify-center rounded-[11px] [&_svg]:size-[17px]', principal ? 'bg-ink text-on-ink' : 'bg-sunken text-soft')}>{icone}</span>
-      <span className="min-w-0 flex-1">
-        <span className="block text-[13.5px] leading-tight font-semibold text-ink sm:truncate">{titulo}</span>
-        <span className={cx('mt-0.5 line-clamp-2 block text-[12px] leading-snug sm:truncate', alerta ? 'font-medium text-warn' : 'text-dim')}>{detalhe}</span>
-      </span>
-      <ChevronRight className="hidden h-4 w-4 shrink-0 text-faint transition-transform duration-200 ease-suave group-hover:translate-x-0.5 sm:block" />
-    </>
-  )
-  const classe = 'clicavel group flex items-center gap-3 rounded-2xl bg-panel p-3 text-left shadow-card hover:shadow-pop sm:p-3.5'
-  return href ? (
-    <Link href={href} className={classe}>
-      {corpo}
-    </Link>
-  ) : (
-    <button type="button" onClick={onClick} className={classe}>
-      {corpo}
-    </button>
-  )
-}

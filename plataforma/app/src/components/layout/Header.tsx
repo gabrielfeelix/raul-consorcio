@@ -60,12 +60,12 @@ function Notificacoes() {
 
   return (
     <div ref={ref} className="relative" data-tour="notificacoes">
-      <button onClick={abrir} aria-label="Atualizações" aria-expanded={aberta} className="clicavel relative flex h-10 w-10 items-center justify-center rounded-xl text-ink hover:bg-ink/[0.07]">
+      <button onClick={abrir} aria-label="Atualizações" aria-expanded={aberta} className="clicavel relative flex h-10 w-10 items-center justify-center rounded-[9px] text-ink hover:bg-ink/[0.07]">
         <Bell className="h-[19px] w-[19px]" strokeWidth={1.8} />
         {novas > 0 && <span className="absolute top-[9px] right-[9px] h-[7px] w-[7px] rounded-full bg-brand ring-2 ring-canvas" />}
       </button>
       {aberta && (
-        <div className="entra-menu absolute top-[calc(100%+6px)] right-0 z-40 w-[380px] overflow-hidden rounded-2xl border border-line bg-panel shadow-pop max-sm:fixed max-sm:inset-x-3 max-sm:top-[64px] max-sm:w-auto">
+        <div className="entra-menu absolute top-[calc(100%+6px)] right-0 z-40 w-[380px] overflow-hidden rounded-[12px] border border-line bg-panel shadow-pop max-sm:fixed max-sm:inset-x-3 max-sm:top-[64px] max-sm:w-auto">
           <div className="flex items-baseline justify-between gap-3 border-b border-line-soft px-4 pt-3.5 pb-3">
             <p className="font-title text-[15px] font-semibold text-ink">{sessao?.papel === 'raul' ? 'Indicações recebidas' : 'Atualizações das suas indicações'}</p>
             {novas > 0 && <span className="shrink-0 text-[12px] font-medium text-dim">{novas} {novas === 1 ? 'nova' : 'novas'}</span>}
@@ -80,7 +80,7 @@ function Notificacoes() {
             {itens.map((n) => {
               const nova = n.em > vistoEm
               return (
-                <Link key={n.id} href={n.href} onClick={() => setAberta(false)} className="clicavel flex items-start gap-3 rounded-xl px-2.5 py-2.5 hover:bg-sunken">
+                <Link key={n.id} href={n.href} onClick={() => setAberta(false)} className="clicavel flex items-start gap-3 rounded-[9px] px-2.5 py-2.5 hover:bg-sunken">
                   <Avatar nome={n.quem} tamanho={30} />
                   <span className="min-w-0 flex-1">
                     <span className="block text-[13.5px] leading-snug text-soft">
@@ -117,11 +117,11 @@ function MenuUsuario() {
   const nome = sessao?.papel === 'raul' ? 'Raul Carvalho' : parceiro?.nome ?? ''
   const nivel = parceiro ? nivelDoParceiro(dados, parceiro.id).atual : undefined
 
-  const item = 'clicavel flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left text-[13.5px] font-medium text-soft hover:bg-sunken hover:text-ink [&_svg]:size-4 [&_svg]:text-dim'
+  const item = 'clicavel flex w-full items-center gap-2.5 rounded-[9px] px-2.5 py-2 text-left text-[13.5px] font-medium text-soft hover:bg-sunken hover:text-ink [&_svg]:size-4 [&_svg]:text-dim'
 
   return (
     <div ref={ref} className="relative">
-      <button onClick={() => setAberto(!aberto)} className="clicavel flex items-center gap-2 rounded-xl py-1 pr-2 pl-1 hover:bg-ink/[0.07]">
+      <button onClick={() => setAberto(!aberto)} className="clicavel flex items-center gap-2 rounded-[9px] py-1 pr-2 pl-1 hover:bg-ink/[0.07]">
         <Avatar nome={nome} tamanho={32} />
         <span className="hidden text-left lg:block">
           <span className="block text-[13px] leading-tight font-semibold text-ink">{primeiroNome(nome)}</span>
@@ -129,12 +129,12 @@ function MenuUsuario() {
         </span>
       </button>
       {aberto && (
-        <div className="entra-menu absolute top-[calc(100%+6px)] right-0 z-40 w-[264px] rounded-2xl border border-line bg-panel p-1.5 shadow-pop">
+        <div className="entra-menu absolute top-[calc(100%+6px)] right-0 z-40 w-[264px] rounded-[12px] border border-line bg-panel p-1.5 shadow-pop">
           <div className="flex items-center gap-3 px-2.5 pt-2 pb-3">
             <Avatar nome={nome} tamanho={38} />
             <div className="min-w-0">
               <p className="truncate text-[14px] font-semibold text-ink">{nome}</p>
-              {nivel ? <Medalha nivel={nivel} /> : <p className="text-[12px] text-dim">Raul Consórcios Multimarcas</p>}
+              {nivel ? <Medalha nivel={nivel} /> : <p className="text-[12px] text-dim">Raul Consórcio</p>}
             </div>
           </div>
           <div className="h-px bg-line-soft" />
@@ -207,7 +207,7 @@ function TrocarPerfil({ aberto, onFechar }: { aberto: boolean; onFechar: () => v
     router.push('/inicio')
   }
   const atual = (id?: string) => (id ? sessao?.papel === 'parceiro' && sessao.parceiroId === id : sessao?.papel === 'raul')
-  const linha = 'clicavel flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left hover:bg-sunken'
+  const linha = 'clicavel flex w-full items-center gap-3 rounded-[9px] px-3 py-2.5 text-left hover:bg-sunken'
   return (
     <Modal aberto={aberto} onFechar={onFechar} titulo="Trocar de perfil" subtitulo="Veja a plataforma como o Raul ou como qualquer parceiro." largura={460}>
       <p className="mb-1.5 text-[12px] font-medium text-faint">Administrador</p>
@@ -269,9 +269,9 @@ export function BarraCelular() {
     <>
       <div className="fixed inset-x-0 top-0 z-30 flex h-[60px] items-center gap-2 border-b border-line-soft bg-panel/90 px-3 backdrop-blur md:hidden">
         <Selo tamanho={30} />
-        <span className="font-title text-[15px] font-bold">Raul Consórcios</span>
+        <span className="font-title text-[15px]"><span className="font-semibold">Raul</span> Consórcio</span>
         <div className="ml-auto flex items-center">
-          <button onClick={abrirPaleta} aria-label="Buscar" className="clicavel flex h-10 w-10 items-center justify-center rounded-xl text-ink hover:bg-ink/[0.07]">
+          <button onClick={abrirPaleta} aria-label="Buscar" className="clicavel flex h-10 w-10 items-center justify-center rounded-[9px] text-ink hover:bg-ink/[0.07]">
             <Search className="h-[19px] w-[19px]" strokeWidth={1.8} />
           </button>
           <Notificacoes />
@@ -292,7 +292,7 @@ export function BarraCelular() {
               <span className="max-w-full truncate px-0.5">{rotulo}</span>
             </>
           )
-          const classe = cx('flex flex-1 flex-col items-center gap-1 rounded-xl py-1 text-[10.5px] font-medium', aceso ? 'text-ink' : 'text-faint')
+          const classe = cx('flex flex-1 flex-col items-center gap-1 rounded-[9px] py-1 text-[10.5px] font-medium', aceso ? 'text-ink' : 'text-faint')
           return acao ? (
             <button key={it.chave} onClick={() => abrirAcao(acao as 'nova-indicacao')} className={classe}>
               {miolo}

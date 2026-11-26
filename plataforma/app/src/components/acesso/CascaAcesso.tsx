@@ -10,10 +10,10 @@ export function CascaAcesso({ titulo, subtitulo, children, rodape }: { titulo: R
       <div className="relative mx-auto grid min-h-dvh w-full max-w-[1180px] gap-8 px-4 pt-6 pb-10 sm:px-8 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-16 lg:px-12 lg:py-10">
         <div className="flex flex-col lg:h-full lg:py-4">
           <div className="flex items-center gap-3">
-            <Selo tamanho={38} className="bg-white text-[#0e0f11]" />
+            <Selo tamanho={38} className="text-white" />
             <div>
-              <p className="font-title text-[16px] leading-tight font-bold tracking-[-0.01em]">Raul Consórcios</p>
-              <p className="text-[12px] text-white/50">Multimarcas</p>
+              <p className="font-title text-[16px] leading-tight tracking-[-0.01em]"><span className="font-semibold">Raul</span> Consórcio</p>
+              <p className="text-[12px] text-white/50">Planejamento patrimonial</p>
             </div>
           </div>
           <div className="mt-8 lg:mt-auto lg:mb-auto">
@@ -24,7 +24,7 @@ export function CascaAcesso({ titulo, subtitulo, children, rodape }: { titulo: R
 
         <div className="w-full lg:justify-self-end">
           <div
-            className="entra-pop w-full rounded-[22px] bg-panel p-6 text-ink sm:p-8"
+            className="entra-pop w-full rounded-[14px] bg-panel p-6 text-ink sm:p-8"
             style={{ boxShadow: '0 0 0 1px rgb(255 255 255 / 0.06), 0 40px 80px -30px rgb(0 0 0 / 0.85)' }}
           >
             {children}
@@ -37,7 +37,7 @@ export function CascaAcesso({ titulo, subtitulo, children, rodape }: { titulo: R
 }
 
 export const campoAcesso =
-  'h-11 w-full rounded-[11px] border border-line bg-panel px-3.5 text-[14.5px] text-ink outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-faint hover:border-faint/60 focus:border-ink focus:shadow-[0_0_0_3px_rgb(17_17_17/0.08)]'
+  'h-11 w-full rounded-[9px] border border-line bg-panel px-3.5 text-[14.5px] text-ink outline-none transition-[border-color,box-shadow] duration-150 placeholder:text-faint hover:border-faint/60 focus:border-ink focus:shadow-[0_0_0_3px_rgb(17_17_17/0.08)]'
 
 export const botaoAcesso =
-  'clicavel flex h-[46px] w-full items-center justify-center gap-2 rounded-xl bg-ink text-[15px] font-semibold text-on-ink hover:bg-ink-press disabled:opacity-60'
+  'clicavel flex h-[46px] w-full items-center justify-center gap-2 rounded-[9px] bg-brand text-[15px] font-semibold text-white hover:bg-brand-press disabled:opacity-60'

@@ -1,7 +1,7 @@
 'use client'
 
 import { use, useState } from 'react'
-import { Mail, MapPin, MessageCircle, Phone, Plus, SearchX } from 'lucide-react'
+import { Mail, MapPin, Phone, Plus, SearchX } from 'lucide-react'
 import { Avatar, Botao, BotaoLink, Card, CardHeader, cx, Numero, PageHeader, Paginacao, Pilula, Progresso, Segmentado, useLinhaClicavel, usePaginacao, Vazio } from '@/components/ds'
 import { EtapaPilula } from '@/components/indicacoes/Etapa'
 import { abrirNovaIndicacao } from '@/components/acoes/Acoes'
@@ -9,6 +9,7 @@ import { InsigniaNivel } from '@/components/niveis/Insignia'
 import { useLoja } from '@/lib/loja'
 import { data, dataCurta, fechouContrato, formatarTelefone, haQuanto, linkWhatsApp, niveisOrdenados, nivelDoParceiro, pagamentos, primeiroNome, reais, reaisCurto, TIPOS_BEM } from '@/lib/regras'
 import { ConviteAcoes } from '@/components/parceiros/Convite'
+import { BOTAO_WHATS, IconeWhatsApp } from '@/components/ds/WhatsApp'
 
 type Filtro = 'todas' | 'andamento' | 'fechadas'
 
@@ -52,10 +53,10 @@ export default function ParceiroDetalhe({ params }: { params: Promise<{ id: stri
         subtitle={`${p.cidade} · parceiro desde ${data(p.desde)}`}
         actions={
           <>
-            <a href={linkWhatsApp(p.telefone)} target="_blank" rel="noreferrer" className="clicavel inline-flex h-9 items-center gap-2 rounded-[10px] bg-whats-weak px-3.5 text-[13.5px] font-semibold text-whats hover:bg-whats-weak-2">
-              <MessageCircle className="h-4 w-4" /> WhatsApp
+            <a href={linkWhatsApp(p.telefone)} target="_blank" rel="noreferrer" className={cx(BOTAO_WHATS, 'h-9')}>
+              <IconeWhatsApp /> WhatsApp
             </a>
-            <Botao onClick={() => abrirNovaIndicacao(p.id)}>
+            <Botao variante="marca" onClick={() => abrirNovaIndicacao(p.id)}>
               <Plus /> Indicação em nome de {primeiroNome(p.nome)}
             </Botao>
           </>

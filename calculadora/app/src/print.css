@@ -1,5 +1,5 @@
 /* PDF: gráfico estático + layout de impressão. Extraído do estilo anterior. */
-:root { --hair: rgba(0,0,0,.08); --hair-strong: rgba(0,0,0,.16); --text-2:#48484a; --text-3:#8e8e93; --red:#d3201a; --neutral-series:#48484a; --paid:#aeaeb2; --paid-fill: rgba(0,0,0,.06); --surface:#fff; }
+.print { --hair: rgba(0,0,0,.08); --hair-strong: rgba(0,0,0,.16); --text-2:#48484a; --text-3:#8e8e93; --red:#13864a; --neutral-series:#48484a; --paid:#aeaeb2; --paid-fill: rgba(0,0,0,.06); --surface:#fff; }
 /* Gráfico + linha do tempo */
 .chartblock {
   margin-top: 56px;
@@ -179,7 +179,7 @@
   width: 7px;
   height: 7px;
   border-radius: 50%;
-  background: #ef3b2d;
+  background: #7a0000;
   margin-right: 8px;
   transform: translateY(-1px);
 }
@@ -239,7 +239,7 @@
   letter-spacing: -0.02em;
 }
 .pr-red {
-  color: #d3201a;
+  color: #7a0000;
 }
 
 .chart--print {
@@ -248,7 +248,7 @@
   --hair-strong: #c7c7cc;
   --text-2: #48484a;
   --text-3: #8e8e93;
-  --red: #d3201a;
+  --red: #7a0000;
   --neutral-series: #48484a;
   --paid: #aeaeb2;
   --paid-fill: rgba(0, 0, 0, 0.06);
@@ -276,7 +276,7 @@
   border-radius: 2px;
 }
 .pr-k--credit {
-  background: #d3201a;
+  background: #7a0000;
 }
 .pr-k--cdb {
   background: #48484a;
@@ -365,11 +365,17 @@
 }
 .pq-brand::before {
   content: '';
-  width: 12px;
-  height: 12px;
-  border-radius: 4px;
-  background: #0f1012;
-  box-shadow: inset -3px -3px 0 -1px #e0261c;
+  width: 13px;
+  height: 14px;
+  background: #7a0000;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.pq-nome {
+  font-weight: 400;
+}
+.pq-nome b {
+  font-weight: 600;
 }
 .pq-brand span {
   font-weight: 400;
@@ -404,14 +410,14 @@
 .pq-hero strong {
   display: block;
   margin-top: 4px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-family: 'Montserrat', sans-serif;
   font-size: 28px;
   font-weight: 500;
   letter-spacing: -0.045em;
   color: #0f1012;
 }
 .pq-red {
-  color: #e0261c !important;
+  color: #13864a !important;
 }
 .pq-chart {
   margin-top: 8px;
@@ -432,7 +438,7 @@
   vertical-align: middle;
 }
 .pq-k--carta {
-  background: #d3201a;
+  background: #13864a;
 }
 .pq-k--cdb {
   background: #48484a;
@@ -466,7 +472,7 @@
 .pq-motivo strong {
   display: block;
   margin-top: 4px;
-  font-family: 'Geist Mono', ui-monospace, monospace;
+  font-family: 'Montserrat', sans-serif;
   font-size: 18px;
   font-weight: 500;
   letter-spacing: -0.04em;

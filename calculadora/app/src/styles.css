@@ -3,38 +3,44 @@
    Configurador em uma dobra: palco escuro (a vitrine) + painel claro (os controles).
    Vermelho só para o que importa: a carta e o número que muda a decisão.
    ========================================================= */
-@import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400..600&display=swap');
 
 :root {
-  --bg: #eef0f3;
+  /* Paleta do manual: #111111 · #2D2D2D · #E5E5E5 · #FFFFFF · vinho #7A0000 · vermelho #CE2616 */
+  --bg: #f3f3f4;
   --panel: #ffffff;
-  --ink: #0f1012;
-  --ink-2: #4a4d55;
-  --ink-3: #8a8e97;
-  --line: #e5e7eb;
-  --line-2: #f0f1f4;
-  --chip: #f3f4f6;
+  --ink: #111111;
+  --ink-2: #2d2d2d;
+  --ink-3: #7c7c82;
+  --line: #e5e5e5;
+  --line-2: #efeff0;
+  --chip: #f4f4f5;
 
-  --stage: #0e0f12;
-  --stage-2: #17181d;
-  --stage-3: #212228;
+  --stage: #111111;
+  --stage-2: #1c1c1c;
+  --stage-3: #2d2d2d;
   --stage-ink: #f4f5f7;
   --stage-ink-2: #a3a6ae;
   --stage-ink-3: #6b6e77;
   --stage-line: rgba(255, 255, 255, 0.08);
 
-  --red: #e0261c;
-  --red-press: #c51f16;
-  --red-on-dark: #ff5b4c;
-  --red-weak: #fdecea;
+  /* Manual da marca: vinho #7A0000 só no botão principal; vermelho #CE2616 clareado para dados no fundo escuro */
+  --red: #7a0000;
+  --red-press: #5e0000;
+  --red-on-dark: #ce2616;
+  --red-weak: #f7ecec;
+  /* verde = o que é bom para o cliente (valorização, ganho, economia) */
+  --green: #13864a;
+  --green-on-dark: #3dc57f;
+  --green-weak: #e8f5ee;
 
   --c-fc: #f4f5f7;
-  --c-adm: #ff5b4c;
+  --c-adm: #ce2616;
   --c-fr: #6b6e77;
   --c-seg: #3a3c44;
 
-  --font: 'Geist', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
-  --mono: 'Geist Mono', ui-monospace, 'SF Mono', monospace;
+  --font: 'Montserrat', -apple-system, BlinkMacSystemFont, 'SF Pro Text', system-ui, sans-serif;
+  /* números: Montserrat com algarismos de largura fixa (manual: só Montserrat) */
+  --mono: 'Montserrat', -apple-system, system-ui, sans-serif;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --r-xl: 28px;
   --r-lg: 18px;
@@ -63,6 +69,7 @@ body {
   letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-variant-numeric: tabular-nums lining-nums;
 }
 
 button,
@@ -112,7 +119,9 @@ button {
 }
 
 .marca__nome {
-  font-weight: 600;
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
   font-size: 15px;
   letter-spacing: -0.02em;
   display: inline-flex;
@@ -120,13 +129,18 @@ button {
   gap: 9px;
 }
 
+.marca__nome b {
+  font-weight: 600;
+}
+
+/* símbolo da marca (marca/svg/simbolo-vinho.svg) */
 .marca__nome::before {
   content: '';
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  background: var(--ink);
-  box-shadow: inset -5px -5px 0 -1px var(--red);
+  width: 17px;
+  height: 19px;
+  background: var(--red);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .marca__sub {
@@ -347,7 +361,7 @@ button {
 }
 
 .resumo-mini .is-red {
-  color: var(--red);
+  color: var(--green);
 }
 
 .nav {
@@ -388,12 +402,12 @@ button {
 }
 
 .btn--primary {
-  background: var(--ink);
+  background: var(--red);
   color: #fff;
 }
 
 .btn--primary:hover {
-  background: #26282d;
+  background: var(--red-press);
 }
 
 .btn--ghost {
@@ -453,7 +467,8 @@ button {
   background: var(--panel);
   height: 44px;
   border-radius: var(--r-md);
-  font-size: 13.5px;
+  font-size: 12.5px;
+  padding: 0 4px;
   font-weight: 500;
   color: var(--ink-2);
   white-space: nowrap;
@@ -660,14 +675,14 @@ button {
   margin: 0;
   padding: 14px 16px;
   border-radius: var(--r-lg);
-  background: var(--red-weak);
-  color: #7a1712;
+  background: var(--green-weak);
+  color: #0c5a31;
   font-size: 14px;
   line-height: 1.45;
 }
 
 .destaque strong {
-  color: var(--red);
+  color: var(--green);
 }
 
 .nota {
@@ -797,7 +812,7 @@ button {
 }
 
 .carta__guilloche path:nth-child(3n) {
-  stroke: rgba(255, 91, 76, 0.16);
+  stroke: rgba(206, 38, 22, 0.16);
 }
 
 .carta__top,
@@ -828,7 +843,8 @@ button {
 
 .carta__marca {
   font-size: 12.5px;
-  font-weight: 600;
+  font-weight: 400;
+  white-space: nowrap;
   display: inline-flex;
   align-items: center;
   gap: 7px;
@@ -836,10 +852,15 @@ button {
 
 .carta__marca::before {
   content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--red-on-dark);
+  width: 11px;
+  height: 12px;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 27.5 66 72.5'%3E%3Cpath d='M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.carta__marca b {
+  font-weight: 600;
 }
 
 .carta__valor {
@@ -864,7 +885,7 @@ button {
   font-weight: 600;
   padding: 5px 10px;
   border-radius: 999px;
-  background: var(--red-on-dark);
+  background: #1f8a54;
   color: #fff;
   animation: selo 0.5s var(--ease) both;
 }
@@ -1186,6 +1207,14 @@ button {
   color: var(--red-on-dark);
 }
 
+.big--green {
+  color: var(--green-on-dark);
+}
+
+.is-green {
+  color: var(--green-on-dark);
+}
+
 .tempo__chart {
   flex: 1;
   min-height: 0;
@@ -1219,7 +1248,7 @@ button {
 }
 
 .lk--cred {
-  background: var(--red-on-dark);
+  background: var(--green-on-dark);
 }
 
 .lk--pago {
@@ -1298,7 +1327,7 @@ button {
 }
 
 .tchart__cred-area {
-  fill: rgba(255, 91, 76, 0.035);
+  fill: rgba(61, 197, 127, 0.045);
 }
 
 .tchart__pago-area {
@@ -1314,7 +1343,7 @@ button {
 
 .tchart__cred {
   fill: none;
-  stroke: var(--red-on-dark);
+  stroke: var(--green-on-dark);
   stroke-width: 2.25;
   stroke-linejoin: round;
   stroke-linecap: round;
@@ -1325,7 +1354,7 @@ button {
 }
 
 .tchart__hover circle.is-cred {
-  fill: var(--red-on-dark);
+  fill: var(--green-on-dark);
 }
 
 .tchart__hover circle.is-pago {
@@ -1343,7 +1372,7 @@ button {
 }
 
 .tchart__dot--cred {
-  fill: var(--red-on-dark);
+  fill: var(--green-on-dark);
 }
 
 .tchart__dot--pago {
@@ -1360,7 +1389,7 @@ button {
 }
 
 .tchart__val--cred {
-  fill: var(--red-on-dark);
+  fill: var(--green-on-dark);
 }
 
 .tchart__val--pago {
@@ -1374,7 +1403,7 @@ button {
 }
 
 .tchart__trilho {
-  stroke: var(--red-on-dark);
+  stroke: var(--stage-ink-2);
   stroke-width: 3;
   stroke-linecap: round;
 }
@@ -1416,7 +1445,7 @@ button {
 }
 
 .tchart__tip .is-cred {
-  color: var(--red);
+  color: var(--green);
   font-family: var(--mono);
 }
 
@@ -1601,6 +1630,10 @@ button {
 }
 
 .is-ganho {
+  background: var(--green-on-dark);
+}
+
+.is-custo {
   background: var(--red-on-dark);
 }
 
@@ -1807,7 +1840,7 @@ button {
 }
 
 .folha__hero .is-red {
-  color: var(--red);
+  color: var(--green);
 }
 
 .folha__stats {

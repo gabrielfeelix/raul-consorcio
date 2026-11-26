@@ -310,7 +310,7 @@ export function TempoStage({ p, sim, mes, setMes }: StepProps) {
           </div>
           <div>
             <span>Cada R$ 1 que você pagou vale na carta</span>
-            <Num className="big big--red" value={pago > 0 ? credito / pago : 0} format={reaisCentavos} />
+            <Num className="big big--green" value={pago > 0 ? credito / pago : 0} format={reaisCentavos} />
           </div>
         </div>
       </div>
@@ -497,7 +497,7 @@ function RendaFixaStage({ p, sim, mes, tipo }: StepProps & { tipo: 'cdb' | 'teso
             Até o mês {mes} ({duracao(mes)}), pagando as mesmas parcelas
           </p>
           <p className="cmp__big">
-            {dif >= 0 ? 'O consórcio rendeu' : `O ${curto} rendeu`} <Num className="is-red" value={Math.abs(dif)} format={reais} /> a mais
+            {dif >= 0 ? 'O consórcio rendeu' : `O ${curto} rendeu`} <Num className={dif >= 0 ? 'is-green' : 'is-red'} value={Math.abs(dif)} format={reais} /> a mais
           </p>
         </div>
         <Barras linhas={linhas} />
@@ -526,7 +526,7 @@ function FinStage({ p, sim, fin }: StepProps) {
       {
         nome: o.consorcio ? 'Taxas do consórcio' : 'Juros do financiamento',
         v: o.custo,
-        cls: o.consorcio ? 'is-ganho' : 'is-outro',
+        cls: o.consorcio ? 'is-custo' : 'is-outro',
         rotulo: `${reais(o.custo)} ${o.consorcio ? 'de taxas' : 'de juros'}`,
       },
     ],
@@ -540,7 +540,7 @@ function FinStage({ p, sim, fin }: StepProps) {
             O mesmo imóvel de {reais(p.valorCarta)}, em {p.prazo} meses. Quanto sai no total:
           </p>
           <p className="cmp__big">
-            {eco >= 0 ? 'No consórcio você economiza' : 'O financiamento sai'} <Num className="is-red" value={Math.abs(eco)} format={reais} />
+            {eco >= 0 ? 'No consórcio você economiza' : 'O financiamento sai'} <Num className={eco >= 0 ? 'is-green' : 'is-red'} value={Math.abs(eco)} format={reais} />
             {eco >= 0 ? '' : ' mais barato'}
           </p>
         </div>
@@ -633,7 +633,7 @@ export function ResumoStage({ p, sim, fin, mes, cliente }: StepProps) {
               {new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })} · imóvel · contemplação no mês {sim.contemplacao}
             </p>
           </div>
-          <span className="folha__marca">Raul Carvalho</span>
+          <span className="folha__marca">Raul Consórcio</span>
         </header>
         <div className="folha__hero">
           <div>

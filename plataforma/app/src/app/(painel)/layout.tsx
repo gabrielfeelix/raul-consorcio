@@ -19,7 +19,7 @@ export default function PainelLayout({ children }: { children: React.ReactNode }
   if (!pronto || !sessao) {
     return (
       <div className="flex min-h-dvh items-center justify-center bg-canvas">
-        <span className="esqueleto h-10 w-10 rounded-2xl" />
+        <span className="esqueleto h-10 w-10 rounded-[12px]" />
       </div>
     )
   }

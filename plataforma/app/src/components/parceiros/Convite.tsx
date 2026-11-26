@@ -1,10 +1,11 @@
 'use client'
 
-import { Copy, Mail, MessageCircle } from 'lucide-react'
-import { Botao } from '@/components/ds'
+import { Copy, Mail } from 'lucide-react'
+import { Botao, cx } from '@/components/ds'
 import { useAvisar } from '@/components/ds/Avisos'
 import type { Parceiro } from '@/lib/tipos'
 import { linkWhatsApp } from '@/lib/regras'
+import { BOTAO_WHATS, IconeWhatsApp } from '@/components/ds/WhatsApp'
 
 export function linkConvite(p: Parceiro) {
   return typeof window === 'undefined' ? `/convite/${p.convite}` : `${window.location.origin}/convite/${p.convite}`
@@ -18,7 +19,7 @@ export function ConviteAcoes({ p }: { p: Parceiro }) {
   const avisar = useAvisar()
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-2 rounded-xl bg-sunken p-1.5 pl-3">
+      <div className="flex items-center gap-2 rounded-[9px] bg-sunken p-1.5 pl-3">
         <span className="min-w-0 flex-1 truncate font-mono text-[12.5px] text-soft">{linkConvite(p)}</span>
         <Botao
           tamanho="sm"
@@ -32,10 +33,10 @@ export function ConviteAcoes({ p }: { p: Parceiro }) {
         </Botao>
       </div>
       <div className="grid gap-2 sm:grid-cols-2">
-        <a href={linkWhatsApp(p.telefone, textoConvite(p))} target="_blank" rel="noreferrer" className="clicavel flex h-10 items-center justify-center gap-2 rounded-xl bg-whats-weak text-[13.5px] font-semibold text-whats hover:bg-whats-weak-2">
-          <MessageCircle className="h-4 w-4" /> Enviar no WhatsApp
+        <a href={linkWhatsApp(p.telefone, textoConvite(p))} target="_blank" rel="noreferrer" className={cx(BOTAO_WHATS, 'flex h-10')}>
+          <IconeWhatsApp /> Enviar no WhatsApp
         </a>
-        <button onClick={() => avisar(`Convite reenviado para ${p.email}`, { tipo: 'email' })} className="clicavel flex h-10 items-center justify-center gap-2 rounded-xl border border-line text-[13.5px] font-semibold hover:bg-sunken">
+        <button onClick={() => avisar(`Convite reenviado para ${p.email}`, { tipo: 'email' })} className="clicavel flex h-10 items-center justify-center gap-2 rounded-[9px] border border-line text-[13.5px] font-semibold hover:bg-sunken">
           <Mail className="h-4 w-4" /> Reenviar e-mail
         </button>
       </div>

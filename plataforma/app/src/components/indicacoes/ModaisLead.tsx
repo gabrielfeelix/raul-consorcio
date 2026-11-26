@@ -32,7 +32,7 @@ export function ContaComissao({ nivel, carta, manual, className }: { nivel: Nive
   const prop = Math.round((carta / 100_000) * nivel.valorPor100k)
   const calc = comissao(nivel, carta)
   return (
-    <div className={cx('rounded-2xl bg-sunken p-4 text-[13px]', className)}>
+    <div className={cx('rounded-[12px] bg-sunken p-4 text-[13px]', className)}>
       <p className="mb-2.5 text-[12.5px] text-dim">Como a comissão é calculada (nível {nivel.nome})</p>
       <dl className="grid grid-cols-[1fr_auto] gap-y-1.5">
         <dt className="text-soft">Valor fixo por contrato</dt>
@@ -103,7 +103,7 @@ function ConteudoFechamento({ indicacao, onFechar, onConfirmar }: { indicacao: I
           </p>
         </>
       ) : (
-        <p className="mt-5 rounded-2xl bg-sunken p-4 text-[13px] text-dim">Contato direto: não gera comissão.</p>
+        <p className="mt-5 rounded-[12px] bg-sunken p-4 text-[13px] text-dim">Contato direto: não gera comissão.</p>
       )}
     </Modal>
   )
@@ -162,7 +162,7 @@ export function ModalAjusteNegocio({ ind, onFechar, onSalvo }: { ind: Indicacao;
           <p className="mt-2 text-[12.5px] text-dim">
             Pagamento previsto: <b className="font-semibold text-ink">{data(dataPagamento(nivel, fechadoEm))}</b>. O nível {nivel.nome} é o que o parceiro tinha no fechamento.
           </p>
-          <div className="mt-5 rounded-2xl border border-line p-4">
+          <div className="mt-5 rounded-[12px] border border-line p-4">
             <Marcador marcado={manual} onChange={setManual}>
               <span className="font-medium text-ink">Definir a comissão manualmente</span>
               <span className="block text-[12px] text-dim">Substitui o cálculo do nível só nesta indicação. Fica registrado no histórico (o parceiro não vê o motivo).</span>
@@ -180,7 +180,7 @@ export function ModalAjusteNegocio({ ind, onFechar, onSalvo }: { ind: Indicacao;
           </div>
         </>
       ) : (
-        <p className="mt-5 rounded-2xl bg-sunken p-4 text-[13px] text-dim">Contato direto: não gera comissão.</p>
+        <p className="mt-5 rounded-[12px] bg-sunken p-4 text-[13px] text-dim">Contato direto: não gera comissão.</p>
       )}
     </Modal>
   )

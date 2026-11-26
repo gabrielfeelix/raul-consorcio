@@ -43,7 +43,7 @@ export default function Parceiros() {
         title="Parceiros"
         subtitle={`Clientes que indicam. ${dados.parceiros.length} parceiros${pendentes ? `, ${pendentes === 1 ? '1 convite pendente' : `${pendentes} convites pendentes`}` : ''}.`}
         actions={
-          <Botao onClick={abrirNovoParceiro}>
+          <Botao variante="marca" onClick={abrirNovoParceiro}>
             <UserPlus /> Novo parceiro
           </Botao>
         }
@@ -55,7 +55,7 @@ export default function Parceiros() {
             key={n.id}
             aria-pressed={nivelF === n.id}
             onClick={() => setNivelF(nivelF === n.id ? 'todos' : n.id)}
-            className={cx('clicavel flex items-center gap-3 rounded-2xl bg-panel p-4 text-left shadow-card hover:shadow-pop', nivelF === n.id && 'ring-2 ring-ink')}
+            className={cx('clicavel flex items-center gap-3 rounded-[12px] bg-panel p-4 text-left shadow-card hover:shadow-pop', nivelF === n.id && 'ring-2 ring-ink')}
           >
             <InsigniaNivel nivel={n} niveis={dados.niveis} tamanho={40} />
             <span className="min-w-0">
@@ -73,7 +73,7 @@ export default function Parceiros() {
           <input className="campo pl-9" placeholder="Buscar por nome, telefone ou e-mail" value={q} onChange={(e) => setQ(e.target.value)} />
         </div>
         {nivelF !== 'todos' && (
-          <button onClick={() => setNivelF('todos')} className="clicavel flex h-10 items-center gap-2 rounded-[11px] border border-line bg-panel px-3 text-[13.5px] font-medium text-soft hover:text-ink">
+          <button onClick={() => setNivelF('todos')} className="clicavel flex h-10 items-center gap-2 rounded-[9px] border border-line bg-panel px-3 text-[13.5px] font-medium text-soft hover:text-ink">
             Nível {niveis.find((n) => n.id === nivelF)?.nome} <X className="h-3.5 w-3.5" />
           </button>
         )}

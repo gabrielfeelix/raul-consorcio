@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Marca · Raul Consórcio</title>
+<link rel="icon" href="/identidade-visual/favicon.ico" sizes="any" />
+<link rel="icon" href="/identidade-visual/svg/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<style>
+  :root { --vinho:#7A0000; --preto:#111111; --cinza-escuro:#2D2D2D; --cinza-claro:#E5E5E5; --fundo:#F3F3F4; --linha:#E2E2E5; --dim:#6B6B72; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fundo); color: var(--preto); font-family: Montserrat, system-ui, sans-serif; font-size: 14px; line-height: 1.5; letter-spacing: -0.005em; }
+  .pagina { max-width: 1120px; margin: 0 auto; padding: 56px 32px 96px; }
+  header { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 40px; }
+  header h1 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  header p { margin: 4px 0 0; color: var(--dim); max-width: 60ch; }
+  header small { color: var(--dim); white-space: nowrap; }
+  section { margin-top: 56px; }
+  h2 { margin: 0 0 4px; font-size: 15px; font-weight: 600; letter-spacing: -0.01em; }
+  .sub { margin: 0 0 18px; color: var(--dim); font-size: 13px; max-width: 70ch; }
+  .grade { display: grid; gap: 12px; }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g4 { grid-template-columns: repeat(4, 1fr); }
+  .placa { background: #fff; border-radius: 10px; min-height: 220px; display: flex; flex-direction: column; }
+  .placa .arte { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 32px; }
+  .placa .rotulo { display: flex; justify-content: space-between; padding: 12px 16px; border-top: 1px solid var(--linha); font-size: 12px; color: var(--dim); }
+  .placa .rotulo b { color: var(--preto); font-weight: 600; }
+  .escura { background: var(--preto); } .escura .rotulo { border-color: #2a2a2a; color: #9a9aa0; } .escura .rotulo b { color: #fff; }
+  .vinho { background: var(--vinho); } .vinho .rotulo { border-color: rgba(255,255,255,.14); color: rgba(255,255,255,.7); } .vinho .rotulo b { color: #fff; }
+  .cinza { background: var(--cinza-claro); } .cinza .rotulo { border-color: #d6d6d9; }
+  .hero { background: #fff; border-radius: 12px; padding: 96px 32px; display: flex; justify-content: center; }
+  .hero img { height: 112px; }
+  .h-logo { height: 54px; max-width: 100%; } .v-logo { width: 100%; max-width: 190px; height: auto; } .simb { height: 84px; }
+  .grade > * { min-width: 0; }
+  /* construção */
+  .construcao { background: #fff; border-radius: 12px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; padding: 40px; align-items: center; }
+  .construcao ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 14px; }
+  .construcao li { display: flex; gap: 10px; color: var(--cinza-escuro); }
+  .construcao li span { flex: 0 0 14px; }
+  .construcao li span { font-weight: 600; color: var(--preto); font-variant-numeric: tabular-nums; }
+  /* favicon */
+  .aba { background: #DEE1E6; border-radius: 10px; padding: 10px 10px 0; }
+  .aba .tab { background: #fff; border-radius: 8px 8px 0 0; height: 34px; width: 240px; display: flex; align-items: center; gap: 8px; padding: 0 12px; font-size: 12px; color: #202124; }
+  .aba .tab img { width: 16px; height: 16px; }
+  .aba .barra { background: #fff; height: 38px; display: flex; align-items: center; padding: 0 12px; }
+  .aba .barra div { background: #F1F3F4; border-radius: 16px; height: 26px; flex: 1; font-size: 12px; color: #5f6368; display: flex; align-items: center; padding: 0 12px; }
+  .pixel { image-rendering: pixelated; background:
+      linear-gradient(#0000 calc(100% - 1px), #0000000d 0) 0 0 / var(--p) var(--p),
+      linear-gradient(90deg, #0000 calc(100% - 1px), #0000000d 0) 0 0 / var(--p) var(--p); }
+  .lado { display: flex; gap: 28px; align-items: flex-end; justify-content: center; }
+  .lado figure { margin: 0; display: grid; justify-items: center; gap: 10px; font-size: 12px; color: var(--dim); }
+  /* app */
+  .tela { background: linear-gradient(160deg, #3a3a3f, #1b1b1e); border-radius: 12px; padding: 36px; display: flex; gap: 36px; justify-content: center; align-items: center; }
+  .app { display: grid; justify-items: center; gap: 8px; color: #fff; font-size: 11.5px; }
+  .app img { width: 72px; height: 72px; border-radius: 16px; }
+  .app.android img { border-radius: 50%; }
+  .minimos { display: flex; flex-direction: column; gap: 28px; align-items: flex-start; }
+  .minimos div { display: flex; align-items: center; gap: 20px; font-size: 12px; color: var(--dim); }
+  .arquivos { background: #fff; border-radius: 12px; padding: 24px 28px; columns: 2; column-gap: 40px; font-size: 13px; }
+  .arquivos p { margin: 0 0 8px; break-inside: avoid; }
+  .arquivos code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: var(--preto); }
+  .arquivos span { color: var(--dim); }
+  @media (max-width: 860px) { .g3, .g4 { grid-template-columns: repeat(2, 1fr); } .construcao { grid-template-columns: 1fr; } .arquivos { columns: 1; } }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <div>
+      <h1>Marca Raul Consórcio</h1>
+      <p>Direção C redesenhada: três volumes que sobem juntos, o último termina num telhado. Patrimônio construído passo a passo até o imóvel.</p>
+    </div>
+    <small>Proposta para aprovação · nov 2026</small>
+  </header>
+
+  <div class="hero"><img src="/identidade-visual/svg/logo-horizontal.svg" alt="Raul Consórcio" /></div>
+
+  <section>
+    <h2>Construção</h2>
+    <p class="sub">Tudo sai de uma grade simples, para o desenho se manter igual em qualquer tamanho.</p>
+    <div class="construcao">
+      <svg viewBox="-14 10 94 104" aria-hidden="true">
+        <g stroke="#C9C9CF" stroke-width=".35" fill="none">
+          <line x1="-10" y1="100" x2="76" y2="100" />
+          <line x1="-10" y1="61" x2="76" y2="18" stroke-dasharray="1.6 1.2" stroke="#9a9aa0" />
+          <line x1="18" y1="14" x2="18" y2="108" /><line x1="24" y1="14" x2="24" y2="108" />
+          <line x1="42" y1="14" x2="42" y2="108" /><line x1="48" y1="14" x2="48" y2="108" />
+          <line x1="57" y1="14" x2="57" y2="108" stroke-dasharray="1.2 1.2" />
+        </g>
+        <path fill="#7A0000" fill-opacity=".92" d="M0 100L0 56L18 47L18 100ZM24 100L24 44L42 35L42 100ZM48 100L48 32L57 27.5L66 36.5L66 100Z" />
+        <g font-family="Montserrat" font-size="3.4" fill="#6B6B72" text-anchor="middle">
+          <text x="9" y="106.5">a</text><text x="21" y="106.5">b</text><text x="33" y="106.5">a</text><text x="45" y="106.5">b</text><text x="57" y="106.5">a</text>
+        </g>
+      </svg>
+      <ul>
+        <li><span>1</span><div>Três volumes da mesma largura (a), separados pelo mesmo espaço (b). São os três pilares do manual.</div></li>
+        <li><span>2</span><div>Os topos seguem uma única diagonal: os volumes crescem juntos, no mesmo ritmo.</div></li>
+        <li><span>3</span><div>No terceiro volume, a diagonal chega à cumeeira no meio e desce a 45°. O telhado só aparece no fim, como o imóvel.</div></li>
+        <li><span>4</span><div>Nome em Montserrat: <b>Raul</b> SemiBold, Consórcio Regular. Altura das maiúsculas igual a 44% da altura do símbolo. Texto convertido em curvas, não depende da fonte instalada.</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Versões horizontais</h2>
+    <p class="sub">A principal usa o vinho só no símbolo. As monocromáticas servem para impressão em uma cor, gravação e fundos que não combinam com o vinho.</p>
+    <div class="grade g2">
+      <div class="placa"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal.svg" alt="" /></div><div class="rotulo"><b>Principal</b>vinho + preto</div></div>
+      <div class="placa"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal-vinho.svg" alt="" /></div><div class="rotulo"><b>Vinho</b>#7A0000</div></div>
+      <div class="placa cinza"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal-preto.svg" alt="" /></div><div class="rotulo"><b>Preto</b>#111111</div></div>
+      <div class="placa escura"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal-branco.svg" alt="" /></div><div class="rotulo"><b>Branco</b>sobre preto</div></div>
+      <div class="placa vinho"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal-branco.svg" alt="" /></div><div class="rotulo"><b>Branco</b>sobre vinho</div></div>
+      <div class="placa" style="background:#2D2D2D"><div class="arte"><img class="h-logo" src="/identidade-visual/svg/logo-horizontal-branco.svg" alt="" /></div><div class="rotulo" style="border-color:#3a3a3a;color:#9a9aa0"><b style="color:#fff">Branco</b>sobre cinza escuro</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Versões verticais</h2>
+    <p class="sub">Para perfil, capa de destaque, assinatura de vídeo e peças quadradas.</p>
+    <div class="grade g4">
+      <div class="placa"><div class="arte"><img class="v-logo" src="/identidade-visual/svg/logo-vertical.svg" alt="" /></div><div class="rotulo"><b>Principal</b></div></div>
+      <div class="placa"><div class="arte"><img class="v-logo" src="/identidade-visual/svg/logo-vertical-vinho.svg" alt="" /></div><div class="rotulo"><b>Vinho</b></div></div>
+      <div class="placa cinza"><div class="arte"><img class="v-logo" src="/identidade-visual/svg/logo-vertical-preto.svg" alt="" /></div><div class="rotulo"><b>Preto</b></div></div>
+      <div class="placa escura"><div class="arte"><img class="v-logo" src="/identidade-visual/svg/logo-vertical-branco.svg" alt="" /></div><div class="rotulo"><b>Branco</b></div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Símbolo</h2>
+    <p class="sub">Sozinho, quando o nome já está por perto (header compacto, avatar, marca d'água em vídeo).</p>
+    <div class="grade g4">
+      <div class="placa"><div class="arte"><img class="simb" src="/identidade-visual/svg/simbolo-vinho.svg" alt="" /></div><div class="rotulo"><b>Vinho</b></div></div>
+      <div class="placa cinza"><div class="arte"><img class="simb" src="/identidade-visual/svg/simbolo-preto.svg" alt="" /></div><div class="rotulo"><b>Preto</b></div></div>
+      <div class="placa escura"><div class="arte"><img class="simb" src="/identidade-visual/svg/simbolo-branco.svg" alt="" /></div><div class="rotulo"><b>Branco</b></div></div>
+      <div class="placa vinho"><div class="arte"><img class="simb" src="/identidade-visual/svg/simbolo-branco.svg" alt="" /></div><div class="rotulo"><b>Branco</b>sobre vinho</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Favicon</h2>
+    <p class="sub">Desenhado à parte para cada tamanho, porque a diagonal vira borrão em 16 px. No de 16 os topos viram degraus retos e o telhado fica com 2 px; no de 32 todos os vértices caem em pixel inteiro.</p>
+    <div class="grade g2">
+      <div class="placa"><div class="arte" style="padding:32px">
+        <div class="aba" style="width:100%">
+          <div class="tab"><img src="/identidade-visual/png/favicon-16.png" alt="" />Raul Consórcio</div>
+          <div class="barra"><div>raulconsorcio.com.br</div></div>
+        </div>
+      </div><div class="rotulo"><b>Na aba do navegador</b>tamanho real, 16 px</div></div>
+      <div class="placa"><div class="arte">
+        <div class="lado">
+          <figure><img src="/identidade-visual/png/favicon-16.png" width="16" height="16" alt="" />16</figure>
+          <figure><img src="/identidade-visual/png/favicon-32.png" width="32" height="32" alt="" />32</figure>
+          <figure><img class="pixel" style="--p:8px" src="/identidade-visual/png/favicon-16.png" width="128" height="128" alt="" />16 ampliado</figure>
+          <figure><img class="pixel" style="--p:4px" src="/identidade-visual/png/favicon-32.png" width="128" height="128" alt="" />32 ampliado</figure>
+        </div>
+      </div><div class="rotulo"><b>Pixel a pixel</b>favicon.ico com 16, 32 e 48</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Ícone de app</h2>
+    <p class="sub">Fundo vinho, símbolo branco. O iPhone arredonda sozinho; no Android o recorte pode ser círculo, por isso a versão “maskable” deixa o símbolo dentro da área segura.</p>
+    <div class="grade g2">
+      <div class="placa" style="background:transparent"><div class="tela" style="flex:1">
+        <div class="app"><img src="/identidade-visual/png/apple-touch-icon.png" alt="" />Raul</div>
+        <div class="app"><img src="/identidade-visual/png/icon-192.png" alt="" style="filter:grayscale(1) brightness(.6)" />Banco</div>
+        <div class="app"><img src="/identidade-visual/png/icon-192.png" alt="" style="filter:grayscale(1) brightness(.45)" />Agenda</div>
+        <div class="app android"><img src="/identidade-visual/png/icon-maskable-512.png" alt="" />Android</div>
+      </div></div>
+      <div class="placa"><div class="arte">
+        <div class="lado">
+          <figure><img src="/identidade-visual/png/icon-512.png" width="140" height="140" style="border-radius:32px" alt="" />iOS · 180 px</figure>
+          <figure><img src="/identidade-visual/png/icon-maskable-512.png" width="140" height="140" style="border-radius:50%" alt="" />Android · maskable</figure>
+        </div>
+      </div><div class="rotulo"><b>Arquivos</b>180, 192, 512 e maskable 512</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tamanho mínimo</h2>
+    <p class="sub">A horizontal se mantém legível a partir de 24 px de altura. Abaixo disso, use só o símbolo.</p>
+    <div class="placa"><div class="arte" style="justify-content:flex-start">
+      <div class="minimos">
+        <div><img src="/identidade-visual/svg/logo-horizontal.svg" style="height:40px" alt="" />40 px</div>
+        <div><img src="/identidade-visual/svg/logo-horizontal.svg" style="height:32px" alt="" />32 px · header da plataforma</div>
+        <div><img src="/identidade-visual/svg/logo-horizontal.svg" style="height:24px" alt="" />24 px · mínimo</div>
+        <div><img src="/identidade-visual/svg/simbolo-vinho.svg" style="height:18px" alt="" />18 px · só o símbolo</div>
+      </div>
+    </div></div>
+  </section>
+
+  <section>
+    <h2>Alternativa de telhado</h2>
+    <p class="sub">Se o telhado acima parecer discreto demais, esta versão fecha o terceiro volume com duas águas iguais. Lê mais como “casa”, mas perde a diagonal contínua que vem da direção C.</p>
+    <div class="grade g3">
+      <div class="placa"><div class="arte"><img class="simb" src="/identidade-visual/svg/simbolo-vinho.svg" alt="" /></div><div class="rotulo"><b>Proposta</b>diagonal contínua</div></div>
+      <div class="placa"><div class="arte"><img class="simb" src="/identidade-visual/svg/alternativa-duas-aguas.svg" alt="" /></div><div class="rotulo"><b>Alternativa</b>duas águas</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Arquivos</h2>
+    <p class="sub">Tudo na pasta <code>marca/</code> do projeto.</p>
+    <div class="arquivos">
+      <p><code>svg/logo-horizontal.svg</code> <span>principal</span></p>
+      <p><code>svg/logo-horizontal-{vinho,preto,branco}.svg</code></p>
+      <p><code>svg/logo-vertical.svg</code> <span>principal</span></p>
+      <p><code>svg/logo-vertical-{vinho,preto,branco}.svg</code></p>
+      <p><code>svg/simbolo-{vinho,preto,branco}.svg</code></p>
+      <p><code>svg/favicon.svg</code> <span>navegadores modernos</span></p>
+      <p><code>favicon.ico</code> <span>16, 32, 48</span></p>
+      <p><code>png/favicon-16.png</code>, <code>png/favicon-32.png</code></p>
+      <p><code>png/apple-touch-icon.png</code> <span>180</span></p>
+      <p><code>png/icon-192.png</code>, <code>png/icon-512.png</code>, <code>png/icon-maskable-512.png</code></p>
+    </div>
+  </section>
+</div>
+</body>
+</html>

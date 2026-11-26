@@ -53,7 +53,7 @@ function Cartao({ i, onMover, arrastando, setArrastando }: { i: Indicacao; onMov
         setArrastando(i.id)
       }}
       onDragEnd={() => setArrastando(null)}
-      className={cx('group relative cursor-grab rounded-xl bg-panel p-3 shadow-card transition-[opacity,transform,box-shadow] hover:shadow-pop active:cursor-grabbing', arrastando === i.id && 'rotate-[1.5deg] opacity-40')}
+      className={cx('group relative cursor-grab rounded-[9px] bg-panel p-3 shadow-card transition-[opacity,transform,box-shadow] hover:shadow-pop active:cursor-grabbing', arrastando === i.id && 'rotate-[1.5deg] opacity-40')}
     >
       <div className="flex items-start gap-2">
         <Link href={`/indicacoes/${i.id}`} className="min-w-0 flex-1" draggable={false}>
@@ -99,7 +99,7 @@ function Cartao({ i, onMover, arrastando, setArrastando }: { i: Indicacao; onMov
           {haQuanto(ultimaMudanca(i))}
         </span>
         <a
-          href={linkWhatsApp(i.telefone, `Olá, ${primeiroNome(i.nome)}! Aqui é o Raul, da Raul Consórcios.`)}
+          href={linkWhatsApp(i.telefone, `Olá, ${primeiroNome(i.nome)}! Aqui é o Raul, da Raul Consórcio.`)}
           target="_blank"
           rel="noreferrer"
           draggable={false}
@@ -163,7 +163,7 @@ export function Quadro() {
               valor={vista}
               onChange={setVista}
             />
-            <Botao onClick={() => abrirNovaIndicacao()}>
+            <Botao variante="marca" onClick={() => abrirNovaIndicacao()}>
               <Plus /> Nova indicação
             </Botao>
           </>
@@ -195,7 +195,7 @@ export function Quadro() {
           type="button"
           aria-pressed={parados}
           onClick={() => setParados(!parados)}
-          className={cx('clicavel flex h-10 items-center gap-2 rounded-[11px] border px-3 text-[13.5px] font-medium', parados ? 'border-ink bg-ink text-on-ink' : 'border-line bg-panel text-soft hover:text-ink')}
+          className={cx('clicavel flex h-10 items-center gap-2 rounded-[9px] border px-3 text-[13.5px] font-medium', parados ? 'border-ink bg-ink text-on-ink' : 'border-line bg-panel text-soft hover:text-ink')}
         >
           Só parados
           {parados ? <X className="h-3.5 w-3.5" /> : <span className="font-mono text-[12px] text-faint">{totalParados}</span>}
@@ -218,9 +218,11 @@ export function Quadro() {
                 onDrop={(ev) => {
                   ev.preventDefault()
                   setSobre(null)
+                  // o card muda de coluna e é remontado: o dragend do elemento antigo não chega, então limpa aqui
+                  setArrastando(null)
                   mover(ev.dataTransfer.getData('text/plain'), e.id)
                 }}
-                className={cx('flex w-[272px] shrink-0 flex-col rounded-2xl bg-sunken-2/60 p-2 transition-colors dark:bg-sunken/60', sobre === e.id && 'bg-sunken-2 ring-2 ring-ink/15')}
+                className={cx('flex w-[272px] shrink-0 flex-col rounded-[12px] bg-sunken-2/60 p-2 transition-colors dark:bg-sunken/60', sobre === e.id && 'bg-sunken-2 ring-2 ring-ink/15')}
               >
                 <div className="flex items-center gap-2 px-1.5 pt-1 pb-2.5">
                   <span className={cx('h-2 w-2 rounded-full', COR_COLUNA[e.id])} />
@@ -232,7 +234,7 @@ export function Quadro() {
                   {cards.map((i) => (
                     <Cartao key={i.id} i={i} onMover={mover} arrastando={arrastando} setArrastando={setArrastando} />
                   ))}
-                  {cards.length === 0 && <p className="rounded-xl border border-dashed border-line px-3 py-6 text-center text-[12px] text-faint">{e.descricao}</p>}
+                  {cards.length === 0 && <p className="rounded-[9px] border border-dashed border-line px-3 py-6 text-center text-[12px] text-faint">{e.descricao}</p>}
                 </div>
               </div>
             )

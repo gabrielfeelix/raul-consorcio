@@ -37,6 +37,8 @@ export interface Parceiro {
   /** Cliente do Raul desde (contrato que ele próprio comprou). */
   clienteDesde?: string
   viuTour: boolean
+  /** URL da foto de perfil (sem foto, mostra as iniciais). */
+  foto?: string
 }
 
 export type TipoEvento = 'criada' | 'etapa' | 'contato' | 'sem_resposta' | 'nota' | 'fechado' | 'pago'

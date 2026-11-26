@@ -206,7 +206,7 @@ function ConfigNiveis() {
         subtitle="O que cada nível paga, em quanto tempo e quais prêmios dá. Os parceiros veem estas regras na área deles."
         actions={
           <>
-            <div role="tablist" aria-label="Visualização" className="inline-flex rounded-xl bg-sunken-2/70 p-1">
+            <div role="tablist" aria-label="Visualização" className="inline-flex rounded-[9px] bg-sunken-2/70 p-1">
               {(
                 [
                   ['cartoes', 'Cartões', LayoutGrid],
@@ -224,7 +224,7 @@ function ConfigNiveis() {
                 </button>
               ))}
             </div>
-            <Botao onClick={() => setEditando(null)}>
+            <Botao variante="marca" onClick={() => setEditando(null)}>
               <Plus /> Novo nível
             </Botao>
           </>
@@ -331,7 +331,7 @@ function ConfigNiveis() {
           </label>
           <div className="grid flex-1 grid-cols-2 gap-2 sm:grid-cols-4">
             {niveis.map((n) => (
-              <div key={n.id} className="flex items-center gap-2.5 rounded-xl bg-sunken px-3 py-2.5">
+              <div key={n.id} className="flex items-center gap-2.5 rounded-[9px] bg-sunken px-3 py-2.5">
                 <InsigniaNivel nivel={n} niveis={niveis} tamanho={26} />
                 <span className="min-w-0">
                   <span className="block truncate text-[12px] text-dim">{n.nome}</span>

@@ -13,7 +13,7 @@ import { ContaComissao, ModalAjusteNegocio, ModalEditarLead, ModalFechamento } f
 import { EtapaPilula } from './Etapa'
 
 const MODELOS = (nome: string, parceiro?: string) => [
-  { rotulo: 'Primeiro contato', texto: `Olá, ${nome}! Aqui é o Raul, da Raul Consórcios.${parceiro ? ` O ${parceiro} me passou seu contato` : ''} e comentou que você tem interesse em consórcio. Posso te fazer algumas perguntas rápidas para entender o seu caso?` },
+  { rotulo: 'Primeiro contato', texto: `Olá, ${nome}! Aqui é o Raul, da Raul Consórcio.${parceiro ? ` O ${parceiro} me passou seu contato` : ''} e comentou que você tem interesse em consórcio. Posso te fazer algumas perguntas rápidas para entender o seu caso?` },
   { rotulo: 'Retomar contato', texto: `Olá, ${nome}! Tudo bem? Gostaria de retomar nossa conversa sobre o consórcio. Qual o melhor horário para você esta semana?` },
   { rotulo: 'Enviar simulação', texto: `${nome}, preparei uma simulação para o seu caso. Envio por aqui ou prefere que eu ligue para explicar?` },
 ]
@@ -115,7 +115,7 @@ export function FichaRaul({ ind }: { ind: Indicacao }) {
               aria-label="Ligar"
               title="Ligar"
               onClick={() => registrarEvento(ind.id, { tipo: 'contato', texto: 'Raul ligou', canal: 'ligacao', visivelParceiro: true })}
-              className="clicavel inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-line bg-panel text-soft hover:bg-sunken hover:text-ink"
+              className="clicavel inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] border border-line bg-panel text-soft hover:bg-sunken hover:text-ink"
             >
               <Phone className="h-[17px] w-[17px]" />
             </a>
@@ -149,13 +149,13 @@ export function FichaRaul({ ind }: { ind: Indicacao }) {
               registrarEvento(ind.id, { tipo: 'contato', texto: `Raul fez contato pelo WhatsApp (${m.rotulo.toLowerCase()})`, canal: 'whatsapp', visivelParceiro: true })
               if (ind.etapa === 'nova') moverEtapa(ind.id, 'contato')
             }}
-            className="clicavel block rounded-xl px-2.5 py-2 hover:bg-sunken"
+            className="clicavel block rounded-[9px] px-2.5 py-2 hover:bg-sunken"
           >
             <span className="block text-[13px] font-semibold text-ink">{m.rotulo}</span>
             <span className="line-clamp-2 block text-[12px] text-dim">{m.texto}</span>
           </a>
         ))}
-        <a href={linkWhatsApp(ind.telefone)} target="_blank" rel="noreferrer" onClick={() => setModelos(false)} className="clicavel block rounded-xl px-2.5 py-2 text-[13px] font-medium text-soft hover:bg-sunken">
+        <a href={linkWhatsApp(ind.telefone)} target="_blank" rel="noreferrer" onClick={() => setModelos(false)} className="clicavel block rounded-[9px] px-2.5 py-2 text-[13px] font-medium text-soft hover:bg-sunken">
           Abrir sem mensagem
         </a>
       </Flutuante>
@@ -233,6 +233,7 @@ export function FichaRaul({ ind }: { ind: Indicacao }) {
                 <div className="mt-4 flex flex-col gap-2">
                   {ind.etapa === 'fechado' && (
                     <Botao
+                      variante="marca"
                       onClick={() => {
                         moverEtapa(ind.id, 'pago')
                         avisar('Comissão marcada como paga', { acao: desfazer(ind) })
@@ -247,7 +248,7 @@ export function FichaRaul({ ind }: { ind: Indicacao }) {
                     </Botao>
                   )}
                   {!['fechado', 'pago', 'perdido'].includes(ind.etapa) && (
-                    <Botao onClick={() => setFechando(true)}>
+                    <Botao variante="marca" onClick={() => setFechando(true)}>
                       <Check /> Registrar fechamento
                     </Botao>
                   )}

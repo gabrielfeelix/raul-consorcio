@@ -9,9 +9,10 @@
  * Identidade definitiva do Raul (Rodrigo) entra trocando só os tokens abaixo.
  */
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-title: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+  /* Manual da marca: Montserrat em tudo. Números usam algarismos tabulares (font-mono = Montserrat tnum). */
+  --font-sans: var(--font-montserrat), ui-sans-serif, system-ui, sans-serif;
+  --font-title: var(--font-montserrat), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-montserrat), ui-sans-serif, sans-serif;
 
   --color-canvas: var(--canvas);
   --color-panel: var(--panel);
@@ -44,6 +45,7 @@
   --color-serie-2: var(--serie-2);
   --color-serie-3: var(--serie-3);
   --color-serie-4: var(--serie-4);
+  --color-serie-destaque: var(--serie-destaque);
 
   --shadow-ilha: var(--sombra-ilha);
   --shadow-card: var(--sombra-card);
@@ -56,39 +58,41 @@
 
 :root {
   color-scheme: light;
-  /* Neutros frios (sem puxar para o bege): cinza limpo entre o branco e o cinza. */
-  --canvas: #f1f2f4;
+  /* Manual Raul Consórcio: preto #111, cinza escuro #2D2D2D, cinza claro #E5E5E5, branco.
+     Neutros frios e limpos (nada de bege). Vinho #7A0000 só no CTA principal e em momentos de marca. */
+  --canvas: #f3f3f4;
   --panel: #ffffff;
-  --sunken: #f4f5f7;
-  --sunken-2: #e9ebef;
-  --line: #e3e5e9;
-  --line-soft: #eef0f3;
+  --sunken: #f6f6f7;
+  --sunken-2: #ececee;
+  --line: #e5e5e5;
+  --line-soft: #efeff0;
   --ink: #111111;
   --on-ink: #ffffff;
-  --ink-press: #2a2a2a;
-  --soft: #3a3d44;
-  --dim: #5d616b;
-  --faint: #8b8f99;
-  --brand: #d3201a;
-  --brand-press: #b41a15;
-  --brand-weak: #fcebea;
+  --ink-press: #2d2d2d;
+  --soft: #2d2d2d;
+  --dim: #5c5c63;
+  --faint: #8c8c93;
+  --brand: #7a0000;
+  --brand-press: #5f0000;
+  --brand-weak: #f6e9e9;
   --ok: #157f45;
   --ok-weak: #e6f4ec;
   --warn: #a35a06;
   --warn-weak: #fdf1de;
-  --danger: #b42318;
-  --danger-weak: #fdecea;
-  --info: #2c5282;
-  --info-weak: #e8eef7;
+  --danger: #ce2616;
+  --danger-weak: #fcecea;
+  --info: #2d2d2d;
+  --info-weak: #ececee;
   --overlay: rgb(17 17 17 / 0.4);
   --whats: #137a43;
   --whats-weak: #e5f4ea;
   --whats-weak-2: #d6eedf;
   /* Gráficos: escala de cinzas que termina no preto. O vermelho fica fora dos dados. */
-  --serie-1: #111111;
-  --serie-2: #8e8e96;
-  --serie-3: #c4c4ca;
-  --serie-4: #dedee2;
+  --serie-1: #2d2d2d;
+  --serie-2: #8c8c93;
+  --serie-3: #c9c9ce;
+  --serie-4: #e5e5e5;
+  --serie-destaque: #7a0000;
 
   --sombra-ilha: 0 1px 2px rgb(17 17 17 / 0.04), 0 12px 32px -16px rgb(17 17 17 / 0.18);
   --sombra-card: 0 1px 2px rgb(17 17 17 / 0.04), 0 4px 16px -8px rgb(17 17 17 / 0.08);
@@ -110,25 +114,26 @@
   --soft: #c4c4ca;
   --dim: #9a9aa2;
   --faint: #6e6e76;
-  --brand: #ef3b2d;
-  --brand-press: #d83224;
-  --brand-weak: rgb(239 59 45 / 0.14);
+  --brand: #b23a3a;
+  --brand-press: #c44b4b;
+  --brand-weak: rgb(178 58 58 / 0.16);
   --ok: #3dcb82;
   --ok-weak: rgb(61 203 130 / 0.12);
   --warn: #f0ae4a;
   --warn-weak: rgb(240 174 74 / 0.12);
-  --danger: #f2675c;
+  --danger: #f0604f;
   --danger-weak: rgb(242 103 92 / 0.12);
-  --info: #8fb4e8;
-  --info-weak: rgb(143 180 232 / 0.12);
+  --info: #d4d4d8;
+  --info-weak: rgb(255 255 255 / 0.08);
   --overlay: rgb(0 0 0 / 0.6);
   --whats: #4fd38f;
   --whats-weak: rgb(79 211 143 / 0.12);
   --whats-weak-2: rgb(79 211 143 / 0.18);
-  --serie-1: #f4f4f5;
+  --serie-1: #e5e5e5;
   --serie-2: #8b8b94;
   --serie-3: #4a4a52;
   --serie-4: #34343a;
+  --serie-destaque: #c04848;
   --sombra-ilha: 0 0 0 1px #222225, 0 12px 32px -16px rgb(0 0 0 / 0.8);
   --sombra-card: 0 0 0 1px #222225;
   --sombra-pop: 0 0 0 1px #2a2a2e, 0 16px 40px -12px rgb(0 0 0 / 0.7);
@@ -138,9 +143,9 @@
 @layer base {
   * { border-color: var(--line); }
   html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
-  body { background: var(--canvas); color: var(--ink); font-family: var(--font-sans); font-size: 14px; }
+  body { background: var(--canvas); color: var(--ink); font-family: var(--font-sans); font-size: 14px; letter-spacing: -0.006em; }
   .font-mono { font-feature-settings: 'tnum'; }
-  ::selection { background: rgb(211 32 26 / 0.16); }
+  ::selection { background: rgb(122 0 0 / 0.14); }
 }
 
 @keyframes entra-pagina { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
@@ -190,12 +195,12 @@
   .sem-barra::-webkit-scrollbar { display: none; }
 
   .campo {
-    height: 40px; width: 100%; border-radius: 11px; border: 1px solid var(--line); background: var(--panel);
+    height: 40px; width: 100%; border-radius: 9px; border: 1px solid var(--line); background: var(--panel);
     padding: 0 12px; font-size: 14px; color: var(--ink); outline: none;
     transition: border-color 150ms ease, box-shadow 150ms ease;
   }
   .campo::placeholder { color: var(--faint); }
-  .campo:focus { border-color: var(--ink); box-shadow: 0 0 0 3px rgb(17 17 17 / 0.08); }
+  .campo:focus { border-color: var(--soft); box-shadow: 0 0 0 3px rgb(122 0 0 / 0.09); }
   textarea.campo { height: auto; min-height: 96px; padding: 10px 12px; line-height: 1.5; resize: vertical; }
   .campo:hover:not(:focus):not(:disabled) { border-color: color-mix(in oklab, var(--faint) 45%, var(--line)); }
 }

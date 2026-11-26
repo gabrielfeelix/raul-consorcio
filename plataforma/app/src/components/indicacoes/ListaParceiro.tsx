@@ -30,7 +30,7 @@ export function ListaParceiro() {
         title="Minhas indicações"
         subtitle="O Raul atualiza cada etapa da conversa, e você acompanha por aqui."
         actions={
-          <Botao onClick={() => abrirNovaIndicacao()}>
+          <Botao variante="marca" onClick={() => abrirNovaIndicacao()}>
             <Plus /> Indicar alguém
           </Botao>
         }

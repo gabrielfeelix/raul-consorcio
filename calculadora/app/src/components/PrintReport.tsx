@@ -57,7 +57,10 @@ export function PrintReport({ p, sim, sem, com, fin, mes, cliente }: Props) {
     <div className="print" aria-hidden="true">
       <header className="pq-head">
         <div className="pq-brand">
-          Raul Carvalho <span>Consórcios Multimarcas</span>
+          <strong className="pq-nome">
+            <b>Raul</b> Consórcio
+          </strong>
+          <span>Menos impulsividade. Mais estratégia.</span>
         </div>
         <div className="pq-meta">
           {cliente.trim() ? `Simulação para ${cliente.trim()}` : 'Simulação personalizada'} · {hoje}

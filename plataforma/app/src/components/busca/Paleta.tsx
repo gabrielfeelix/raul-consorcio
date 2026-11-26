@@ -234,7 +234,7 @@ export function Paleta() {
     <Portal>
       <div className="fixed inset-0 z-[70] flex items-start justify-center px-3 pt-[12dvh] sm:px-6">
         <div className="entra-fundo absolute inset-0 bg-overlay backdrop-blur-[2px]" onClick={fechar} />
-        <div role="dialog" aria-modal aria-label="Buscar" onKeyDown={teclas} className="entra-pop relative flex max-h-[min(560px,76dvh)] w-full max-w-[600px] flex-col overflow-hidden rounded-[20px] bg-panel shadow-modal">
+        <div role="dialog" aria-modal aria-label="Buscar" onKeyDown={teclas} className="entra-pop relative flex max-h-[min(560px,76dvh)] w-full max-w-[600px] flex-col overflow-hidden rounded-[14px] bg-panel shadow-modal">
           <div className="flex items-center gap-3 border-b border-line-soft px-4">
             <Search className="h-[18px] w-[18px] shrink-0 text-faint" />
             <input
@@ -277,7 +277,7 @@ export function Paleta() {
                     data-i={i}
                     onMouseMove={() => i !== ativo && setAtivo(i)}
                     onClick={it.executar}
-                    className={cx('flex w-full items-center gap-3 rounded-xl px-2.5 py-2 text-left transition-colors duration-100', i === ativo ? 'bg-sunken' : '')}
+                    className={cx('flex w-full items-center gap-3 rounded-[9px] px-2.5 py-2 text-left transition-colors duration-100', i === ativo ? 'bg-sunken' : '')}
                   >
                     {it.icone}
                     <span className="min-w-0 flex-1">
@@ -318,7 +318,7 @@ export function GatilhoBusca() {
   return (
     <button
       onClick={abrirPaleta}
-      className="clicavel group flex h-11 w-full max-w-[440px] items-center gap-2.5 rounded-xl bg-panel pr-3 pl-3.5 text-left text-[14px] text-faint shadow-card hover:text-dim"
+      className="clicavel group flex h-11 w-full max-w-[440px] items-center gap-2.5 rounded-[9px] bg-panel pr-3 pl-3.5 text-left text-[14px] text-faint shadow-card hover:text-dim"
     >
       <Search className="h-[17px] w-[17px] shrink-0" />
       <span className="min-w-0 flex-1 truncate">{sessao?.papel === 'raul' ? 'Buscar indicação, parceiro ou telefone' : 'Buscar nas minhas indicações'}</span>

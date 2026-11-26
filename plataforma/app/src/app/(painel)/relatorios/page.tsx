@@ -100,61 +100,7 @@ export default function Relatorios() {
         ))}
       </div>
 
-      <Card className="overflow-hidden">
-        <CardHeader title="Por parceiro" extra="clique em uma linha para abrir o parceiro" />
-        <div className="overflow-x-auto">
-        <table className="w-full min-w-[1000px] text-[13.5px]">
-          <thead>
-            <tr className="border-t border-line-soft text-left text-[12px] text-faint">
-              <th className="px-5 py-2.5 font-medium">Parceiro</th>
-              <th className="px-3 py-2.5 font-medium">Nível</th>
-              <th className="px-3 py-2.5 font-medium">Falta para subir</th>
-              <th className="px-3 py-2.5 text-right font-medium">Indicações</th>
-              <th className="px-3 py-2.5 text-right font-medium">Fechados</th>
-              <th className="px-3 py-2.5 text-right font-medium">Conversão</th>
-              <th className="px-3 py-2.5 text-right font-medium">Crédito indicado</th>
-              <th className="px-3 py-2.5 text-right font-medium">Volume fechado</th>
-              <th className="px-5 py-2.5 text-right font-medium">Comissão</th>
-            </tr>
-          </thead>
-          <tbody>
-            {pag.itens.map((l) => (
-              <tr key={l.p.id} {...linha(`/parceiros/${l.p.id}`)}>
-                <td className="px-5 py-2.5">
-                  <span className="flex items-center gap-2.5 font-medium">
-                    <Avatar nome={l.p.nome} tamanho={26} /> {l.p.nome}
-                  </span>
-                </td>
-                <td className="px-3 py-2.5">
-                  <Medalha nivel={l.n.atual} />
-                </td>
-                <td className="w-[180px] px-3 py-2.5">
-                  {l.n.proximo ? (
-                    <>
-                      <span className="text-[12px] text-dim">
-                        {l.n.faltam} para {l.n.proximo.nome}
-                      </span>
-                      <Progresso valor={l.n.pct} className="mt-1" />
-                    </>
-                  ) : (
-                    <span className="text-[12px] font-medium text-soft">Nível máximo</span>
-                  )}
-                </td>
-                <td className="px-3 py-2.5 text-right font-mono">{l.indicacoes}</td>
-                <td className="px-3 py-2.5 text-right font-mono font-semibold">{l.fechadas}</td>
-                <td className="px-3 py-2.5 text-right font-mono text-dim">{l.indicacoes ? `${Math.round(l.conversao)}%` : '—'}</td>
-                <td className="px-3 py-2.5 text-right font-mono">{l.interesse ? reaisCurto(l.interesse) : '—'}</td>
-                <td className="px-3 py-2.5 text-right font-mono">{l.volume ? reaisCurto(l.volume) : '—'}</td>
-                <td className="px-5 py-2.5 text-right font-mono font-semibold">{l.comissao ? reais(l.comissao) : '—'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
-        <Paginacao p={pag} rotulo="parceiros" />
-      </Card>
-
-      <div className="mt-3 grid gap-3 lg:grid-cols-3">
+      <div className="mb-3 grid gap-3 lg:grid-cols-3">
         <Card className="flex flex-col">
           <CardHeader title="Interesse" extra="indicações e crédito pretendido" />
           <div className="flex flex-1 flex-col gap-4 px-4 pb-5 sm:px-5">
@@ -238,6 +184,60 @@ export default function Relatorios() {
           </div>
         </Card>
       </div>
+      <Card className="overflow-hidden">
+        <CardHeader title="Por parceiro" extra="clique em uma linha para abrir o parceiro" />
+        <div className="overflow-x-auto">
+        <table className="w-full min-w-[1000px] text-[13.5px]">
+          <thead>
+            <tr className="border-t border-line-soft text-left text-[12px] text-faint">
+              <th className="px-5 py-2.5 font-medium">Parceiro</th>
+              <th className="px-3 py-2.5 font-medium">Nível</th>
+              <th className="px-3 py-2.5 font-medium">Falta para subir</th>
+              <th className="px-3 py-2.5 text-right font-medium">Indicações</th>
+              <th className="px-3 py-2.5 text-right font-medium">Fechados</th>
+              <th className="px-3 py-2.5 text-right font-medium">Conversão</th>
+              <th className="px-3 py-2.5 text-right font-medium">Crédito indicado</th>
+              <th className="px-3 py-2.5 text-right font-medium">Volume fechado</th>
+              <th className="px-5 py-2.5 text-right font-medium">Comissão</th>
+            </tr>
+          </thead>
+          <tbody>
+            {pag.itens.map((l) => (
+              <tr key={l.p.id} {...linha(`/parceiros/${l.p.id}`)}>
+                <td className="px-5 py-2.5">
+                  <span className="flex items-center gap-2.5 font-medium">
+                    <Avatar nome={l.p.nome} tamanho={26} /> {l.p.nome}
+                  </span>
+                </td>
+                <td className="px-3 py-2.5">
+                  <Medalha nivel={l.n.atual} />
+                </td>
+                <td className="w-[180px] px-3 py-2.5">
+                  {l.n.proximo ? (
+                    <>
+                      <span className="text-[12px] text-dim">
+                        {l.n.faltam} para {l.n.proximo.nome}
+                      </span>
+                      <Progresso valor={l.n.pct} className="mt-1" />
+                    </>
+                  ) : (
+                    <span className="text-[12px] font-medium text-soft">Nível máximo</span>
+                  )}
+                </td>
+                <td className="px-3 py-2.5 text-right font-mono">{l.indicacoes}</td>
+                <td className="px-3 py-2.5 text-right font-mono font-semibold">{l.fechadas}</td>
+                <td className="px-3 py-2.5 text-right font-mono text-dim">{l.indicacoes ? `${Math.round(l.conversao)}%` : '—'}</td>
+                <td className="px-3 py-2.5 text-right font-mono">{l.interesse ? reaisCurto(l.interesse) : '—'}</td>
+                <td className="px-3 py-2.5 text-right font-mono">{l.volume ? reaisCurto(l.volume) : '—'}</td>
+                <td className="px-5 py-2.5 text-right font-mono font-semibold">{l.comissao ? reais(l.comissao) : '—'}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        </div>
+        <Paginacao p={pag} rotulo="parceiros" />
+      </Card>
+
     </>
   )
 }

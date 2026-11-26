@@ -23,7 +23,7 @@ export function AvisosProvider({ children }: { children: ReactNode }) {
       {children}
       <div aria-live="polite" className="pointer-events-none fixed inset-x-3 bottom-24 z-[90] flex flex-col items-center gap-2 sm:inset-x-auto sm:right-5 sm:items-end md:bottom-5">
         {avisos.map((a) => (
-          <div key={a.id} className="entra-pop pointer-events-auto flex max-w-full items-center gap-2.5 rounded-2xl border border-line bg-panel py-2.5 pr-2.5 pl-4 text-[13.5px] font-medium text-ink shadow-pop">
+          <div key={a.id} className="entra-pop pointer-events-auto flex max-w-full items-center gap-2.5 rounded-[12px] border border-line bg-panel py-2.5 pr-2.5 pl-4 text-[13.5px] font-medium text-ink shadow-pop">
             {a.tipo === 'email' ? <Mail className="h-[17px] w-[17px] shrink-0 text-dim" /> : <CheckCircle2 className="h-[18px] w-[18px] shrink-0 text-ok" />}
             <span className="min-w-0 py-0.5 pr-1.5">{a.texto}</span>
             {a.acao && (

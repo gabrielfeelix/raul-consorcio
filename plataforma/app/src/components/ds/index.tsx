@@ -48,7 +48,7 @@ export function PageHeader({ title, subtitle, actions, trilha }: { title: ReactN
 
 export function Card({ className, children, ...rest }: ComponentProps<'section'>) {
   return (
-    <section className={cx('rounded-2xl bg-panel shadow-card', className)} {...rest}>
+    <section className={cx('rounded-[12px] bg-panel shadow-card', className)} {...rest}>
       {children}
     </section>
   )
@@ -110,9 +110,9 @@ const VARIANTES: Record<Variante, string> = {
   whatsapp: 'bg-whats-weak text-whats hover:bg-whats-weak-2',
 }
 const TAMANHOS: Record<Tamanho, string> = {
-  sm: 'h-8 gap-1.5 rounded-[9px] px-2.5 text-[12.5px] [&_svg]:size-3.5',
-  md: 'h-9 gap-2 rounded-[10px] px-3.5 text-[13.5px] [&_svg]:size-4',
-  lg: 'h-11 gap-2 rounded-xl px-5 text-[14.5px] [&_svg]:size-[18px]',
+  sm: 'h-8 gap-1.5 rounded-[7px] px-2.5 text-[12.5px] [&_svg]:size-3.5',
+  md: 'h-9 gap-2 rounded-[8px] px-3.5 text-[13.5px] [&_svg]:size-4',
+  lg: 'h-11 gap-2 rounded-[9px] px-5 text-[14.5px] [&_svg]:size-[18px]',
 }
 
 export function botaoClasse(variante: Variante = 'primario', tamanho: Tamanho = 'md', extra?: string) {
@@ -165,9 +165,12 @@ export function Progresso({ valor, tom = 'ink', className }: { valor: number; to
 /** Tons calmos, sem saturação: o avatar identifica, não chama atenção. */
 const CORES_AVATAR = ['#6b7280', '#8a6f5a', '#5f7a6e', '#6a6f8f', '#8a6476', '#7a7a5c']
 
-export function Avatar({ nome, tamanho = 32, className }: { nome: string; tamanho?: number; className?: string }) {
+export function Avatar({ nome, tamanho = 32, className, foto }: { nome: string; tamanho?: number; className?: string; foto?: string }) {
   let h = 0
   for (const c of nome) h = (h * 31 + c.charCodeAt(0)) >>> 0
+  if (foto)
+    // eslint-disable-next-line @next/next/no-img-element
+    return <img src={foto} alt="" aria-hidden width={tamanho} height={tamanho} className={cx('shrink-0 rounded-full object-cover', className)} style={{ width: tamanho, height: tamanho }} />
   return (
     <span
       aria-hidden
@@ -214,14 +217,14 @@ export function Campo({ rotulo, dica, obrigatorio, children, className, grupo }:
 
 export function Segmentado<T extends string>({ opcoes, valor, onChange, className }: { opcoes: { id: T; rotulo: string }[]; valor: T; onChange: (v: T) => void; className?: string }) {
   return (
-    <div role="tablist" className={cx('inline-flex rounded-xl bg-sunken-2/70 p-1', className)}>
+    <div role="tablist" className={cx('inline-flex rounded-[9px] bg-sunken-2/70 p-1', className)}>
       {opcoes.map((o) => (
         <button
           key={o.id}
           role="tab"
           aria-selected={valor === o.id}
           onClick={() => onChange(o.id)}
-          className={cx('clicavel h-8 rounded-[9px] px-3 text-[13px] font-semibold whitespace-nowrap', valor === o.id ? 'bg-panel text-ink shadow-[0_1px_3px_rgb(17_17_17/0.1)]' : 'text-dim hover:text-ink')}
+          className={cx('clicavel h-8 rounded-[7px] px-3 text-[13px] font-semibold whitespace-nowrap', valor === o.id ? 'bg-panel text-ink shadow-[0_1px_3px_rgb(17_17_17/0.1)]' : 'text-dim hover:text-ink')}
         >
           {o.rotulo}
         </button>
@@ -235,7 +238,7 @@ export function Segmentado<T extends string>({ opcoes, valor, onChange, classNam
 export function Vazio({ icone, titulo, texto, acao }: { icone?: ReactNode; titulo: string; texto?: string; acao?: ReactNode }) {
   return (
     <div className="flex flex-col items-center px-6 py-12 text-center">
-      {icone && <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-sunken text-dim [&_svg]:size-5">{icone}</div>}
+      {icone && <div className="mb-3 flex h-11 w-11 items-center justify-center rounded-[12px] bg-sunken text-dim [&_svg]:size-5">{icone}</div>}
       <p className="font-title text-[15px] font-semibold text-ink">{titulo}</p>
       {texto && <p className="mt-1 max-w-[42ch] text-[13px] text-dim">{texto}</p>}
       {acao && <div className="mt-4">{acao}</div>}
@@ -271,9 +274,9 @@ export function Modal({ aberto, onFechar, titulo, subtitulo, children, rodape, l
     <Portal>
       <div className="fixed inset-0 z-[60] flex items-end justify-center sm:items-center sm:p-6">
         <div className="entra-fundo absolute inset-0 bg-overlay backdrop-blur-[2px]" onClick={onFechar} />
-        <div ref={caixa} tabIndex={-1} role="dialog" aria-modal className="entra-pop relative flex max-h-[92dvh] w-full flex-col rounded-t-3xl bg-panel shadow-modal outline-none focus-visible:outline-none sm:rounded-3xl" style={{ maxWidth: largura }}>
+        <div ref={caixa} tabIndex={-1} role="dialog" aria-modal className="entra-pop relative flex max-h-[92dvh] w-full flex-col rounded-t-[16px] bg-panel shadow-modal outline-none focus-visible:outline-none sm:rounded-[16px]" style={{ maxWidth: largura }}>
           <div className="flex items-start gap-3 px-5 pt-5 pb-3 sm:px-6">
-            {icone && <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-sunken text-soft [&_svg]:size-[18px]">{icone}</span>}
+            {icone && <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-[9px] bg-sunken text-soft [&_svg]:size-[18px]">{icone}</span>}
             <div className="min-w-0 flex-1">
               <h2 className="font-title text-[18px] font-bold tracking-[-0.01em] text-ink">{titulo}</h2>
               {subtitulo && <p className="mt-0.5 text-[13px] text-dim">{subtitulo}</p>}
@@ -299,7 +302,7 @@ export function BotaoIcone({ rotulo, children, className, tom = 'neutro', ...res
       aria-label={rotulo}
       title={rotulo}
       className={cx(
-        'clicavel inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[10px] border border-line bg-panel text-soft [&_svg]:size-[17px]',
+        'clicavel inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[8px] border border-line bg-panel text-soft [&_svg]:size-[17px]',
         tom === 'neutro' && 'hover:bg-sunken hover:text-ink',
         tom === 'whats' && 'border-transparent bg-whats-weak text-whats hover:bg-whats-weak-2',
         tom === 'aviso' && 'hover:border-transparent hover:bg-warn-weak hover:text-warn',
@@ -362,7 +365,7 @@ export function Dica({ conteudo, children, className, style }: { conteudo: React
       {children}
       <span
         role="tooltip"
-        className="entra-dica pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-30 hidden w-max max-w-[220px] -translate-x-1/2 rounded-[10px] border border-line bg-panel px-2.5 py-1.5 text-[12.5px] leading-snug font-medium text-ink shadow-pop group-hover/dica:block group-focus-visible/dica:block"
+        className="entra-dica pointer-events-none absolute bottom-[calc(100%+8px)] left-1/2 z-30 hidden w-max max-w-[220px] -translate-x-1/2 rounded-[8px] border border-line bg-panel px-2.5 py-1.5 text-[12.5px] leading-snug font-medium text-ink shadow-pop group-hover/dica:block group-focus-visible/dica:block"
       >
         {conteudo}
       </span>
@@ -374,7 +377,7 @@ export function Dica({ conteudo, children, className, style }: { conteudo: React
 export function DicaGrafico({ active, payload, label, rotuloX }: { active?: boolean; payload?: Array<{ name?: string; value?: number; color?: string; fill?: string }>; label?: ReactNode; rotuloX?: (l: ReactNode) => ReactNode }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="min-w-[150px] rounded-xl border border-line bg-panel px-3 py-2.5 shadow-pop">
+    <div className="min-w-[150px] rounded-[9px] border border-line bg-panel px-3 py-2.5 shadow-pop">
       <p className="mb-1.5 text-[12px] text-dim">{rotuloX ? rotuloX(label) : label}</p>
       {payload.map((p) => (
         <p key={p.name} className="flex items-center gap-2 text-[13px] text-ink">

@@ -108,13 +108,13 @@ export function Tour() {
     <div className="fixed inset-0 z-[85]">
       {ret ? (
         <div
-          className="pointer-events-none absolute rounded-2xl transition-all duration-300 ease-suave"
+          className="pointer-events-none absolute rounded-[12px] transition-all duration-300 ease-suave"
           style={{ left: ret.left - pad, top: ret.top - pad, width: ret.width + pad * 2, height: ret.height + pad * 2, boxShadow: '0 0 0 9999px rgb(10 10 12 / 0.55), 0 0 0 2px rgb(255 255 255 / 0.9)' }}
         />
       ) : (
         <div className="entra-fundo absolute inset-0 bg-[rgb(10_10_12/0.55)]" />
       )}
-      <div key={i} className="entra-pop absolute w-[340px] max-w-[calc(100vw-24px)] rounded-3xl bg-panel p-5 shadow-modal" style={estiloBalao}>
+      <div key={i} className="entra-pop absolute w-[340px] max-w-[calc(100vw-24px)] rounded-[16px] bg-panel p-5 shadow-modal" style={estiloBalao}>
         <div className="mb-3 flex items-center gap-2.5">
           {!passo.alvo && <Selo tamanho={30} />}
           <span className="font-mono text-[11.5px] font-semibold text-faint">

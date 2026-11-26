@@ -62,7 +62,7 @@ export function NovoNivel({ parceiro }: { parceiro: Parceiro }) {
         <p className="mt-2 max-w-[32ch] text-[14px] text-dim">Seu último contrato fechado fez você subir do {antigo.nome}. A partir de agora:</p>
         <ul className="mt-4 flex w-full flex-col gap-2 text-left">
           {novidades.map((n) => (
-            <li key={n} className="flex items-center gap-2.5 rounded-xl bg-sunken px-3.5 py-2.5 text-[13.5px] text-ink">
+            <li key={n} className="flex items-center gap-2.5 rounded-[9px] bg-sunken px-3.5 py-2.5 text-[13.5px] text-ink">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: novo.cor }} />
               {n}
             </li>

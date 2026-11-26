@@ -148,7 +148,7 @@ export function ModalNivel({
     >
       <div className="flex flex-col gap-5">
         {/* identidade */}
-        <div className="flex flex-col gap-4 rounded-2xl bg-sunken p-4 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-4 rounded-[12px] bg-sunken p-4 sm:flex-row sm:items-center">
           <div className="flex items-center justify-center sm:w-[104px]">
             <Insignia key={f.cor + f.ilustracao} cor={f.cor} tipo={f.ilustracao} tamanho={84} className="sobe-nivel" />
           </div>
@@ -264,13 +264,13 @@ export function ModalNivel({
           </div>
         </div>
 
-        <p className="rounded-xl border border-line-soft px-3.5 py-3 text-[12.5px] text-dim">
+        <p className="rounded-[9px] border border-line-soft px-3.5 py-3 text-[12.5px] text-dim">
           Numa carta de R$ 300 mil, este nível paga <b className="font-mono font-semibold text-ink">{reais(comissao(previa, 300_000))}</b>:{' '}
           {reais(previa.valorFixo)} fixo + 3 × {reais(previa.valorPor100k)}.
         </p>
 
         {tentou && erros.length > 0 && (
-          <ul className="entra-pop rounded-xl bg-danger-weak px-3.5 py-2.5 text-[13px] font-medium text-danger">
+          <ul className="entra-pop rounded-[9px] bg-danger-weak px-3.5 py-2.5 text-[13px] font-medium text-danger">
             {erros.map((e) => (
               <li key={e}>{e}</li>
             ))}

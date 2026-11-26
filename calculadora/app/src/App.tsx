@@ -121,8 +121,12 @@ export default function App() {
       <div className="app">
         <header className="bar">
           <div className="marca">
-            <span className="marca__nome">Raul Carvalho</span>
-            <span className="marca__sub">Consórcios Multimarcas</span>
+            <span className="marca__nome">
+              <span>
+                <b>Raul</b> Consórcio
+              </span>
+            </span>
+            <span className="marca__sub">Menos impulsividade. Mais estratégia.</span>
           </div>
 
           <nav className="passos" aria-label="Etapas da simulação">

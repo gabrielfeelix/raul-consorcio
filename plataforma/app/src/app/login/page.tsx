@@ -34,7 +34,7 @@ export default function Login() {
 
   return (
     <CascaAcesso
-      titulo="Programa de parceiros Raul Consórcios"
+      titulo="Programa de parceiros Raul Consórcio"
       subtitulo="Indique quem você conhece, acompanhe cada etapa da negociação e saiba exatamente quando e quanto vai receber."
     >
       {recuperar ? (
@@ -78,7 +78,7 @@ export default function Login() {
           </div>
 
           {erro && (
-            <p role="alert" className="entra-pop mt-3 flex items-start gap-2 rounded-[10px] bg-danger-weak px-3 py-2 text-[13px] font-medium text-danger">
+            <p role="alert" className="entra-pop mt-3 flex items-start gap-2 rounded-[8px] bg-danger-weak px-3 py-2 text-[13px] font-medium text-danger">
               <AlertCircle className="mt-px h-4 w-4 shrink-0" />
               {erro}
             </p>

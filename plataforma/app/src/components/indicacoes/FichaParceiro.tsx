@@ -29,11 +29,11 @@ export function FichaParceiro({ ind }: { ind: Indicacao }) {
       <Card className="p-5 sm:p-6">
         <PassosParceiro etapa={ind.etapa} rotulos />
         {ind.etapa === 'sem_resposta' && (
-          <p className="mt-4 flex items-start gap-2 rounded-xl bg-warn-weak p-3 text-[13px] text-warn">
+          <p className="mt-4 flex items-start gap-2 rounded-[9px] bg-warn-weak p-3 text-[13px] text-warn">
             <Info className="mt-0.5 h-4 w-4 shrink-0" /> O Raul tentou contato com {ind.nome.split(' ')[0]} e ainda não teve resposta. Se puder, avise que ele vai entrar em contato.
           </p>
         )}
-        {ind.etapa === 'perdido' && <p className="mt-4 rounded-xl bg-sunken p-3 text-[13px] text-dim">Desta vez a negociação não avançou; às vezes não é o momento. O Raul pode retomar o contato mais adiante.</p>}
+        {ind.etapa === 'perdido' && <p className="mt-4 rounded-[9px] bg-sunken p-3 text-[13px] text-dim">Desta vez a negociação não avançou; às vezes não é o momento. O Raul pode retomar o contato mais adiante.</p>}
       </Card>
 
       <div className="mt-3 grid gap-3 lg:grid-cols-[1fr_360px]">
@@ -53,7 +53,7 @@ export function FichaParceiro({ ind }: { ind: Indicacao }) {
               </div>
               <p className="mt-2 font-title text-[32px] leading-none font-bold tracking-[-0.02em]">{reais(prev.valor)}</p>
               {fechou && prev.previsto ? (
-                <div className="mt-4 flex items-center gap-3 rounded-xl bg-sunken p-3">
+                <div className="mt-4 flex items-center gap-3 rounded-[9px] bg-sunken p-3">
                   <CalendarClock className="h-5 w-5 text-soft" />
                   <div>
                     <p className="text-[13.5px] font-semibold">{ind.etapa === 'pago' ? `Pago em ${data(ind.pagoEm)}` : data(prev.previsto)}</p>

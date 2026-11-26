@@ -45,7 +45,11 @@ export function Carta({ valor, prazo, nota, selo, compacta }: Props) {
           Carta de crédito
           <small>Imóvel</small>
         </span>
-        <span className="carta__marca">Raul Carvalho</span>
+        <span className="carta__marca">
+          <span>
+            <b>Raul</b> Consórcio
+          </span>
+        </span>
       </div>
       <div className="carta__valor">
         <Num value={valor} format={reais} />

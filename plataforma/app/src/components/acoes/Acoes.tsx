@@ -40,7 +40,16 @@ export function AcoesGlobais() {
 
 /* ---------------- Nova indicação ---------------- */
 
-const SUGESTOES = ['Meu pai', 'Minha mãe', 'Irmão(ã)', 'Cunhado(a)', 'Amigo(a)', 'Colega de trabalho', 'Vizinho(a)']
+const RELACOES = [
+  { id: 'Pai', rotulo: 'Pai' },
+  { id: 'Mãe', rotulo: 'Mãe' },
+  { id: 'Irmão(ã)', rotulo: 'Irmão(ã)' },
+  { id: 'Cunhado(a)', rotulo: 'Cunhado(a)' },
+  { id: 'Amigo(a)', rotulo: 'Amigo(a)' },
+  { id: 'Colega de trabalho', rotulo: 'Colega de trabalho' },
+  { id: 'Vizinho(a)', rotulo: 'Vizinho(a)' },
+  { id: 'outro', rotulo: 'Outro' },
+]
 
 function Chips<T extends string>({ opcoes, valor, onChange }: { opcoes: { id: T; rotulo: string }[]; valor: T | ''; onChange: (v: T | '') => void }) {
   return (
@@ -66,7 +75,7 @@ function moedaDigitada(t: string) {
 }
 
 export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInicial?: string; onFechar: () => void }) {
-  const { dados, sessao, criarIndicacao } = useLoja()
+  const { dados, sessao, criarIndicacao, criarParceiro } = useLoja()
   const parceiro = useParceiroAtual()
   const router = useRouter()
   const avisar = useAvisar()
@@ -74,7 +83,11 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
 
   const [nome, setNome] = useState('')
   const [telefone, setTelefone] = useState('')
-  const [quemE, setQuemE] = useState('')
+  const [relacao, setRelacao] = useState('')
+  const [outraRelacao, setOutraRelacao] = useState('')
+  const [contexto, setContexto] = useState('')
+  const relacaoFinal = relacao === 'outro' ? outraRelacao.trim() : relacao
+  const quemE = [relacaoFinal, contexto.trim()].filter(Boolean).join('. ')
   const [mais, setMais] = useState(false)
   const [email, setEmail] = useState('')
   const [credito, setCredito] = useState('')
@@ -82,15 +95,21 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
   const [genero, setGenero] = useState<Genero>('')
   const [idade, setIdade] = useState('')
   const [parceiroId, setParceiroId] = useState<string>(parceiroInicial ?? '')
+  // 'novo' = cadastra o parceiro junto com a indicação
+  const [novoParceiro, setNovoParceiro] = useState({ nome: '', telefone: '', email: '' })
+  const ehNovo = parceiroId === 'novo'
   const [consentiu, setConsentiu] = useState(false)
   const [tentou, setTentou] = useState(false)
   const [feito, setFeito] = useState<string | null>(null)
 
   const erros = {
     parceiro: ehRaul && parceiroId === '' ? 'Escolha quem indicou (ou “Contato direto”).' : '',
+    novoNome: ehNovo && !novoParceiro.nome.trim() ? 'Informe o nome do parceiro.' : '',
+    novoTelefone: ehNovo && soDigitos(novoParceiro.telefone).length < 10 ? 'WhatsApp com DDD.' : '',
+    novoEmail: ehNovo && !/^\S+@\S+\.\S+$/.test(novoParceiro.email) ? 'E-mail para o convite.' : '',
     nome: !nome.trim() ? 'Informe o nome.' : '',
     telefone: soDigitos(telefone).length < 10 ? 'Telefone com DDD.' : '',
-    quemE: !quemE.trim() ? 'Conte quem é a pessoa.' : '',
+    quemE: !relacao ? 'Escolha a relação com você.' : relacao === 'outro' && !outraRelacao.trim() ? 'Escreva qual é a relação.' : '',
     consentimento: !ehRaul && !consentiu ? 'Confirme que a pessoa autorizou o contato.' : '',
   }
   const valido = !Object.values(erros).some(Boolean)
@@ -99,9 +118,10 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
     e?.preventDefault()
     setTentou(true)
     if (!valido) return
+    const criado = ehRaul && ehNovo ? criarParceiro({ nome: novoParceiro.nome.trim(), telefone: soDigitos(novoParceiro.telefone), email: novoParceiro.email.trim(), cidade: 'Maringá/PR' }) : null
     const ind = criarIndicacao(
       {
-        parceiroId: ehRaul ? (parceiroId === 'direto' ? null : parceiroId) : parceiro!.id,
+        parceiroId: ehRaul ? (criado ? criado.id : parceiroId === 'direto' ? null : parceiroId) : parceiro!.id,
         nome: nome.trim(),
         telefone: soDigitos(telefone),
         quemE: quemE.trim(),
@@ -116,6 +136,7 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
     if (ehRaul) {
       onFechar()
       avisar(`Indicação de ${primeiroNome(ind.nome)} cadastrada`, { acao: { rotulo: 'Abrir', fn: () => router.push(`/indicacoes/${ind.id}`) } })
+      if (criado) avisar(`Convite enviado para ${criado.email}`, { tipo: 'email' })
     } else {
       setFeito(ind.nome)
       avisar('E-mail de aviso enviado ao Raul', { tipo: 'email' })
@@ -125,7 +146,9 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
   function limpar() {
     setNome('')
     setTelefone('')
-    setQuemE('')
+    setRelacao('')
+    setOutraRelacao('')
+    setContexto('')
     setEmail('')
     setCredito('')
     setTipoBem('')
@@ -167,8 +190,14 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
 
   const opcoesParceiro = [
     ...dados.parceiros
-      .filter((p) => p.status === 'ativo' || p.id === parceiroInicial)
-      .map((p) => ({ id: p.id, rotulo: p.nome, detalhe: `${nivelDoParceiro(dados, p.id).atual.nome} · ${p.cidade}`, icone: <Avatar nome={p.nome} tamanho={22} />, grupo: 'Parceiros' })),
+      .map((p) => ({
+        id: p.id,
+        rotulo: p.nome,
+        detalhe: p.status === 'convidado' ? `Convite pendente · ${p.cidade}` : `${nivelDoParceiro(dados, p.id).atual.nome} · ${p.cidade}`,
+        icone: <Avatar nome={p.nome} foto={p.foto} tamanho={26} />,
+        grupo: 'Parceiros',
+      })),
+    ...(ehNovo ? [{ id: 'novo', rotulo: novoParceiro.nome.trim() || 'Novo parceiro', detalhe: 'Será cadastrado junto com a indicação', icone: <UserPlus className="h-4 w-4 text-dim" />, grupo: 'Novo' }] : []),
     { id: 'direto', rotulo: 'Contato direto', detalhe: 'Sem parceiro: veio do site ou falou direto com você', icone: <Globe className="h-4 w-4 text-dim" />, grupo: 'Sem comissão' },
   ]
 
@@ -185,14 +214,43 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
           <Botao variante="secundario" onClick={onFechar}>
             Cancelar
           </Botao>
-          <Botao onClick={() => enviar()}>{ehRaul ? 'Cadastrar indicação' : 'Enviar indicação'}</Botao>
+          <Botao variante="marca" onClick={() => enviar()}>{ehRaul ? 'Cadastrar indicação' : 'Enviar indicação'}</Botao>
         </>
       }
     >
       <form onSubmit={enviar} className="flex flex-col gap-4">
         {ehRaul && (
-          <Campo grupo rotulo="Quem indicou" obrigatorio dica={erro('parceiro')}>
-            <Selecao opcoes={opcoesParceiro} valor={parceiroId} onChange={setParceiroId} placeholder="Escolher parceiro" busca rotuloAria="Quem indicou" />
+          <Campo grupo rotulo="Indicado por" obrigatorio dica={erro('parceiro')}>
+            <Selecao
+              opcoes={opcoesParceiro}
+              valor={parceiroId}
+              onChange={setParceiroId}
+              placeholder="Escolher parceiro"
+              busca
+              rotuloAria="Indicado por"
+              acao={{
+                rotulo: 'Cadastrar novo parceiro',
+                icone: <UserPlus className="h-4 w-4" />,
+                fn: (q) => {
+                  setNovoParceiro((n) => ({ ...n, nome: q || n.nome }))
+                  setParceiroId('novo')
+                },
+              }}
+            />
+            {ehNovo && (
+              <div className="entra-pagina mt-2 grid gap-3 rounded-[10px] border border-line p-3.5 sm:grid-cols-3">
+                <Campo rotulo="Nome do parceiro" obrigatorio dica={erro('novoNome')}>
+                  <input className="campo" autoFocus={!novoParceiro.nome} value={novoParceiro.nome} onChange={(e) => setNovoParceiro({ ...novoParceiro, nome: e.target.value })} placeholder="Nome e sobrenome" />
+                </Campo>
+                <Campo rotulo="WhatsApp" obrigatorio dica={erro('novoTelefone')}>
+                  <input className="campo font-mono" autoFocus={!!novoParceiro.nome} inputMode="tel" value={novoParceiro.telefone} onChange={(e) => setNovoParceiro({ ...novoParceiro, telefone: formatarTelefone(e.target.value) })} placeholder="(44) 99999-9999" />
+                </Campo>
+                <Campo rotulo="E-mail" obrigatorio dica={erro('novoEmail')}>
+                  <input className="campo" type="email" value={novoParceiro.email} onChange={(e) => setNovoParceiro({ ...novoParceiro, email: e.target.value })} placeholder="parceiro@email.com" />
+                </Campo>
+                <p className="text-[12px] text-dim sm:col-span-3">Ao cadastrar a indicação, o parceiro recebe o convite por e-mail para criar a senha.</p>
+              </div>
+            )}
           </Campo>
         )}
         <div className="grid gap-4 sm:grid-cols-2">
@@ -203,20 +261,14 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
             <input className="campo font-mono" inputMode="tel" value={telefone} onChange={(e) => setTelefone(formatarTelefone(e.target.value))} placeholder="(44) 99999-9999" />
           </Campo>
         </div>
-        <Campo grupo rotulo="Quem é essa pessoa" obrigatorio dica={erro('quemE') ?? 'Relação com você, de onde ouviu falar, o que procura, dúvidas que tem.'}>
-          <div className="mb-1 flex flex-wrap gap-1.5">
-            {SUGESTOES.map((s) => (
-              <button
-                type="button"
-                key={s}
-                onClick={() => setQuemE((q) => (q.trim() ? q : `${s}. `))}
-                className="clicavel h-7 rounded-full border border-line bg-panel px-2.5 text-[12.5px] font-medium text-soft hover:border-ink/40 hover:text-ink"
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-          <textarea className="campo" value={quemE} onChange={(e) => setQuemE(e.target.value)} placeholder="Ex.: Meu cunhado. Quer sair do aluguel e tem dúvida sobre o prazo de contemplação." />
+        <Campo grupo rotulo="Relação com você" obrigatorio dica={erro('quemE')}>
+          <Chips opcoes={RELACOES} valor={relacao} onChange={(v) => setRelacao(v)} />
+          {relacao === 'outro' && (
+            <input className="campo entra-pagina mt-2" autoFocus value={outraRelacao} onChange={(e) => setOutraRelacao(e.target.value)} placeholder="Ex.: sogro, cliente da minha loja, primo da minha esposa" />
+          )}
+        </Campo>
+        <Campo rotulo="Conte um pouco sobre ela" dica="De onde ouviu falar, o que procura, dúvidas que tem. Ajuda o Raul a chegar preparado na conversa.">
+          <textarea className="campo" value={contexto} onChange={(e) => setContexto(e.target.value)} placeholder="Ex.: Quer sair do aluguel e tem dúvida sobre quanto tempo leva para usar a carta." />
         </Campo>
 
         <button type="button" onClick={() => setMais(!mais)} aria-expanded={mais} className="flex w-fit items-center gap-1.5 text-[13.5px] font-semibold text-soft hover:text-ink">
@@ -254,7 +306,7 @@ export function ModalNovaIndicacao({ parceiroInicial, onFechar }: { parceiroInic
         )}
 
         {!ehRaul && (
-          <div className="rounded-xl bg-sunken p-3.5">
+          <div className="rounded-[9px] bg-sunken p-3.5">
             <Marcador marcado={consentiu} onChange={setConsentiu}>
               {nome.trim() ? primeiroNome(nome) : 'A pessoa'} sabe que estou passando o contato e autorizou receber uma mensagem do Raul.
               <span className="mt-0.5 block text-[12px] text-faint">Os dados são usados só para este contato, conforme a LGPD.</span>
@@ -318,7 +370,7 @@ export function ModalNovoParceiro({ onFechar }: { onFechar: () => void }) {
             <Botao variante="secundario" onClick={onFechar}>
               Cancelar
             </Botao>
-            <Botao onClick={criar}>Criar e enviar convite</Botao>
+            <Botao variante="marca" onClick={criar}>Criar e enviar convite</Botao>
           </>
         )
       }
@@ -347,7 +399,7 @@ export function ModalNovoParceiro({ onFechar }: { onFechar: () => void }) {
           <Campo rotulo="Cidade">
             <input className="campo" value={form.cidade} onChange={(e) => setForm({ ...form, cidade: e.target.value })} />
           </Campo>
-          <p className="rounded-xl bg-sunken p-3.5 text-[12.5px] leading-relaxed text-dim">
+          <p className="rounded-[9px] bg-sunken p-3.5 text-[12.5px] leading-relaxed text-dim">
             No primeiro acesso, o parceiro passa pelo onboarding guiado da plataforma: como indicar, como funcionam os níveis e quando recebe. O ideal é conduzir esse primeiro acesso junto com ele.
           </p>
           <button type="submit" hidden />

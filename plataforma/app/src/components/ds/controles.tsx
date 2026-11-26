@@ -90,7 +90,7 @@ export function Flutuante({
     <Portal>
       <div
         ref={ref}
-        className={cx('entra-menu fixed z-[80] rounded-2xl border border-line bg-panel p-1.5 shadow-pop', className)}
+        className={cx('entra-menu fixed z-[80] rounded-[12px] border border-line bg-panel p-1.5 shadow-pop', className)}
         style={{ top: pos?.top ?? -9999, left: pos?.left ?? -9999, width: pos?.width, transformOrigin: pos?.acima ? 'bottom left' : 'top left' }}
       >
         {children}
@@ -124,6 +124,7 @@ export function Selecao<T extends string>({
   rotuloAria,
   prefixo,
   alinhar,
+  acao,
 }: {
   opcoes: OpcaoSelecao<T>[]
   valor: T
@@ -136,6 +137,8 @@ export function Selecao<T extends string>({
   rotuloAria?: string
   prefixo?: ReactNode
   alinhar?: 'inicio' | 'fim'
+  /** Ação fixa no fim da lista (ex.: cadastrar novo). Recebe o texto buscado. */
+  acao?: { rotulo: string; icone?: ReactNode; fn: (busca: string) => void }
 }) {
   const [aberto, setAberto] = useState(false)
   const [q, setQ] = useState('')
@@ -204,7 +207,7 @@ export function Selecao<T extends string>({
         onClick={() => (aberto ? setAberto(false) : abrir())}
         onKeyDown={teclas}
         className={cx(
-          'clicavel flex w-full min-w-0 items-center gap-2 rounded-[11px] border bg-panel text-left text-ink outline-none',
+          'clicavel flex w-full min-w-0 items-center gap-2 rounded-[9px] border bg-panel text-left text-ink outline-none',
           tamanho === 'md' ? 'h-10 px-3 text-[14px]' : 'h-9 px-2.5 text-[13.5px]',
           aberto ? 'border-ink shadow-[0_0_0_3px_rgb(17_17_17/0.08)]' : 'border-line hover:border-[color-mix(in_oklab,var(--faint)_45%,var(--line))]',
           className,
@@ -228,7 +231,7 @@ export function Selecao<T extends string>({
               }}
               onKeyDown={teclas}
               placeholder="Buscar"
-              className="h-9 w-full rounded-[10px] bg-sunken pr-2 pl-8 text-[13.5px] text-ink outline-none placeholder:text-faint"
+              className="h-9 w-full rounded-[8px] bg-sunken pr-2 pl-8 text-[13.5px] text-ink outline-none placeholder:text-faint"
             />
           </div>
         )}
@@ -246,7 +249,7 @@ export function Selecao<T extends string>({
                   aria-selected={o.id === valor}
                   onMouseEnter={() => setAtivo(i)}
                   onClick={() => escolher(o)}
-                  className={cx('flex w-full items-center gap-2.5 rounded-[10px] px-2.5 py-2 text-left text-[13.5px]', i === ativo ? 'bg-sunken text-ink' : 'text-soft')}
+                  className={cx('flex w-full items-center gap-2.5 rounded-[8px] px-2.5 py-2 text-left text-[13.5px]', i === ativo ? 'bg-sunken text-ink' : 'text-soft')}
                 >
                   {o.icone}
                   <span className="min-w-0 flex-1">
@@ -260,6 +263,21 @@ export function Selecao<T extends string>({
           })}
           {filtradas.length === 0 && <p className="px-3 py-4 text-center text-[13px] text-dim">Nada encontrado.</p>}
         </div>
+        {acao && (
+          <div className="mt-1 border-t border-line-soft pt-1">
+            <button
+              type="button"
+              onClick={() => {
+                acao.fn(q.trim())
+                setAberto(false)
+              }}
+              className="flex w-full items-center gap-2.5 rounded-[8px] px-2.5 py-2 text-left text-[13.5px] font-medium text-ink hover:bg-sunken"
+            >
+              {acao.icone}
+              <span className="min-w-0 flex-1 truncate">{q.trim() ? `${acao.rotulo}: “${q.trim()}”` : acao.rotulo}</span>
+            </button>
+          </div>
+        )}
       </Flutuante>
     </>
   )
@@ -338,7 +356,7 @@ export function CampoData({ valor, onChange, className, rotuloAria, max }: { val
           }
         }}
         className={cx(
-          'clicavel flex h-10 w-full items-center gap-2 rounded-[11px] border bg-panel px-3 text-left text-[14px] text-ink outline-none',
+          'clicavel flex h-10 w-full items-center gap-2 rounded-[9px] border bg-panel px-3 text-left text-[14px] text-ink outline-none',
           aberto ? 'border-ink shadow-[0_0_0_3px_rgb(17_17_17/0.08)]' : 'border-line hover:border-[color-mix(in_oklab,var(--faint)_45%,var(--line))]',
           className,
         )}
