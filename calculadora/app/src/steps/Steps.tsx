@@ -288,6 +288,10 @@ export function TempoStage({ p, sim, mes, setMes }: StepProps) {
   const credito = sim.credito[mes];
   const contemplada = mes >= sim.contemplacao;
   const correcao = credito - p.valorCarta;
+  const restante = Math.max(0, sim.desembolsado[sim.prazo] - pago);
+  const restanteHoje = Math.max(0, sim.pagoHoje[sim.prazo] - sim.pagoHoje[mes]);
+  const faltam = sim.prazo - mes;
+  const c = sim.contemplacao;
 
   return (
     <div className="st st--tempo">
@@ -298,27 +302,54 @@ export function TempoStage({ p, sim, mes, setMes }: StepProps) {
           prazo={p.prazo}
           nota={
             <>
-              <Num value={correcao} format={(v) => `+${reais(v)}`} /> de valorização
+              {contemplada ? (
+                `Imóvel estimado pelo INCC`
+              ) : (
+                <>
+                  {reais(p.valorCarta)} <Num value={correcao} format={(v) => `+ ${reais(v)}`} /> de correção
+                </>
+              )}
             </>
           }
           selo={contemplada ? 'Contemplada' : null}
         />
         <div className="tempo__nums">
           <div>
-            <span>Você pagou até aqui</span>
+            <span>Você já pagou</span>
             <Num className="big" value={pago} format={reais} />
+            <small>
+              {mes} de {sim.prazo} parcelas
+            </small>
           </div>
           <div>
-            <span>Cada R$ 1 que você pagou vale na carta</span>
-            <Num className="big big--green" value={pago > 0 ? credito / pago : 0} format={reaisCentavos} />
+            <span>Falta pagar</span>
+            <Num className="big big--dim" value={restante} format={reais} />
+            <small>{faltam > 0 ? `${faltam} ${faltam === 1 ? 'parcela' : 'parcelas'} · ${reais(restanteHoje)} em dinheiro de hoje` : 'Plano quitado'}</small>
           </div>
+          {contemplada ? (
+            <div className="tempo__razao">
+              <span>Para cada R$ 1 que você pagou, o imóvel vale</span>
+              <Num className="big big--green" value={pago > 0 ? credito / pago : 0} format={reaisCentavos} />
+              <small>
+                {reais(credito)} de imóvel ÷ {reais(pago)} pagos
+              </small>
+            </div>
+          ) : (
+            <div className="tempo__razao">
+              <span>Contemplação prevista</span>
+              <span className="big">Mês {c}</span>
+              <small>
+                daqui a {duracao(c - mes)}, com a carta em {reais(sim.credito[c])}
+              </small>
+            </div>
+          )}
         </div>
       </div>
       <div className="tempo__chart">
         <div className="tempo__legend">
           <span>
             <i className="lk lk--cred" />
-            Quanto a sua carta vale
+            Carta, depois o imóvel
           </span>
           <span>
             <i className="lk lk--pago" />
@@ -360,8 +391,8 @@ export function TempoPanel({ p, set, sim, mes, setMes }: StepProps) {
       </div>
       <p className="frase">
         {depois
-          ? `Depois da contemplação, o valor da carta passa a render pela Selic, ${pctBR(p.selic)} ao ano.`
-          : `Até a contemplação, a carta se valoriza pelo INCC, ${pctBR(p.incc)} ao ano, sobre o valor inteiro dela.`}
+          ? `Depois da contemplação, a carta vira o imóvel. A linha segue o INCC, ${pctBR(p.incc)} ao ano, como estimativa do valor dele.`
+          : `A carta é corrigida pelo INCC, ${pctBR(p.incc)} ao ano, e as parcelas também. A correção não é lucro: mantém a carta no preço dos imóveis.`}
       </p>
       <div className="grupo">
         <span className="grupo__t">Contemplação</span>
@@ -376,7 +407,9 @@ export function TempoPanel({ p, set, sim, mes, setMes }: StepProps) {
           </button>
         </div>
       </div>
-      {sim.mesCobreTaxas && <p className="nota">No mês {sim.mesCobreTaxas}, a correção da carta já cobre todas as taxas do plano.</p>}
+      <p className="nota">
+        Em dinheiro de hoje, {reais(sim.custoTaxasHoje)} de taxas ({pctBR(Math.round((sim.custoTaxasHoje / p.valorCarta) * 1000) / 10)}) em {duracao(sim.prazo)}, sem juros.
+      </p>
       <p className="nota nota--dica">Arraste a bolinha no gráfico ou use as setas do teclado.</p>
     </>
   );
@@ -463,11 +496,15 @@ function Barras({ linhas }: { linhas: Linha[] }) {
 function RendaFixaStage({ p, sim, mes, tipo }: StepProps & { tipo: 'cdb' | 'tesouro' }) {
   const curto = tipo === 'cdb' ? 'CDB' : 'Tesouro Selic';
   const taxa = tipo === 'cdb' ? sim.taxaCdb : p.tesouroSelic / 100;
-  const b = baseDeCalculo(sim, mes, taxa, p.incc / 100, p.selic / 100);
+  const b = baseDeCalculo(sim, mes, taxa, p.incc / 100);
   const pago = sim.desembolsado[mes];
   const gC = ganhoConsorcio(sim, p.valorCarta, mes);
   const gR = (tipo === 'cdb' ? sim.cdb[mes] : sim.tesouro[mes]) - pago;
   const dif = gC - gR;
+  // onde o consórcio ganha mesmo quando rende menos: a carta inteira disponível na contemplação
+  const c = Math.min(sim.contemplacao, sim.prazo);
+  const rfNaContemplacao = tipo === 'cdb' ? sim.cdb[c] : sim.tesouro[c];
+  const taxaAno = tipo === 'cdb' ? p.cdi * (p.cdbPctCdi / 100) : p.tesouroSelic;
   const linhas: Linha[] = [
     {
       k: 'c',
@@ -497,14 +534,27 @@ function RendaFixaStage({ p, sim, mes, tipo }: StepProps & { tipo: 'cdb' | 'teso
             Até o mês {mes} ({duracao(mes)}), pagando as mesmas parcelas
           </p>
           <p className="cmp__big">
-            {dif >= 0 ? 'O consórcio rendeu' : `O ${curto} rendeu`} <Num className={dif >= 0 ? 'is-green' : 'is-red'} value={Math.abs(dif)} format={reais} /> a mais
+            {dif >= 0 ? 'O consórcio rendeu' : `O ${curto} rendeu`} <Num className={dif >= 0 ? 'is-green' : undefined} value={Math.abs(dif)} format={reais} /> a mais
           </p>
         </div>
         <Barras linhas={linhas} />
-        <p className="porque">
-          <b>Por que a diferença?</b> O {curto} só rende sobre o dinheiro que você já depositou, <span>{reais(b.baseRF)}</span>. A carta é corrigida sobre o valor total dela,{' '}
-          <span>{reais(b.baseCarta)}</span>, mesmo que você ainda não tenha pago tudo.
-        </p>
+        {dif >= 0 ? (
+          <p className="porque">
+            <b>Por que a diferença?</b> O {curto} só rende sobre o dinheiro que você já depositou, <span>{reais(b.baseRF)}</span>. A carta é corrigida sobre o valor total dela,{' '}
+            <span>{reais(b.baseCarta)}</span>, mesmo que você ainda não tenha pago tudo.
+          </p>
+        ) : (
+          <div className="porque">
+            <p>
+              <b>Por que o {curto} rendeu mais?</b> Com {pctBR(taxaAno)} ao ano, o dinheiro aplicado cresce mais rápido que a carta, que é corrigida pelo INCC ({pctBR(p.incc)} ao
+              ano) e ainda paga as taxas da administradora. Em rendimento puro, aqui a renda fixa ganha.
+            </p>
+            <p>
+              <b>Onde o consórcio ganha.</b> No mês {c}, na contemplação, você já tem <span>{reais(sim.credito[c])}</span> de carta para comprar o imóvel. Aplicando as mesmas parcelas, o{' '}
+              {curto} teria <span>{reais(rfNaContemplacao)}</span> nesse mês.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -561,12 +611,13 @@ export function CompareStage(props: StepProps) {
 export function ComparePanel(props: StepProps) {
   const { p, sim, fin, mes, setMes, comparar, setComparar } = props;
   const opcoes: { v: Comparar; t: string }[] = [
+    // financiamento primeiro: é a alternativa real de quem quer comprar um imóvel
+    { v: 'financiamento', t: 'Financiamento' },
     { v: 'cdb', t: 'CDB' },
     { v: 'tesouro', t: 'Tesouro Selic' },
-    { v: 'financiamento', t: 'Financiamento' },
   ];
   const taxa = comparar === 'cdb' ? sim.taxaCdb : p.tesouroSelic / 100;
-  const b = baseDeCalculo(sim, mes, taxa, p.incc / 100, p.selic / 100);
+  const b = baseDeCalculo(sim, mes, taxa, p.incc / 100);
   const vezes = b.vezes >= 10 ? Math.round(b.vezes).toString() : b.vezes.toLocaleString('pt-BR', { maximumFractionDigits: 1 });
   const virada = comparar === 'cdb' ? mesVirada(sim, p.valorCarta) : null;
   const economiaSac = fin.sac.totalJuros - sim.custoTaxasHoje;

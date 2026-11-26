@@ -27,8 +27,12 @@ describe('simulação', () => {
     expect(s.credito[12]).toBeCloseTo(159_000, 6);
     expect(s.credito[60]).toBeCloseTo(150_000 * Math.pow(1.06, 5), 4);
   });
-  it('depois da contemplação corrige pela Selic', () => {
-    expect(s.credito[72]).toBeCloseTo(s.credito[60] * 1.15, 4);
+  it('depois da contemplação segue o INCC (valor do imóvel), sem render pela Selic', () => {
+    expect(s.credito[72]).toBeCloseTo(s.credito[60] * 1.06, 4);
+  });
+  it('pago em reais de hoje não tem reajuste', () => {
+    expect(s.pagoHoje[13]).toBeCloseTo(s.pagoHoje[1] * 13, 6);
+    expect(s.pagoHoje[s.prazo]).toBeCloseTo(s.totalPagoHoje, 6);
   });
   it('parcela reajusta no aniversário', () => {
     expect(s.parcela[12]).toBeCloseTo(s.parcela[1], 8);

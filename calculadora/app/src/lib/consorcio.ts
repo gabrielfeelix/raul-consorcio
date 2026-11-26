@@ -43,6 +43,8 @@ export interface Simulacao {
   credito: number[];
   /** Total desembolsado acumulado (0..prazo). */
   desembolsado: number[];
+  /** Total pago acumulado em reais de hoje, sem reajuste (0..prazo). */
+  pagoHoje: number[];
   /** Taxa de administração + fundo de reserva pagos, acumulados (0..prazo). */
   taxasPagas: number[];
   /** Saldo líquido se as mesmas parcelas fossem para o CDB (0..prazo). */
@@ -84,11 +86,11 @@ export function simular(p: Parametros, antecipar: boolean = p.antecipar): Simula
   for (let k = prazo - 1; k >= 0; k--) restante[k] = restante[k + 1] + plano.parcelas[k];
 
   const incc = pct(p.incc);
-  const selic = pct(p.selic);
   const seguro = p.seguroAtivo ? pct(p.seguroPctMes) : 0;
 
   const parcela = [0];
   const desembolsado = [0];
+  const pagoHoje = [0];
   const taxasPagas = [0];
   let seguroHoje = 0;
   for (let k = 1; k <= prazo; k++) {
@@ -98,14 +100,14 @@ export function simular(p: Parametros, antecipar: boolean = p.antecipar): Simula
     const valor = (plano.parcelas[k - 1] + seg) * f;
     parcela.push(valor);
     desembolsado.push(desembolsado[k - 1] + valor);
+    pagoHoje.push(pagoHoje[k - 1] + plano.parcelas[k - 1] + seg);
     taxasPagas.push(taxasPagas[k - 1] + (plano.taxaAdm[k - 1] + plano.fundoReserva[k - 1] + seg) * f);
   }
 
   const credito: number[] = [];
-  for (let m = 0; m <= prazo; m++) {
-    if (m <= c) credito.push(p.valorCarta * fatorCorrecao(incc, m, p.reajuste));
-    else credito.push(credito[c] * fatorCorrecao(selic, m - c, 'mensal'));
-  }
+  // Até a contemplação: a carta corrigida pelo INCC. Depois: a carta vira o imóvel, e o INCC segue como
+  // estimativa do valor dele. (A carta não "rende" depois de usada.)
+  for (let m = 0; m <= prazo; m++) credito.push(p.valorCarta * fatorCorrecao(incc, m, p.reajuste));
 
   const aportes = parcela.slice(1);
   const taxaCdb = pct(p.cdi) * pct(p.cdbPctCdi);
@@ -128,6 +130,7 @@ export function simular(p: Parametros, antecipar: boolean = p.antecipar): Simula
     parcela,
     credito,
     desembolsado,
+    pagoHoje,
     taxasPagas,
     cdb,
     tesouro,

@@ -41,8 +41,7 @@ export function RatesPanel({ p, set, onReset }: Props) {
 
         <fieldset className="rates__group">
           <legend>Correção da carta</legend>
-          <NumberField label="INCC, antes da contemplação" value={p.incc} onChange={(v) => set('incc', v)} suffix="% a.a." casas={2} max={50} />
-          <NumberField label="Selic, depois da contemplação" value={p.selic} onChange={(v) => set('selic', v)} suffix="% a.a." casas={2} max={50} />
+          <NumberField label="INCC, corrige carta e parcelas" value={p.incc} onChange={(v) => set('incc', v)} suffix="% a.a." casas={2} max={50} />
         </fieldset>
 
         <fieldset className="rates__group">

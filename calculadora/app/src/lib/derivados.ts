@@ -20,13 +20,13 @@ export function mesVirada(sim: Simulacao, valorCarta: number): number | null {
 
 /**
  * Base de cálculo da tese: sobre quanto cada um rende/corrige num ano a partir do mês.
- * Renda fixa: taxa × o que já foi aportado. Carta: índice da fase × crédito corrigido.
+ * Renda fixa: taxa × o que já foi aportado. Carta (ou imóvel, depois da contemplação): INCC × valor corrigido.
  */
-export function baseDeCalculo(sim: Simulacao, mes: number, taxaRendaFixa: number, incc: number, selic: number) {
+export function baseDeCalculo(sim: Simulacao, mes: number, taxaRendaFixa: number, incc: number) {
   const depois = mes > sim.contemplacao;
   const baseRF = sim.desembolsado[mes];
   const baseCarta = sim.credito[mes];
-  const taxaCarta = depois ? selic : incc;
+  const taxaCarta = incc;
   const rendeRF = baseRF * taxaRendaFixa;
   const rendeCarta = baseCarta * taxaCarta;
   return { depois, baseRF, baseCarta, taxaCarta, rendeRF, rendeCarta, vezes: rendeRF > 0 ? rendeCarta / rendeRF : 0 };

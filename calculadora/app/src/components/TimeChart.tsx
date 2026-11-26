@@ -115,6 +115,7 @@ export function TimeChart({ sim, mes, onMes, ate }: Props) {
           onPointerDown={(e) => {
             arrastando.current = true;
             setAtivo(true);
+            setHover(null);
             e.currentTarget.setPointerCapture(e.pointerId);
             onMes(mesDe(e.clientX, e.currentTarget));
           }}
@@ -142,7 +143,7 @@ export function TimeChart({ sim, mes, onMes, ate }: Props) {
               </text>
             </g>
           ))}
-          {xt.map((k) => (
+          {xt.filter((k) => Math.abs(x(k) - cx) > 90).map((k) => (
             <text key={k} x={x(k)} y={H - 6} className="tchart__xlabel" textAnchor="middle">
               {k / 12} anos
             </text>
@@ -156,8 +157,8 @@ export function TimeChart({ sim, mes, onMes, ate }: Props) {
           {temC && (
             <>
               <line x1={x(c)} x2={x(c)} y1={22} y2={baseY} className="tchart__contem" />
-              <text x={x(c) + 10} y={14} className="tchart__fasel tchart__fasel--sel" textAnchor={x(c) + (W < 560 ? 150 : 330) > W ? 'end' : 'start'} dx={x(c) + (W < 560 ? 150 : 330) > W ? -20 : 0}>
-                {`Contemplação, mês ${c}`}
+              <text x={x(c) + 10} y={14} className="tchart__fasel tchart__fasel--sel" textAnchor={x(c) + (W < 560 ? 150 : 400) > W ? 'end' : 'start'} dx={x(c) + (W < 560 ? 150 : 400) > W ? -20 : 0}>
+                {`Contemplação, mês ${c}: a carta vira o imóvel`}
               </text>
             </>
           )}
@@ -193,12 +194,18 @@ export function TimeChart({ sim, mes, onMes, ate }: Props) {
           </g>
         </svg>
       )}
+      {/* mês da bolinha: sempre visível embaixo dela, acompanha o arraste */}
+      {w > 0 && (
+        <div className="tchart__mes" style={{ left: Math.min(Math.max(cx, 80), W - 80), top: baseY + 20 }} aria-hidden="true">
+          <strong>Mês {m}</strong> · {duracao(m)}
+        </div>
+      )}
       {hv !== null && (
         <div className="tchart__tip" style={{ left: Math.min(Math.max(x(hv), 90), W - 90), top: Math.min(y(cred[hv]), y(pago[hv])) - 12 }}>
           <strong>
             Mês {hv} <span>({duracao(hv)})</span>
           </strong>
-          <span className="is-cred">Carta vale {reais(cred[hv])}</span>
+          <span className="is-cred">{hv >= c ? 'Imóvel' : 'Carta'} vale {reais(cred[hv])}</span>
           <span className="is-pago">Você pagou {reais(pago[hv])}</span>
         </div>
       )}

@@ -62,7 +62,7 @@ export default function App() {
   const [dir, setDir] = useState<1 | -1>(1);
   const [taxasAbertas, setTaxasAbertas] = useState(false);
   const [cliente, setCliente] = useState('');
-  const [comparar, setComparar] = useState<Comparar>('cdb');
+  const [comparar, setComparar] = useState<Comparar>('financiamento');
 
   useEffect(() => {
     try {

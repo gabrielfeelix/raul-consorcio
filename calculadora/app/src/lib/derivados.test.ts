@@ -9,12 +9,13 @@ describe('derivados', () => {
     expect(ganhoConsorcio(sim, PADRAO.valorCarta, 24)).toBeCloseTo(sim.credito[24] - 150_000 - sim.taxasPagas[24], 6);
   });
   it('base de cálculo: CDB sobre o aportado, carta sobre o crédito inteiro', () => {
-    const b = baseDeCalculo(sim, 24, sim.taxaCdb, 0.06, 0.15);
+    const b = baseDeCalculo(sim, 24, sim.taxaCdb, 0.06);
     expect(b.baseRF).toBe(sim.desembolsado[24]);
     expect(b.baseCarta).toBe(sim.credito[24]);
     expect(b.taxaCarta).toBe(0.06);
     expect(b.vezes).toBeGreaterThan(1);
-    expect(baseDeCalculo(sim, sim.contemplacao + 1, sim.taxaCdb, 0.06, 0.15).taxaCarta).toBe(0.15);
+    // depois da contemplação o imóvel segue o INCC, não a Selic
+    expect(baseDeCalculo(sim, sim.contemplacao + 1, sim.taxaCdb, 0.06).taxaCarta).toBe(0.06);
   });
 });
 

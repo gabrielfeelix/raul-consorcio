@@ -1179,9 +1179,23 @@ button {
 }
 
 .tempo__nums {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  gap: 20px 44px;
+}
+
+.tempo__razao {
+  grid-column: 1 / -1;
+}
+
+.tempo__nums small {
+  font-size: 12px;
+  color: var(--stage-ink-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.big--dim {
+  color: var(--stage-ink-2);
 }
 
 .tempo__nums div {
@@ -1423,6 +1437,28 @@ button {
   r: 18;
 }
 
+.tchart__mes {
+  position: absolute;
+  transform: translateX(-50%);
+  pointer-events: none;
+  white-space: nowrap;
+  background: var(--stage-ink);
+  color: var(--ink-2);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  line-height: 16px;
+}
+
+.tchart__mes strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.tchart.is-dragging .tchart__mes {
+  box-shadow: 0 0 0 4px rgb(255 255 255 / 0.12);
+}
+
 .tchart__tip {
   position: absolute;
   transform: translate(-50%, -100%);
@@ -1450,6 +1486,8 @@ button {
 }
 
 .tchart__tip .is-pago {
+  /* .is-pago global pinta o fundo das barras; aqui é só texto */
+  background: none;
   color: var(--ink-2);
   font-family: var(--mono);
 }
@@ -1671,6 +1709,14 @@ button {
   line-height: 1.6;
   color: var(--stage-ink-3);
   text-wrap: pretty;
+}
+
+.porque p {
+  margin: 0;
+}
+
+.porque p + p {
+  margin-top: 10px;
 }
 
 .porque b {
@@ -1969,6 +2015,7 @@ button {
   flex: 1;
   min-height: 0;
   overflow-y: auto;
+  overflow-x: hidden;
   padding: 8px 24px 24px;
 }
 
@@ -1997,9 +2044,19 @@ button {
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  /* minmax(0) deixa a coluna encolher abaixo do rótulo; o rótulo quebra e os campos alinham pela base */
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: end;
   gap: 12px;
   min-width: 0;
+}
+
+.rates__group .field {
+  min-width: 0;
+}
+
+.rates__group .field__affix {
+  white-space: nowrap;
 }
 
 .rates__group legend {
@@ -2184,8 +2241,8 @@ button {
     gap: 18px;
   }
   .tempo__nums {
-    flex-direction: row;
-    justify-content: space-between;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 20px;
   }
   .big {
     font-size: 24px;
