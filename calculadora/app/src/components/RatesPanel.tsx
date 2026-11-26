@@ -63,7 +63,6 @@ export function RatesPanel({ p, set, onReset }: Props) {
           <NumberField label="Antecipa em cada parcela" value={p.antecipPctPorParcela} onChange={(v) => set('antecipPctPorParcela', v)} suffix="% da carta" casas={2} max={10} />
           <NumberField label="Parcelas antecipadas" value={p.antecipParcelas} onChange={(v) => set('antecipParcelas', Math.round(v))} suffix="parcelas" max={12} />
           <NumberField label="Taxa total com antecipação" value={p.antecipTaxaResultante} onChange={(v) => set('antecipTaxaResultante', v)} suffix="%" casas={2} max={50} />
-          <p className="rates__warn">Regra provisória. Validar com uma simulação real da Ademicon.</p>
         </fieldset>
       </div>
     </div>

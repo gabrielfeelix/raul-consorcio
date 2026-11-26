@@ -2067,16 +2067,10 @@ button {
 }
 
 .rates__group .toggle,
-.rates__group .segmented,
-.rates__warn {
+.rates__group .segmented {
   grid-column: 1 / -1;
 }
 
-.rates__warn {
-  margin: 0;
-  font-size: 12px;
-  color: var(--red);
-}
 
 .segmented {
   display: flex;

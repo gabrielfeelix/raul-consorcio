@@ -12,6 +12,8 @@ interface Props {
   variant?: 'screen' | 'print';
   /** último mês visível no eixo x (zoom); padrão = prazo */
   ate?: number;
+  /** Linha das mesmas parcelas no CDB (o PDF não mostra: o PDF compara com o financiamento). */
+  comCdb?: boolean;
 }
 
 function passoBonito(max: number, n = 4): number {
@@ -25,7 +27,7 @@ function passoBonito(max: number, n = 4): number {
 const TOP = 22;
 const BOTTOM = 26;
 
-export function Chart({ sim, mes, onMes, height = 340, width, variant = 'screen', ate }: Props) {
+export function Chart({ sim, mes, onMes, height = 340, width, variant = 'screen', ate, comCdb = true }: Props) {
   const ref = useRef<HTMLDivElement>(null);
   const [medida, setMedida] = useState(width ?? 800);
   const arrastando = useRef(false);
@@ -46,7 +48,7 @@ export function Chart({ sim, mes, onMes, height = 340, width, variant = 'screen'
   const prazo = Math.min(sim.prazo, Math.max(12, ate ?? sim.prazo));
   const credito = sim.credito.slice(0, prazo + 1);
   const desembolsado = sim.desembolsado.slice(0, prazo + 1);
-  const cdb = sim.cdb.slice(0, prazo + 1);
+  const cdb = comCdb ? sim.cdb.slice(0, prazo + 1) : [];
   const mostraCursor = mes <= prazo;
   const maxV = Math.max(...credito, ...cdb, ...desembolsado);
   const passo = passoBonito(maxV);
@@ -122,14 +124,14 @@ export function Chart({ sim, mes, onMes, height = 340, width, variant = 'screen'
 
         <path d={area} className="chart__paid-area" />
         <path d={linha(desembolsado)} className="chart__paid-line" />
-        <path d={linha(cdb)} className="chart__cdb" />
+        {comCdb && <path d={linha(cdb)} className="chart__cdb" />}
         <path d={linha(credito)} className="chart__credit" pathLength={1} />
 
         {mostraCursor && (
           <g>
             <line x1={cx} x2={cx} y1={TOP - 8} y2={y(0)} className="chart__cursor" />
             <circle cx={cx} cy={y(desembolsado[mes])} r={4.5} className="chart__dot chart__dot--paid" />
-            <circle cx={cx} cy={y(cdb[mes])} r={4.5} className="chart__dot chart__dot--cdb" />
+            {comCdb && <circle cx={cx} cy={y(cdb[mes])} r={4.5} className="chart__dot chart__dot--cdb" />}
             <circle cx={cx} cy={y(credito[mes])} r={6} className="chart__dot chart__dot--credit" />
           </g>
         )}
