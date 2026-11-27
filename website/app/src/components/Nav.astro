@@ -17,8 +17,9 @@ const { links = padrao } = Astro.props;
 
 <header class="nav" data-nav>
   <div class="nav__in wrap">
-    <a href="#topo" class="nav__logo" aria-label="Raul Consórcio, início">
-      <img src="/marca/logo-horizontal-branco.svg" alt="Raul Consórcio" width="168" height="28" />
+    <a href="#topo" class="nav__logo" aria-label="Raul Carvalho, início">
+      <img src="/marca/rc.svg" alt="" width="30" height="30" />
+      <span>Raul Carvalho</span>
     </a>
     <nav class="nav__links" aria-label="Seções">
       {links.map(([href, t]) => <a href={href}><Onda texto={t} /></a>)}
@@ -52,9 +53,17 @@ const { links = padrao } = Astro.props;
     gap: 32px;
     height: 76px;
   }
+  .nav__logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
   .nav__logo img {
-    height: 26px;
-    width: auto;
+    height: 30px;
+    width: 30px;
   }
   .nav__links {
     display: flex;

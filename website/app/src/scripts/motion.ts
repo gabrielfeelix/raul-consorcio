@@ -183,10 +183,10 @@ if (!reduz) {
     const img = $("[data-rev-img]", rev)!;
     const origem = () => {
       const vw = innerWidth, vh = innerHeight;
-      const mh = vh * 0.34, mw = (mh * 66) / 72.5;
-      // centro do terceiro volume (o do telhado) dentro do símbolo
-      const ox = vw / 2 + (57 / 66 - 0.5) * mw;
-      const oy = vh / 2 + ((70 - 27.5) / 72.5 - 0.5) * mh;
+      // máscara quadrada (viewBox 89×89 a partir de 15.5): cresce a partir da haste do R
+      const m = vh * 0.34;
+      const ox = vw / 2 + ((51 - 15.5) / 89 - 0.5) * m;
+      const oy = vh / 2 + ((60 - 15.5) / 89 - 0.5) * m;
       return `${ox}px ${oy}px`;
     };
     const st = { s: 1 };
@@ -268,88 +268,63 @@ if (!reduz) {
 }
 
 function construir(sec: HTMLElement) {
-  const vols = $$<SVGGElement>(".vol", sec);
+  const segs = $$<SVGPathElement>(".arco__seg", sec);
+  const rotulos = $$<SVGGElement>(".arco__rot", sec);
   const etapas = $$(".build__etapa", sec);
+  const r = $<SVGGElement>(".arco__r", sec)!;
+  const fim = $<SVGGElement>(".arco__fim", sec)!;
   const raul = $<SVGGElement>('[data-cursor="raul"]', sec)!;
-  const voce = $<SVGGElement>('[data-cursor="voce"]', sec)!;
+  // Ângulos de cada trecho do C (abertura à direita, desenho no sentido anti-horário)
+  const angulos = [
+    [-45, -134],
+    [-136, -224],
+    [-226, -315],
+  ];
+  const ponto = (a: number) => {
+    const rad = (a * Math.PI) / 180;
+    return { x: 60 + 40 * Math.cos(rad), y: 60 + 40 * Math.sin(rad) };
+  };
 
-  const dados = vols.map((g) => {
-    const box = g.querySelector<SVGRectElement>(".sel__box")!;
-    const tag = g.querySelector<SVGTextElement>(".vol__tag")!;
-    return {
-      g,
-      fill: g.querySelector(".vol__fill")!,
-      linha: g.querySelector(".vol__linha")!,
-      sel: g.querySelector(".vol__sel")!,
-      handles: g.querySelectorAll(".sel__handle"),
-      pill: g.querySelector(".sel__pill")!.parentElement!,
-      box,
-      x: +box.getAttribute("x")!,
-      y: +box.getAttribute("y")!,
-      w: +box.getAttribute("width")!,
-      h: +box.getAttribute("height")!,
-      tag,
-      txt: tag.dataset.tag || "",
-    };
-  });
-
-  // Estado inicial
-  dados.forEach((d) => {
-    gsap.set(d.fill, { scaleY: 0, transformOrigin: "50% 100%" });
-    gsap.set(d.linha, { strokeDashoffset: 1 });
-    gsap.set(d.sel, { opacity: 0 });
-    d.tag.textContent = "";
-  });
-  gsap.set(raul, { x: 92, y: 120, opacity: 1 });
-  gsap.set(voce, { x: -30, y: 118, opacity: 1 });
+  gsap.set(segs, { strokeDashoffset: 1 });
+  gsap.set(rotulos, { opacity: 0 });
+  gsap.set(r, { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
+  gsap.set(fim, { opacity: 0, x: -4 });
+  const p0 = ponto(-45);
+  gsap.set(raul, { x: p0.x + 10, y: p0.y - 16, opacity: 1 });
 
   const tl = gsap.timeline({
-    defaults: { ease: "power2.inOut", duration: 1 },
-    scrollTrigger: {
-      trigger: sec,
-      start: "top top",
-      end: "+=100%",
-      pin: true,
-      scrub: 0.8,
-      anticipatePin: 1,
-    },
+    defaults: { ease: "none" },
+    scrollTrigger: { trigger: sec, start: "top top", end: "+=100%", pin: true, scrub: 0.6, anticipatePin: 1 },
   });
 
   const marcos: number[] = [];
-  dados.forEach((d, i) => {
+  tl.to(raul, { x: p0.x, y: p0.y, duration: 0.3, ease: "power2.out" });
+  segs.forEach((seg, i) => {
     marcos.push(tl.duration());
-    // Raul vai até o canto da caixa
-    tl.to(raul, { x: d.x, y: d.y });
-    // Arrasta desenhando a seleção com medida
-    tl.set(d.sel, { opacity: 1 });
-    tl.fromTo(d.box, { attr: { width: 0, height: 0 } }, { attr: { width: d.w, height: d.h }, duration: 1.1 }, "<");
-    tl.fromTo(d.handles, { opacity: 0 }, { opacity: 1, duration: 0.2 }, ">-0.2");
-    tl.fromTo(d.pill, { opacity: 0, y: 2 }, { opacity: 1, y: 0, duration: 0.3 }, "<");
-    tl.to(raul, { x: d.x + d.w, y: d.y + d.h, duration: 1.1 }, "<-1.1");
-    // Contorno e preenchimento
-    tl.to(d.linha, { strokeDashoffset: 0, duration: 0.9, ease: "none" });
-    tl.to(d.fill, { scaleY: 1, duration: 0.9, ease: "power3.out" }, "<0.4");
-    tl.to(d.sel, { opacity: 0, duration: 0.3 });
-    // Você digita o nome da etapa
-    const alvo = { n: 0 };
-    tl.to(voce, { x: d.x + d.w / 2 - 3, y: 108.5, duration: 0.8 }, "<-0.6");
-    tl.to(alvo, {
-      n: d.txt.length,
-      duration: 0.7,
-      ease: "none",
-      onUpdate: () => (d.tag.textContent = d.txt.slice(0, Math.round(alvo.n))),
-    });
-    // Raul se afasta para a próxima
-    tl.to(raul, { x: d.x + d.w + 4, y: d.y - 10, duration: 0.5 });
-    if (i === dados.length - 1) {
-      tl.to([raul, voce], { opacity: 0, duration: 0.6 }, "+=0.4");
-      const fim = $("[data-build-fim]", sec);
-      if (fim) tl.to(fim, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, "<");
-      tl.to({}, { duration: 0.6 });
-    }
+    const [a0, a1] = angulos[i];
+    const caneta = { a: a0 };
+    const rot = "t" + i;
+    tl.addLabel(rot);
+    tl.to(seg, { strokeDashoffset: 0, duration: 1 }, rot);
+    tl.to(
+      caneta,
+      {
+        a: a1,
+        duration: 1,
+        onUpdate: () => {
+          const p = ponto(caneta.a);
+          gsap.set(raul, { x: p.x, y: p.y });
+        },
+      },
+      rot,
+    );
+    tl.to(rotulos[i], { opacity: 1, duration: 0.35 }, rot + "+=0.55");
   });
+  tl.to(raul, { opacity: 0, duration: 0.25 });
+  tl.to(r, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, "<");
+  tl.to(fim, { opacity: 1, x: 0, duration: 0.4 }, "<0.3");
+  tl.to({}, { duration: 0.3 });
 
-  const total = tl.duration();
   const ativar = () => {
     const t = tl.time();
     let k = 0;
@@ -358,5 +333,4 @@ function construir(sec: HTMLElement) {
   };
   tl.eventCallback("onUpdate", ativar);
   ativar();
-  void total;
 }
