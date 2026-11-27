@@ -24,6 +24,18 @@ O Gabriel (designer) quer que cada uma tenha apresentação própria, do jeito q
 - Página curta e mobile-first: sem pin longo, sem layout shift em animação, sem esperas longas (a conversa roda inteira em ~4 s). WhatsApp sempre verde (`#1a8f4a`). Copy calma, sem pressa.
 - A logo RC (provisória) não explica etapas: fica só na marca.
 
+## Rodada 27/11 (tarde) — o que já foi tentado e reprovado
+- **Implementado e descartado** (não commitado): stepper com barras tipo stories + "palco" com roda de 10 ícones de pessoa, chips de termo, botões "< Próxima"; conversa com botões de resposta rápida. Gabriel: "cara de IA, ícones muito ruins". Ícone de linha genérico e stepper de SaaS = reprovado.
+- **Referências reprovadas**: demos do marketplace Framer (Scroll Stack Cards, Scroll Flip, How It Works Steps, Stack Scroll Reveal, Scroll Services 3D, Split Cards), Apple Card, Raycast, Chat Messages, Bodak chat modal (nem existe mais no site), Awwwards: Mansellmade, Iris Yirei Hu, Paxafe, Omnira, Zelh.
+- **Áudio/voz do Raul: não** (cringe). Conversa só em texto.
+- **Sobreviveram (ponto de partida)** — Awwwards Inspiration:
+  - "da pra pensar": Studio Nordost, processo com ícones em motion — https://www.awwwards.com/inspiration/our-process-studio-nordost (vídeo: https://assets.awwwards.com/awards/element/2025/07/686539d584989772074281.mp4)
+  - "+-": Mosey, cena ilustrada que muda por etapa — https://www.awwwards.com/inspiration/hero-section-animations-mosey (vídeo: https://assets.awwwards.com/awards/element/2024/04/66211e5b9f18c987559463.mp4)
+  - "viajadão mas legal": Gigantic Media, process steps — https://www.awwwards.com/inspiration/process-steps-gigantic-media
+  - "viajado mas legal": 1910 Genetics, storytelling timeline — https://www.awwwards.com/inspiration/storytelling-timeline-1910-genetics
+  - Condição do Gabriel: ousado pode, mas **fácil de entender** para cliente leigo.
+- **Como trabalhar a próxima rodada**: ver os 4 (frames de vídeo via ffmpeg `fps=6/dur,tile=3x2`, ou filmstrip Playwright), extrair o mecanismo comum, propor 1–2 direções em texto + 1 quadro de referência ANTES de codar, esperar ok. Fonte que funcionou: busca `site:awwwards.com/inspiration <tema>`; vídeos em `assets.awwwards.com/awards/element/...mp4`. Fonte que não funcionou: marketplace Framer (genérico).
+
 ## Como publicar
 ```
 cd website/app && npm run build
