@@ -1,0 +1,119 @@
+---
+// "Como funciona o consórcio com você" (item 4 da estrutura combinada com o Raul).
+// Na voz dele, em frases, sem cards nem numeração. Só afirma o que o site já afirma
+// (compara administradoras, explica antes da assinatura, acompanha até a contemplação).
+import Seta from "./Seta.astro";
+import { wa } from "../data/site";
+const fases = [
+  ["Primeiro, a gente conversa.", "Eu quero entender o que você quer construir, para quando e quanto cabe no seu mês sem apertar o resto."],
+  ["Depois, eu comparo.", "Administradoras, grupos e prazos diferentes, para achar o plano que serve ao seu objetivo, e não ao meu."],
+  ["Antes de assinar, você entende tudo.", "Taxa de administração, fundo de reserva, seguro, reajuste e a estratégia de lance, com os números do seu caso."],
+  ["Depois da assinatura, eu continuo do seu lado.", "Acompanho as assembleias, a hora do lance e a contemplação, até o bem estar na sua mão."],
+];
+---
+
+<section class="com" id="com-raul" aria-labelledby="com-titulo">
+  <div class="wrap com__in">
+    <div class="com__lado">
+      <img src="/img/raul-avatar.webp" alt="Raul Carvalho" width="72" height="72" loading="lazy" data-reveal />
+      <h2 id="com-titulo" class="display com__titulo" data-split>
+        <span class="linha"><span>Como é fazer</span></span>
+        <span class="linha"><span>consórcio</span></span>
+        <span class="linha"><span>com o Raul.</span></span>
+      </h2>
+    </div>
+
+    <div class="com__fases">
+      {
+        fases.map(([t, d]) => (
+          <p class="com__fase" data-reveal>
+            <strong>{t}</strong> {d}
+          </p>
+        ))
+      }
+      <a href={wa("Oi Raul! Vim pelo site e queria marcar uma conversa sobre consórcio.")} target="_blank" rel="noopener" class="com__cta" data-reveal>
+        Marcar a primeira conversa<Seta />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .com {
+    background: var(--vermelho);
+    color: var(--branco);
+    padding: clamp(72px, 11vh, 128px) 0;
+  }
+  .com__in {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(32px, 6vw, 112px);
+    align-items: start;
+  }
+  .com__lado {
+    position: sticky;
+    top: 110px;
+  }
+  .com__lado img {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
+  }
+  .com__titulo {
+    margin-top: 24px;
+    font-size: clamp(36px, 3.8vw, 64px);
+  }
+  .com__fases {
+    display: grid;
+    gap: clamp(28px, 4.5vh, 48px);
+  }
+  .com__fase {
+    font-size: clamp(21px, 2vw, 32px);
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    color: rgba(255, 255, 255, 0.72);
+    max-width: 24em;
+  }
+  .com__fase strong {
+    font-weight: 600;
+    color: var(--branco);
+  }
+  .com__cta {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 17px;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    padding-bottom: 4px;
+  }
+  .com__cta:hover :global(.btn__seta) {
+    transform: translate(3px, -3px);
+  }
+  @media (max-width: 860px) {
+    .com__in {
+      grid-template-columns: 1fr;
+    }
+    .com__lado {
+      position: static;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    .com__lado img {
+      width: 56px;
+      height: 56px;
+      flex: none;
+    }
+    .com__titulo {
+      margin-top: 0;
+      font-size: 30px;
+    }
+    .com__fase {
+      font-size: 19px;
+    }
+  }
+</style>
