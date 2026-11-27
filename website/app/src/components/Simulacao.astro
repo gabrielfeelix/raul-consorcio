@@ -24,7 +24,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         <span class="linha"><span>Simule a sua</span></span>
         <span class="linha"><span>parcela.</span></span>
       </h2>
-      <p class="sim__texto" data-reveal>Quatro perguntas, menos de um minuto. Você vê o resultado na hora, sem cadastro.</p>
+      <p class="sim__texto" data-reveal>Responda no seu tempo. Não existe resposta errada e nada aqui te compromete: é só um ponto de partida para conversar com o Raul. Você vê o resultado sem precisar deixar contato.</p>
       <div class="sim__resumo" data-reveal>
         <p class="sim__resumo-t">Seu plano</p>
         <dl>
@@ -34,17 +34,11 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
           <div><dt>Reserva para lance</dt><dd><button type="button" class="lacuna" data-lacuna="3">—</button></dd></div>
         </dl>
       </div>
-      <p class="sim__raul" data-reveal>
-        <img src="/img/raul-avatar.webp" alt="" width="36" height="36" loading="lazy" />
-        Quem lê a sua simulação é o Raul, não um robô.
-      </p>
     </div>
 
     <form class="sim__card" data-sim novalidate>
-      <ol class="sim__etapas" aria-hidden="true">
-        {etapas.map((e, k) => <li class={k === 0 ? "is-atual" : ""}>{e}</li>)}
-      </ol>
-      <p class="sim__n" data-sim-n aria-live="polite">Pergunta 1 de 4</p>
+      <div class="sim__barra" aria-hidden="true"><i data-sim-barra></i></div>
+      <p class="sr" data-sim-n aria-live="polite">Pergunta 1 de 4</p>
 
       <fieldset class="sim__passo" data-passo="objetivo">
         <legend>O que você quer conquistar?</legend>
@@ -107,61 +101,32 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       </fieldset>
 
       <div class="sim__passo sim__res" data-passo="resultado" hidden>
-        <p class="sim__res-rot">Primeira leitura do seu caso</p>
-        <div class="res__destaque">
-          <span>Parcela estimada</span>
-          <strong data-res-parcela>—</strong>
-          <em>por mês, pagos em <b data-res-prazo>—</b>. As parcelas continuam depois da contemplação, mas o bem já é seu.</em>
-          <dl class="res__ficha">
-            <div><dt>Carta considerada</dt><dd data-res-carta>—</dd></div>
-            <div><dt>Quando você quer o bem</dt><dd data-res-quando>—</dd></div>
-            <div><dt>Lance de referência (10% da carta)</dt><dd data-res-lance>—</dd></div>
-          </dl>
-          <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
-        </div>
-
-        <div class="cmp">
-          <p class="cmp__t">Total pago até o fim do plano</p>
-          <div class="cmp__linha">
-            <span>Consórcio</span>
-            <div class="cmp__barra"><i data-cmp-c></i></div>
-            <strong data-cmp-cv>—</strong>
-          </div>
-          <div class="cmp__linha cmp__linha--fin">
-            <span>Financiamento</span>
-            <div class="cmp__barra"><i data-cmp-f></i></div>
-            <strong data-cmp-fv>—</strong>
-          </div>
-          <p class="cmp__eco">Você deixaria de pagar cerca de <strong data-cmp-eco>—</strong> em juros.</p>
-          <p class="cmp__base" data-cmp-base></p>
-        </div>
-
-        <p class="res__caminho"><b>Caminho possível:</b> <span data-res-caminho></span></p>
+        <p class="res__rot">Sua parcela fica entre, por mês</p>
+        <strong class="res__valor" data-res-parcela>—</strong>
+        <p class="res__txt" data-res-texto></p>
+        <p class="res__txt" data-res-caminho></p>
+        <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
+        <details class="res__contato">
+          <summary>Prefere que o Raul te chame? Deixe seu contato.</summary>
+            <div class="sim__contato">
+              <label>
+                <span>Seu nome</span>
+                <input name="nome" autocomplete="name" required />
+              </label>
+              <label>
+                <span>WhatsApp</span>
+                <input name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(44) 9 0000-0000" required />
+              </label>
+            </div>
+            <label class="sim__lgpd">
+              <input type="checkbox" name="lgpd" />
+              <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
+            </label>
+            <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
+        </details>
         <p class="sim__res-nota">
-          Estimativa com taxa de administração média de mercado. O valor real depende da administradora, do grupo e da
-          estratégia de lance.
+          Estimativa com taxas médias de mercado. O valor real depende da administradora, do grupo e da estratégia de lance.
         </p>
-
-        <div class="res__contato">
-          <h3>Quer a análise completa?</h3>
-          <p>Deixe seu contato e o Raul te chama no WhatsApp, em horário comercial.</p>
-          <div class="sim__contato">
-            <label>
-              <span>Seu nome</span>
-              <input name="nome" autocomplete="name" required />
-            </label>
-            <label>
-              <span>WhatsApp</span>
-              <input name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(44) 9 0000-0000" required />
-            </label>
-          </div>
-          <label class="sim__lgpd">
-            <input type="checkbox" name="lgpd" />
-            <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
-          </label>
-          <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
-          <p class="passos">Depois disso, o Raul te chama para uma conversa de uns 30 minutos. Sem compromisso.</p>
-        </div>
       </div>
 
       <div class="sim__nav">
@@ -278,6 +243,20 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     overflow: hidden;
     clip: rect(0 0 0 0);
   }
+  .sim__barra {
+    height: 2px;
+    margin: 0 0 28px;
+    border-radius: 2px;
+    background: var(--linha-clara);
+    overflow: hidden;
+  }
+  .sim__barra i {
+    display: block;
+    height: 100%;
+    width: 6%;
+    background: var(--vermelho);
+    transition: width 0.6s var(--ease);
+  }
   .sim__etapas {
     list-style: none;
     margin: 0 0 28px;
@@ -310,12 +289,6 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     background: var(--vermelho);
   }
 
-  .sim__n {
-    margin: -12px 0 18px;
-    font-size: 13px;
-    font-weight: 600;
-    color: #6b6b6f;
-  }
   .sim__passo {
     border: 0;
     padding: 0;
@@ -750,6 +723,79 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       display: none;
     }
   }
+  /* Resultado enxuto */
+  .res__rot {
+    font-size: 15px;
+    color: #6b6b6f;
+  }
+  .res__valor {
+    display: block;
+    margin-top: 6px;
+    font-size: clamp(34px, 3.6vw, 52px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .res__txt {
+    margin-top: 18px;
+    max-width: 34em;
+    font-size: 16px;
+    line-height: 1.55;
+    color: #2d2d2d;
+  }
+  .res__txt + .res__txt {
+    margin-top: 10px;
+  }
+  .sim .res__zap {
+    --bg: #1a8f4a;
+    margin-top: 28px;
+    height: 54px;
+  }
+  .sim .res__contato {
+    margin: 20px 0 0;
+    padding: 0;
+    background: none;
+    color: #111;
+    border-radius: 0;
+  }
+  .sim .res__zap:hover {
+    --bg: #157a3e;
+  }
+  .res__contato summary {
+    list-style: none;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    color: #45454a;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .res__contato summary::-webkit-details-marker {
+    display: none;
+  }
+  .res__contato[open] summary {
+    margin-bottom: 16px;
+  }
+  .sim .res__contato .sim__contato label span {
+    color: #45454a;
+  }
+  .sim .res__contato .sim__contato input {
+    background: var(--branco);
+    border: 1px solid var(--linha-clara);
+    color: #111;
+  }
+  .sim .res__contato .sim__contato input::placeholder {
+    color: #a1a1a6;
+  }
+  .sim .res__contato .sim__lgpd {
+    color: #45454a;
+  }
+  .sim .sim__res-nota {
+    margin-top: 24px;
+    font-size: 12.5px;
+    color: #8e8e93;
+  }
 </style>
 
 <script>
@@ -847,47 +893,38 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const ref = REF[obj];
       const credito = ref.faixas[Number(val("valor"))]?.[1] ?? ref.faixas[0][1];
       const base = (credito * (1 + ref.taxa)) / ref.prazo;
-      form!.querySelector("[data-res-parcela]")!.textContent = `${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))}`;
-      form!.querySelector("[data-res-prazo]")!.textContent = `${ref.prazo} meses (${Math.round(ref.prazo / 12)} anos)`;
-      form!.querySelector("[data-res-carta]")!.textContent = brl(credito);
-      form!.querySelector("[data-res-quando]")!.textContent =
-        (form!.querySelector('input[name="quando"]:checked + .op__c b') as HTMLElement)?.textContent || "—";
-      form!.querySelector("[data-res-lance]")!.textContent = brl(Math.round(credito * 0.1 / 1000) * 1000);
-      const mod = modalidades.find((x) => x.id === obj);
-      const faixaTxt = ref.faixas[Number(val("valor"))]?.[0];
-      const resumo =
-        `Olá, Raul. Fiz a simulação no site.\n\n` +
-        `Objetivo: ${mod?.nome}\nValor: ${faixaTxt}\nParcela estimada: ${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))} por mês\n\nQuero entender o meu caso.` +
-        (indicacao ? `\nIndicação: ${indicacao}` : "");
-      form!.querySelector<HTMLAnchorElement>("[data-res-zap]")!.href = wa(resumo);
-
+      const parcela = `${brl(arred(base * 0.9))} e ${brl(arred(base * 1.1))}`;
       const i = FIN[obj], n = ref.prazo;
       const fin = ((credito * i) / (1 - Math.pow(1 + i, -n))) * n;
       const cons = credito * (1 + ref.taxa);
-      const fmt = (v: number) => brl(Math.round(v / 1000) * 1000);
-      form!.querySelector("[data-cmp-cv]")!.textContent = fmt(cons);
-      form!.querySelector("[data-cmp-fv]")!.textContent = fmt(fin);
-      form!.querySelector("[data-cmp-eco]")!.textContent = fmt(Math.max(0, fin - cons));
-      form!.querySelector("[data-cmp-base]")!.textContent =
-        `Financiamento calculado a ${(i * 100).toLocaleString("pt-BR", { maximumFractionDigits: 2 })}% ao mês, no mesmo prazo e sem entrada. Consórcio com taxa de administração de ${Math.round(ref.taxa * 100)}% no total.`;
-      requestAnimationFrame(() => {
-        form!.querySelector<HTMLElement>("[data-cmp-c]")!.style.width = `${(cons / fin) * 100}%`;
-        form!.querySelector<HTMLElement>("[data-cmp-f]")!.style.width = "100%";
-      });
+      const eco = brl(Math.round(Math.max(0, fin - cons) / 1000) * 1000);
+
+      form!.querySelector("[data-res-parcela]")!.textContent = parcela;
+      form!.querySelector("[data-res-texto]")!.textContent =
+        `Para uma carta de ${brl(credito)}, em ${n} meses. O bem pode vir antes, por sorteio ou lance, e as parcelas seguem até o fim do plano. ` +
+        `Comparado a um financiamento, você deixaria de pagar cerca de ${eco} em juros.`;
 
       const quando = val("quando");
       const lance = val("lance");
       let caminho: string;
       if (quando === "ja" && (lance === "bom" || lance === "bem")) {
-        caminho = "Com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
+        caminho = "No seu caso, com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
       } else if (quando === "ja") {
-        caminho = "Para quem tem pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender se compensa no seu caso.";
+        caminho = "No seu caso, com pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender com o Raul se compensa.";
       } else if (quando === "1-2") {
-        caminho = "Dá para montar uma estratégia de lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
+        caminho = "No seu caso, dá para montar um lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
       } else {
-        caminho = "Com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para o momento em que fizer mais sentido.";
+        caminho = "No seu caso, com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para quando fizer mais sentido.";
       }
       form!.querySelector("[data-res-caminho]")!.textContent = caminho;
+
+      const mod = modalidades.find((x) => x.id === obj);
+      const faixaTxt = ref.faixas[Number(val("valor"))]?.[0];
+      const resumo =
+        `Olá, Raul. Fiz a simulação no site.\n\n` +
+        `Objetivo: ${mod?.nome}\nValor: ${faixaTxt}\nParcela estimada: entre ${parcela} por mês\n\nQuero entender o meu caso.` +
+        (indicacao ? `\nIndicação: ${indicacao}` : "");
+      form!.querySelector<HTMLAnchorElement>("[data-res-zap]")!.href = wa(resumo);
     }
 
     form.addEventListener("change", (e) => {
@@ -975,6 +1012,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         l.tabIndex = cheia ? 0 : -1;
       });
       lacunas.forEach((l, k) => l.classList.toggle("is-atual", k === primeiraVazia && atual === k));
+      const barra = form.querySelector<HTMLElement>("[data-sim-barra]");
+      if (barra) barra.style.width = `${Math.max(6, (atual / 4) * 100)}%`;
     }
     form.addEventListener("change", () => setTimeout(frase, 0));
     lacunas.forEach((l, k) => l.addEventListener("click", () => l.classList.contains("is-cheia") && ir(k)));
