@@ -12,7 +12,7 @@
         <img src="/img/rev/investimento.webp" alt="Prédio residencial iluminado" decoding="async" />
       </div>
     </div>
-    <p class="rev__dica" data-rev-dica>Depois da contemplação</p>
+    <p class="rev__dica display" data-rev-dica>E é aqui que o plano <span>vira patrimônio.</span></p>
     <div class="rev__texto wrap">
       <h2 class="display d-l" data-rev-txt>Você compra<br />à vista o seu <span class="rev__palavra" data-rev-palavra>imóvel.</span></h2>
       <p class="rev__sub" data-rev-txt>Casa, carro, máquina ou investimento: a carta de crédito serve para o que você planejou.</p>
@@ -75,13 +75,15 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: calc(50% + 20vh);
+    bottom: calc(50% + 21vh);
+    margin: 0 auto;
+    padding: 0 var(--margem);
+    max-width: 14em;
     text-align: center;
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cinza);
+    font-size: clamp(30px, 3.6vw, 60px);
+  }
+  .rev__dica span {
+    color: var(--vermelho);
   }
   .rev__sub {
     margin-top: 20px;

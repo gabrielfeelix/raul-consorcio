@@ -197,10 +197,10 @@ if (!reduz) {
       masc.style.setProperty("--sombra", String(Math.min(1, (st.s - 1) / 20)));
     };
     const tlr = gsap.timeline({
-      scrollTrigger: { trigger: rev, start: "top top", end: "+=180%", pin: true, scrub: 0.8, onRefresh: aplicar },
+      scrollTrigger: { trigger: rev, start: "top top", end: "+=110%", pin: true, scrub: 0.8, onRefresh: aplicar },
     });
     const dica = $("[data-rev-dica]", rev);
-    if (dica) tlr.to(dica, { opacity: 0, duration: 0.12, ease: "none" }, 0);
+    if (dica) tlr.to(dica, { opacity: 0, y: -30, duration: 0.25, ease: "none" }, 0.05);
     tlr.to(st, { s: 34, ease: "power2.in", duration: 1, onUpdate: aplicar });
     tlr.to($$("[data-rev-txt]", rev), { opacity: 1, stagger: 0.1, duration: 0.3, ease: "none" });
     // Não é só imóvel: as imagens e a palavra trocam enquanto a cena segue travada
@@ -208,14 +208,33 @@ if (!reduz) {
     // Fotos baixadas e decodificadas antes de a cena travar
     const preparar = () => imgs.forEach((im) => (im as HTMLImageElement).decode?.().catch(() => {}));
     ScrollTrigger.create({ trigger: rev, start: "top bottom+=150%", once: true, onEnter: preparar });
+    // A troca de patrimônio corre no relógio, não na rolagem: a cena trava pouco
+    // e quem rola rápido não pula as fotos.
     const palavra = $("[data-rev-palavra]", rev);
     const nomes = ["imóvel.", "carro.", "caminhão.", "investimento."];
-    imgs.slice(1).forEach((im, k) => {
-      tlr.to(im, { opacity: 1, duration: 0.18, ease: "none" }, "+=0.22");
-      tlr.call(() => palavra && (palavra.textContent = nomes[k + 1]), [], "<0.09");
-      tlr.call(() => palavra && (palavra.textContent = nomes[k]), [], "<-0.001");
+    let atual = 0;
+    let relogio = 0;
+    const mostrar = (k: number) => {
+      if (k === atual) return;
+      gsap.to(imgs[atual], { opacity: 0, duration: 0.7, ease: "none" });
+      gsap.to(imgs[k], { opacity: 1, duration: 0.7, ease: "none" });
+      if (palavra) palavra.textContent = nomes[k];
+      atual = k;
+    };
+    const parar = () => {
+      clearInterval(relogio);
+      relogio = 0;
+    };
+    tlr.to({}, { duration: 0.15 });
+    tlr.eventCallback("onUpdate", () => {
+      if (tlr.progress() > 0.85) {
+        if (!relogio) relogio = window.setInterval(() => mostrar((atual + 1) % imgs.length), 1700);
+      } else if (relogio) {
+        parar();
+        mostrar(0);
+      }
     });
-    tlr.to({}, { duration: 0.3 });
+    ScrollTrigger.create({ trigger: rev, start: "top bottom", end: "bottom top", onLeave: parar, onLeaveBack: parar });
     aplicar();
   }
 
@@ -289,7 +308,7 @@ function construir(sec: HTMLElement) {
     scrollTrigger: {
       trigger: sec,
       start: "top top",
-      end: "+=170%",
+      end: "+=100%",
       pin: true,
       scrub: 0.8,
       anticipatePin: 1,

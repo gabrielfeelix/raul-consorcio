@@ -9,7 +9,7 @@ Atualizado: 2026-11-27. Commit base: `34f8ab0`.
 - Paleta: vermelho `#A6111F`, vinho `#7A0000`, preto `#0B0B0C`, papel `#F4F4F4`.
 
 ## Versões
-- **A** (`src/pages/index.astro`): Hero → Consultor → Faixa (marquee) → Construcao (pin 170%) → Frase → Revelacao (pin 180%) → Modalidades (lista) → Depoimentos → Videos → Simulacao → Faq. Rodada "tirar a cara de IA" feita em 27/11 (sem rótulos numerados, barrinhas, colunas iguais; WhatsApp no Nav). Página ≈16 telas no desktop 1440×900.
+- **A** (`src/pages/index.astro`): Hero → Consultor → Faixa (marquee) → Construcao (pin 100%) → Revelacao (pin 110%, abre com a frase "o plano vira patrimônio"; troca de fotos por tempo) → Modalidades (lista) → Depoimentos → Videos → Simulacao → Faq. Página: 13,2 telas desktop 1440×900 / 14,0 mobile 390×844 (Drop Dead da PCYES, que o Raul achou "tamanho top": 14,1). Feedback do Raul: `Downloads/Alterações da Landing Page.zip` (WhatsApp 26/11).
 - **B** (`src/pages/b.astro`, componentes em `src/components/b/`): narrativa "sonho + dúvidas", Raul depois. O cliente (Raul) prefere começar por ele, então a A é a base a seguir; B fica como teste.
 
 ## Pendências do cliente (dependem do Raul)
