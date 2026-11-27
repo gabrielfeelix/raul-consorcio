@@ -269,30 +269,22 @@ if (!reduz) {
 }
 
 function construir(sec: HTMLElement) {
-  // Sem trava: o C se desenha enquanto a seção atravessa a tela.
-  const segs = $$<SVGPathElement>(".arco__seg", sec);
-  const rotulos = $$<SVGGElement>(".arco__rot", sec);
-  const r = $<SVGGElement>(".arco__r", sec)!;
-  const fim = $<SVGGElement>(".arco__fim", sec)!;
-  const palco = $(".build__palco", sec)!;
-
-  gsap.set(segs, { strokeDashoffset: 1 });
-  gsap.set(rotulos, { opacity: 0 });
-  gsap.set(r, { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
-  gsap.set(fim, { opacity: 0, x: -4 });
-
-  // Desktop: trava curta (60%) com o anel em escala de tela. Celular: sem trava, desenha ao passar.
-  const largo = matchMedia("(min-width: 861px)").matches;
-  const tl = gsap.timeline({
-    defaults: { ease: "none" },
-    scrollTrigger: largo
-      ? { trigger: sec, start: "top top", end: "+=60%", pin: true, scrub: 0.6, anticipatePin: 1 }
-      : { trigger: palco, start: "top 80%", end: "bottom 60%", scrub: 0.6 },
+  // Linha do tempo de "Como funciona": o trilho enche conforme a rolagem e cada
+  // etapa acende quando o trilho chega nela. Sem trava de rolagem.
+  const tl = $("[data-tl]", sec);
+  const prog = $("[data-tl-progresso]", sec);
+  const passos = $$("[data-tl-passo]", sec);
+  if (!tl || !prog) return;
+  gsap.set(prog, { scaleY: 0 });
+  ScrollTrigger.create({
+    trigger: tl,
+    start: "top 65%",
+    end: "bottom 65%",
+    scrub: 0.4,
+    onUpdate: (st) => {
+      gsap.set(prog, { scaleY: st.progress });
+      const n = passos.length;
+      passos.forEach((p, k) => p.classList.toggle("is-on", st.progress >= k / (n - 1) - 0.02));
+    },
   });
-  segs.forEach((seg, i) => {
-    tl.to(seg, { strokeDashoffset: 0, duration: 1 });
-    tl.to(rotulos[i], { opacity: 1, duration: 0.35 }, "<0.55");
-  });
-  tl.to(r, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" });
-  tl.to(fim, { opacity: 1, x: 0, duration: 0.4 }, "<0.3");
 }

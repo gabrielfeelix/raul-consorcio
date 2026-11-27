@@ -45,7 +45,7 @@ export const modalidades: Modalidade[] = [
     id: "investimento",
     nome: "Investimento",
     frase: "Carta de crédito como ferramenta de patrimônio.",
-    usos: ["Alavancagem patrimonial", "Renda com aluguel", "Venda da carta contemplada", "Diversificação"],
+    usos: ["Fazer o patrimônio crescer", "Renda com aluguel", "Venda da carta contemplada", "Diversificação"],
     estrategia: "Usar o crédito para comprar ativos que se pagam. É aqui que a estratégia faz mais diferença.",
   },
 ];

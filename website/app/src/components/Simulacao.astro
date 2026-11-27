@@ -103,9 +103,10 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         <p class="res__carregando" data-res-load><span class="res__giro" aria-hidden="true"></span>Calculando o seu plano…</p>
 
         <div class="res__topo" data-anim>
-          <p class="res__rot">Parcela estimada</p>
+          <p class="res__rot">Sua parcela fica entre</p>
           <p class="res__valor"><strong data-res-parcela>—</strong><span>/mês</span></p>
-          <p class="res__sobre">Carta de <b data-res-carta>—</b> · <b data-res-prazo>—</b></p>
+          <p class="res__sobre">Carta de crédito (o valor do bem) de <b data-res-carta>—</b>, em um plano de <b data-res-prazo>—</b>.</p>
+          <p class="res__quando"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/></svg><span>Você pode receber o dinheiro em <b>qualquer mês</b> do plano: no sorteio, ou antes, dando um lance (uma entrada para sair na frente).</span></p>
         </div>
 
         <div class="zap" aria-label="Mensagem do Raul" data-anim>
@@ -845,6 +846,29 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     font-size: 15px;
     color: #6b6b6f;
   }
+  .res__quando {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-top: 16px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f4f4f6;
+    font-size: 14.5px;
+    line-height: 1.5;
+    color: #2d2d2d;
+  }
+  .res__quando svg {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    fill: none;
+    stroke: var(--vermelho);
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
   .res__sobre b {
     font-weight: 600;
     color: #111;
@@ -1122,6 +1146,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const credito = ref.faixas[Number(val("valor"))]?.[1] ?? ref.faixas[0][1];
       const base = (credito * (1 + ref.taxa)) / ref.prazo;
       const parcela = `${brl(arred(base * 0.9))} e ${brl(arred(base * 1.1))}`;
+      const anos = Math.floor(ref.prazo / 12), meses = ref.prazo % 12;
+      const prazoTxt = `${anos} anos` + (meses ? ` e ${meses} meses` : "");
       const i = FIN[obj], n = ref.prazo;
       const fin = ((credito * i) / (1 - Math.pow(1 + i, -n))) * n;
       const cons = credito * (1 + ref.taxa);
@@ -1130,21 +1156,21 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const $r = (k: string) => form!.querySelector<HTMLElement>(`[data-${k}]`)!;
       $r("res-parcela").textContent = parcela;
       $r("res-carta").textContent = brl(credito);
-      $r("res-prazo").textContent = `${n} meses`;
+      $r("res-prazo").textContent = prazoTxt;
       $r("res-eco").textContent =
-        `E olha só: comparando com um financiamento no mesmo prazo, você deixaria de pagar cerca de ${eco} em juros. Se quiser, eu te explico cada número.`;
+        `E olha só: num financiamento de banco, no mesmo prazo, você pagaria cerca de ${eco} a mais em juros. Se quiser, eu te mostro essa conta.`;
 
       const quando = val("quando");
       const lance = val("lance");
       let caminho: string;
       if (quando === "ja" && (lance === "bom" || lance === "bem")) {
-        caminho = "Boa notícia: com a reserva que você tem, dá pra usar um lance e tentar ser contemplado logo nos primeiros meses. Eu te ajudo a escolher o valor certo.";
+        caminho = "Boa notícia: com a reserva que você tem, dá pra dar um lance (uma entrada) e tentar receber já nos primeiros meses. Eu te ajudo a escolher o valor certo.";
       } else if (quando === "ja") {
-        caminho = "Entendi que você tem pressa. Existe o lance embutido, que usa parte da própria carta para antecipar. Ele tem um custo, e eu te mostro se vale a pena no seu caso.";
+        caminho = "Entendi que você tem pressa. Dá pra usar o lance embutido: uma parte do próprio valor do consórcio vira a entrada para sair antes. Ele tem um custo, e eu te mostro se vale a pena no seu caso.";
       } else if (quando === "1-2") {
-        caminho = "Dá pra fazer assim: você vai juntando uma reserva enquanto paga as parcelas e, quando fizer sentido, usa ela como lance. Eu acompanho com você a melhor hora.";
+        caminho = "Dá pra fazer assim: você vai juntando uma reserva enquanto paga as parcelas e, quando fizer sentido, usa ela como lance (uma entrada para sair antes). Eu acompanho com você a melhor hora.";
       } else {
-        caminho = "Como você não tem pressa, dá pra contar com o sorteio todo mês e guardar o lance pra usar só se precisar. É o jeito mais tranquilo de fazer consórcio.";
+        caminho = "Como você não tem pressa, dá pra contar com o sorteio de todo mês e guardar o lance (a entrada para sair antes) pra usar só se precisar. É o jeito mais tranquilo de fazer consórcio.";
       }
       form!.querySelector("[data-res-caminho]")!.textContent = caminho;
 

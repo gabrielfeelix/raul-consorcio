@@ -1,262 +1,215 @@
 ---
-import Seta from "./Seta.astro";
-// O monograma RC se desenha enquanto a página rola: o arco do C fecha em três trechos
-// (uma etapa cada), o Raul vai na ponta da caneta e o R entra no fim como o patrimônio.
-// Monograma provisório até a logo final (marca/rc-branco.svg usa o mesmo desenho).
+// Como funciona o consórcio: linha do tempo com ícones simples.
+// Cada etapa traz o termo técnico (mostra que o Raul é do ramo) e, ao lado,
+// o que ele quer dizer em linguagem de todo dia. A linha se preenche ao rolar.
 interface Props {
   titulo?: string;
 }
 const { titulo = "Como funciona o consórcio." } = Astro.props;
-const etapas = [
+const passos = [
   {
-    t: "A carta",
-    d: "Você define o patrimônio que quer construir. A carta de crédito é o valor dele: imóvel, veículo, máquina ou investimento.",
-    tag: "Carta",
-    medida: "o valor do seu bem",
+    icone: "alvo",
+    t: "Você escolhe o valor do bem",
+    termo: "Carta de crédito",
+    d: "É o valor do que você quer comprar: a casa, o carro, a máquina.",
   },
   {
-    t: "As parcelas",
-    d: "Sem juros. Uma taxa de administração diluída no prazo, num valor que cabe no seu mês sem apertar o resto.",
-    tag: "Parcelas",
-    medida: "sem juros, no prazo",
+    icone: "calendario",
+    t: "Paga uma parcela por mês",
+    termo: "Sem juros de banco",
+    d: "Tem só a taxa de administração, que é o pagamento da empresa do consórcio, já somada na parcela.",
   },
   {
-    t: "A contemplação",
-    d: "Por sorteio ou por lance (uma oferta para ser contemplado antes). Com estratégia de lance, você deixa de esperar a sorte e passa a planejar a data.",
-    tag: "Contemplação",
-    medida: "por sorteio ou lance",
+    icone: "sorteio",
+    t: "Todo mês tem sorteio",
+    termo: "Assembleia",
+    d: "É o encontro mensal do grupo. Nele acontece o sorteio e quem quiser pode dar um lance.",
+  },
+  {
+    icone: "dinheiro",
+    t: "Sorteado ou com lance, você recebe",
+    termo: "Contemplação",
+    d: "É quando o dinheiro sai para você. O lance é uma entrada que você oferece para sair antes, sem depender da sorte.",
+  },
+  {
+    icone: "chave",
+    t: "Compra à vista e segue pagando",
+    termo: "O bem já é seu",
+    d: "Você compra à vista e usa desde o primeiro dia. As parcelas continuam até o fim do plano.",
   },
 ];
+const icones: Record<string, string> = {
+  alvo: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/>',
+  calendario: '<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
+  sorteio: '<circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.3 2.3 4.7-5"/>',
+  dinheiro: '<rect x="3.5" y="7" width="17" height="10" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6.5 10v4M17.5 10v4"/>',
+  chave: '<circle cx="8.5" cy="12" r="4"/><path d="M12.5 12H20.5M17.5 12v3M20 12v2"/>',
+};
 ---
 
 <section class="build" id="construcao" data-build>
   <div class="build__in wrap">
     <div class="build__col">
-      <h2 class="display d-m build__titulo">{titulo}</h2>
-      <ol class="build__etapas">
-        {
-          etapas.map((e, i) => (
-            <li class="build__etapa" data-etapa={i}>
-              <div>
-                <h3>{e.t}</h3>
-                <p>{e.d}</p>
-              </div>
-            </li>
-          ))
-        }
-      </ol>
-      <p class="build__fecho">Com a carta contemplada, você compra à vista o que planejou. As parcelas seguem até o fim do plano, mas o bem já é seu.</p>
-
-
+      <h2 class="display build__titulo" data-split>
+        <span class="linha"><span>{titulo}</span></span>
+      </h2>
+      <p class="build__sub" data-reveal>
+        Um grupo de pessoas junta dinheiro todo mês. A cada mês, alguém do grupo recebe o valor para comprar o seu bem,
+        até que todos recebam.
+      </p>
     </div>
 
-    <div class="build__palco">
-      <div class="build__quadro">
-        
-        <svg viewBox="-34 -10 176 140" class="build__svg" role="img" aria-label="Monograma do Raul Carvalho sendo desenhado em três etapas">
-                    <circle cx="60" cy="60" r="40" class="arco__guia" />
-          <line x1="60" y1="-10" x2="60" y2="130" class="arco__eixo" />
-          <line x1="-34" y1="60" x2="142" y2="60" class="arco__eixo" />
-          <path d="M88.28 31.72A40 40 0 0 0 32.21 31.23" class="arco__seg" pathLength="1" data-seg="0" />
-          <path d="M31.23 32.21A40 40 0 0 0 31.23 87.79" class="arco__seg" pathLength="1" data-seg="1" />
-          <path d="M32.21 88.77A40 40 0 0 0 88.28 88.28" class="arco__seg" pathLength="1" data-seg="2" />
-          <g class="arco__r">
-            <path d="M46 38H66A14 14 0 0 1 66 66H56V82H46ZM56 47V57H65A5 5 0 0 0 65 47Z" fill-rule="evenodd" />
-            <path d="M58.5 63H70.5L81.5 82H69.5Z" />
-          </g>
-          <g class="arco__rot" data-rot="0">
-            <line x1="60" y1="14" x2="60" y2="8" class="arco__tick" />
-            <text x="60" y="-0.5" text-anchor="middle">{etapas[0].tag}</text>
-            <text x="60" y="4.2" text-anchor="middle" class="arco__sub">{etapas[0].medida}</text>
-          </g>
-          <g class="arco__rot" data-rot="1">
-            <line x1="14" y1="60" x2="8" y2="60" class="arco__tick" />
-            <text x="5" y="59.2" text-anchor="end">{etapas[1].tag}</text>
-            <text x="5" y="63.6" text-anchor="end" class="arco__sub">{etapas[1].medida}</text>
-          </g>
-          <g class="arco__rot" data-rot="2">
-            <line x1="60" y1="106" x2="60" y2="112" class="arco__tick" />
-            <text x="60" y="118.5" text-anchor="middle">{etapas[2].tag}</text>
-            <text x="60" y="122.8" text-anchor="middle" class="arco__sub">{etapas[2].medida}</text>
-          </g>
-          <g class="arco__fim">
-            <line x1="84" y1="60" x2="94" y2="60" class="arco__tick" />
-            <text x="97" y="61.4">Seu patrimônio</text>
-          </g>
-
-        </svg>
-      </div>
-    </div>
+    <ol class="tl" data-tl>
+      <span class="tl__trilho" aria-hidden="true"><i data-tl-progresso></i></span>
+      {
+        passos.map((p) => (
+          <li class="tl__passo" data-tl-passo>
+            <span class="tl__icone" aria-hidden="true">
+              <svg viewBox="0 0 24 24" set:html={icones[p.icone]} />
+            </span>
+            <div>
+              <h3>{p.t}</h3>
+              <p>
+                <b>{p.termo}:</b> {p.d}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
 
 <style>
   .build {
-    position: relative;
     background: var(--preto);
   }
   .build__in {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
-    gap: clamp(24px, 3vw, 48px);
-    align-items: center;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 112px);
+    align-items: start;
     padding-top: clamp(72px, 10vh, 120px);
     padding-bottom: clamp(72px, 10vh, 120px);
   }
-  .build__titulo {
-    margin: 0 0 28px;
-    font-size: clamp(32px, 3.2vw, 52px);
-    max-width: 9em;
+  .build__col {
+    position: sticky;
+    top: 110px;
   }
-  .build__etapas {
+  .build__titulo {
+    font-size: clamp(36px, 4vw, 64px);
+  }
+  .build__sub {
+    margin-top: 20px;
+    max-width: 24em;
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .tl {
+    position: relative;
     list-style: none;
     margin: 0;
     padding: 0;
-  }
-  .build__etapa {
     display: grid;
-    padding: 16px 0;
-    border-top: 1px solid var(--linha);
+    gap: 30px;
   }
-  .build__etapa h3 {
-    font-size: 22px;
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    margin-bottom: 6px;
-  }
-  .build__fecho {
-    margin-top: 28px;
-    padding-top: 22px;
-    border-top: 1px solid var(--linha);
-    font-size: clamp(19px, 1.5vw, 23px);
-    font-weight: 500;
-    letter-spacing: -0.02em;
-    line-height: 1.35;
-    max-width: 22em;
-  }
-  .build__etapa p {
-    color: rgba(255, 255, 255, 0.68);
-    font-size: 15px;
-    max-width: 30em;
-  }
-  .build__fim {
-    margin-top: 28px;
-    padding: 20px 22px;
-    border-radius: var(--raio);
-    background: var(--vermelho);
-  }
-  .build__fim-t {
-    font-size: clamp(20px, 1.8vw, 26px);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-  }
-  .build__fim-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    font-size: 14px;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-    padding-bottom: 2px;
-  }
-  .build__fim-d {
-    margin-top: 6px;
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.85);
-  }
-  :global(html.js-motion) .build__fim {
-    opacity: 0;
-    transform: translateY(16px);
-  }
-  .build__cta {
-    margin-top: 28px;
-  }
-  .build__quadro {
-    position: relative;
-  }
-  .build__nome-quadro {
+  .tl__trilho {
     position: absolute;
-    top: 14px;
-    left: 16px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--cinza);
-    z-index: 1;
+    left: 23px;
+    top: 24px;
+    bottom: 24px;
+    width: 2px;
+    border-radius: 2px;
+    background: rgba(255, 255, 255, 0.12);
+    overflow: hidden;
   }
-  .build__svg {
+  .tl__trilho i {
+    display: block;
     width: 100%;
-    height: auto;
-    max-height: 82svh;
+    height: 100%;
+    background: var(--vermelho);
+    transform-origin: 50% 0;
   }
-  .arco__guia,
-  .arco__eixo {
+  .tl__passo {
+    position: relative;
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 20px;
+    align-items: start;
+  }
+  .tl__icone {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #1c1c1f;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: var(--branco);
+    transition:
+      background-color 0.4s var(--ease),
+      border-color 0.4s var(--ease);
+  }
+  .tl__icone svg {
+    width: 24px;
+    height: 24px;
     fill: none;
-    stroke: rgba(255, 255, 255, 0.12);
-    stroke-width: 0.25;
-    stroke-dasharray: 1 1.2;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .arco__seg {
-    fill: none;
-    stroke: var(--vermelho);
-    stroke-width: 9;
-    stroke-dasharray: 1;
-    stroke-dashoffset: 0;
+  .tl__passo.is-on .tl__icone {
+    background: var(--vermelho);
+    border-color: var(--vermelho);
   }
-  .arco__r {
-    fill: var(--branco);
-  }
-  .arco__tick {
-    stroke: rgba(255, 255, 255, 0.45);
-    stroke-width: 0.25;
-  }
-  .arco__rot text,
-  .arco__fim text {
-    fill: var(--branco);
-    font-size: 4.2px;
+  .tl__passo h3 {
+    padding-top: 4px;
+    font-size: clamp(19px, 1.6vw, 24px);
     font-weight: 600;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
   }
-  .arco__rot .arco__sub {
-    fill: rgba(255, 255, 255, 0.5);
-    font-size: 2.8px;
-    font-weight: 500;
-    letter-spacing: 0;
+  .tl__passo p {
+    margin-top: 6px;
+    max-width: 30em;
+    font-size: 15.5px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.7);
   }
-
-
-  /* Estado final sem JS / movimento reduzido */
-  :global(html:not(.js-motion)) .build__etapa {
-    opacity: 1;
+  .tl__passo p b {
+    font-weight: 600;
+    color: var(--branco);
   }
-
   @media (max-width: 860px) {
     .build__in {
       grid-template-columns: 1fr;
-      align-content: start;
-      gap: 20px;
-      padding-top: 72px;
+      gap: 36px;
     }
-    .build__palco {
-      order: -1;
-    }
-    .build__svg {
-      max-height: 38svh;
-    }
-    .arco__rot text,
-    .arco__fim text {
-      font-size: 6.4px;
-    }
-    .arco__rot .arco__sub,
-    .arco__fim {
-      display: none;
-    }
-    .build__cta {
-      display: none;
+    .build__col {
+      position: static;
     }
     .build__titulo {
-      margin: 0 0 16px;
-      font-size: 30px;
+      font-size: 34px;
+    }
+    .build__sub {
+      font-size: 16px;
+    }
+    .tl {
+      gap: 26px;
+    }
+    .tl__passo {
+      grid-template-columns: 44px minmax(0, 1fr);
+      gap: 16px;
+    }
+    .tl__icone {
+      width: 44px;
+      height: 44px;
+    }
+    .tl__trilho {
+      left: 21px;
     }
   }
 </style>
