@@ -2,6 +2,8 @@
 const perguntas = [
   ["Consórcio demora muito?", "Depende da estratégia. Só pelo sorteio, ninguém sabe a data. Com lance planejado, você passa a ter controle sobre quando ser contemplado."],
   ["Quanto custa de verdade? Sai mais caro no fim?", "Consórcio não tem juros. O custo são quatro coisas: a taxa de administração (a remuneração da administradora, diluída nas parcelas), o fundo de reserva (protege o grupo se alguém atrasa), o seguro (quita o saldo em caso de imprevisto) e o reajuste anual da carta, que acompanha um índice como o INCC no imóvel. Eu mostro cada uma no seu caso antes de qualquer assinatura."],
+  ["E depois que eu for contemplado?", "Você recebe a carta de crédito e compra o bem à vista. As parcelas continuam até o fim do plano, mas o bem já é seu e você usa desde a compra. No imóvel, ele fica como garantia até a última parcela, como em qualquer crédito."],
+  ["Posso usar o FGTS?", "No consórcio de imóvel residencial, sim, dentro das regras da Caixa: para dar lance, completar a compra ou amortizar parcelas. Eu confiro com você se o seu caso se enquadra."],
   ["É seguro?", "Consórcio é regulado e fiscalizado pelo Banco Central. Trabalho só com administradoras autorizadas e explico cada regra antes da assinatura."],
   ["Por que um consultor e não direto na administradora?", "Porque eu comparo várias. Meu trabalho é encontrar o grupo e a estratégia que servem para o seu objetivo, e acompanhar você até a contemplação."],
   ["Consórcio serve para qualquer pessoa?", "Não. Se você precisa do bem amanhã, não tem reserva para lance ou não tem folga no orçamento para a parcela, provavelmente não é o caminho, e eu te digo isso antes de qualquer simulação. Faz sentido para quem quer comprar sem juros e consegue planejar com alguns meses ou anos de antecedência."],
@@ -13,8 +15,7 @@ const perguntas = [
   <div class="wrap faq__in">
     <div>
       <h2 class="display d-m faq__titulo" data-split>
-        <span class="linha"><span>O que todo mundo</span></span>
-        <span class="linha"><span>pergunta antes.</span></span>
+        <span class="linha"><span>O que todo mundo pergunta antes.</span></span>
       </h2>
     </div>
     <div class="faq__lista">
@@ -85,8 +86,10 @@ const perguntas = [
   }
   .faq__in {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(32px, 6vw, 96px);
+    gap: clamp(32px, 6vh, 64px);
+  }
+  .faq__titulo {
+    font-size: clamp(40px, 5.4vw, 88px);
   }
   details {
     border-top: 1px solid var(--linha);
@@ -102,9 +105,9 @@ const perguntas = [
     gap: 24px;
     padding: 26px 0;
     cursor: pointer;
-    font-size: clamp(18px, 1.5vw, 22px);
-    font-weight: 600;
-    letter-spacing: -0.02em;
+    font-size: clamp(20px, 2.1vw, 32px);
+    font-weight: 500;
+    letter-spacing: -0.03em;
   }
   summary::-webkit-details-marker {
     display: none;

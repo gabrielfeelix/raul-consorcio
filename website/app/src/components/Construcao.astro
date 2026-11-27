@@ -45,22 +45,16 @@ const etapas = [
           ))
         }
       </ol>
-      <p class="build__fecho">Com a carta contemplada, você compra à vista o que planejou: imóvel, carro, máquina ou investimento.</p>
+      <p class="build__fecho">Com a carta contemplada, você compra à vista o que planejou. As parcelas seguem até o fim do plano, mas o bem já é seu.</p>
 
 
     </div>
 
     <div class="build__palco">
       <div class="build__quadro">
-        <span class="build__nome-quadro">Seu plano</span>
+        
         <svg viewBox="-34 -10 176 140" class="build__svg" role="img" aria-label="Monograma do Raul Carvalho sendo desenhado em três etapas">
-          <defs>
-            <pattern id="pontos" width="4" height="4" patternUnits="userSpaceOnUse">
-              <circle cx="0.5" cy="0.5" r="0.22" fill="rgba(255,255,255,.12)"></circle>
-            </pattern>
-          </defs>
-          <rect x="-34" y="-10" width="176" height="140" fill="url(#pontos)"></rect>
-          <circle cx="60" cy="60" r="40" class="arco__guia" />
+                    <circle cx="60" cy="60" r="40" class="arco__guia" />
           <line x1="60" y1="-10" x2="60" y2="130" class="arco__eixo" />
           <line x1="-34" y1="60" x2="142" y2="60" class="arco__eixo" />
           <path d="M88.28 31.72A40 40 0 0 0 32.21 31.23" class="arco__seg" pathLength="1" data-seg="0" />
@@ -103,14 +97,15 @@ const etapas = [
   }
   .build__in {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(32px, 5vw, 80px);
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(24px, 3vw, 48px);
     align-items: center;
     padding-top: clamp(72px, 10vh, 120px);
     padding-bottom: clamp(72px, 10vh, 120px);
   }
   .build__titulo {
-    margin: 0 0 40px;
+    margin: 0 0 28px;
+    font-size: clamp(32px, 3.2vw, 52px);
     max-width: 9em;
   }
   .build__etapas {
@@ -120,7 +115,7 @@ const etapas = [
   }
   .build__etapa {
     display: grid;
-    padding: 22px 0;
+    padding: 16px 0;
     border-top: 1px solid var(--linha);
   }
   .build__etapa h3 {
@@ -179,10 +174,6 @@ const etapas = [
   }
   .build__quadro {
     position: relative;
-    border: 1px solid var(--linha);
-    border-radius: var(--raio);
-    background: var(--preto-2);
-    overflow: hidden;
   }
   .build__nome-quadro {
     position: absolute;
@@ -196,7 +187,7 @@ const etapas = [
   .build__svg {
     width: 100%;
     height: auto;
-    max-height: 74svh;
+    max-height: 82svh;
   }
   .arco__guia,
   .arco__eixo {

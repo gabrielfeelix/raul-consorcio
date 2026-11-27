@@ -10,7 +10,8 @@ import Seta from "./Seta.astro";
 
   <div class="hero__in wrap">
     <h1 class="display hero__h1" data-split>
-      <span class="linha"><span>Seu próximo grande passo</span></span>
+      <span class="linha"><span>Seu próximo</span></span>
+      <span class="linha"><span>grande passo</span></span>
       <span class="linha"><span>começa com um plano.</span></span>
     </h1>
     <div class="hero__lado">
@@ -59,7 +60,9 @@ import Seta from "./Seta.astro";
     padding-bottom: clamp(40px, 8vh, 88px);
   }
   .hero__h1 {
-    font-size: clamp(40px, 5vw, 88px);
+    font-size: clamp(40px, 7vw, 112px);
+    font-weight: 500;
+    letter-spacing: -0.055em;
   }
   h1 em {
     font-style: normal;
@@ -68,7 +71,7 @@ import Seta from "./Seta.astro";
   .hero__lado {
     position: absolute;
     right: var(--margem);
-    bottom: clamp(40px, 8vh, 88px);
+    bottom: calc(clamp(40px, 8vh, 88px) + min(7vw, 112px) * 1.15);
     width: min(330px, 24vw);
   }
   .hero__sub {

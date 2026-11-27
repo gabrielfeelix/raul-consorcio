@@ -104,12 +104,17 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         <div class="res__destaque">
           <span>Parcela estimada</span>
           <strong data-res-parcela>—</strong>
-          <em>por mês, com prazo de referência de <b data-res-prazo>—</b></em>
+          <em>por mês, pagos em <b data-res-prazo>—</b>. As parcelas continuam depois da contemplação, mas o bem já é seu.</em>
+          <dl class="res__ficha">
+            <div><dt>Carta considerada</dt><dd data-res-carta>—</dd></div>
+            <div><dt>Quando você quer o bem</dt><dd data-res-quando>—</dd></div>
+            <div><dt>Lance de referência (10% da carta)</dt><dd data-res-lance>—</dd></div>
+          </dl>
           <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
         </div>
 
         <div class="cmp">
-          <p class="cmp__t">Total pago até ter o bem</p>
+          <p class="cmp__t">Total pago até o fim do plano</p>
           <div class="cmp__linha">
             <span>Consórcio</span>
             <div class="cmp__barra"><i data-cmp-c></i></div>
@@ -121,6 +126,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
             <strong data-cmp-fv>—</strong>
           </div>
           <p class="cmp__eco">Você deixaria de pagar cerca de <strong data-cmp-eco>—</strong> em juros.</p>
+          <p class="cmp__base" data-cmp-base></p>
         </div>
 
         <p class="res__caminho"><b>Caminho possível:</b> <span data-res-caminho></span></p>
@@ -212,7 +218,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     background: var(--branco);
     border-radius: 16px;
     padding: clamp(22px, 2.6vw, 40px);
-    box-shadow: 0 1px 0 var(--linha-clara), 0 40px 80px -48px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--linha-clara);
     display: flex;
     flex-direction: column;
   }
@@ -453,6 +459,32 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   }
   .res__destaque em b {
     color: #111;
+  }
+  .res__ficha {
+    margin: 18px 0 0;
+    border-top: 1px solid var(--linha-clara);
+  }
+  .res__ficha div {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--linha-clara);
+    font-size: 14px;
+  }
+  .res__ficha dt {
+    color: #6b6b6f;
+  }
+  .res__ficha dd {
+    margin: 0;
+    font-weight: 600;
+    text-align: right;
+  }
+  .cmp__base {
+    margin-top: 8px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    color: #8e8e93;
   }
   .cmp {
     margin-top: 22px;
@@ -750,7 +782,11 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const credito = ref.faixas[Number(val("valor"))]?.[1] ?? ref.faixas[0][1];
       const base = (credito * (1 + ref.taxa)) / ref.prazo;
       form!.querySelector("[data-res-parcela]")!.textContent = `${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))}`;
-      form!.querySelector("[data-res-prazo]")!.textContent = `${ref.prazo} meses`;
+      form!.querySelector("[data-res-prazo]")!.textContent = `${ref.prazo} meses (${Math.round(ref.prazo / 12)} anos)`;
+      form!.querySelector("[data-res-carta]")!.textContent = brl(credito);
+      form!.querySelector("[data-res-quando]")!.textContent =
+        (form!.querySelector('input[name="quando"]:checked + .op__c b') as HTMLElement)?.textContent || "—";
+      form!.querySelector("[data-res-lance]")!.textContent = brl(Math.round(credito * 0.1 / 1000) * 1000);
       const mod = modalidades.find((x) => x.id === obj);
       const faixaTxt = ref.faixas[Number(val("valor"))]?.[0];
       const resumo =
@@ -766,6 +802,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       form!.querySelector("[data-cmp-cv]")!.textContent = fmt(cons);
       form!.querySelector("[data-cmp-fv]")!.textContent = fmt(fin);
       form!.querySelector("[data-cmp-eco]")!.textContent = fmt(Math.max(0, fin - cons));
+      form!.querySelector("[data-cmp-base]")!.textContent =
+        `Financiamento calculado a ${(i * 100).toLocaleString("pt-BR", { maximumFractionDigits: 2 })}% ao mês, no mesmo prazo e sem entrada. Consórcio com taxa de administração de ${Math.round(ref.taxa * 100)}% no total.`;
       requestAnimationFrame(() => {
         form!.querySelector<HTMLElement>("[data-cmp-c]")!.style.width = `${(cons / fin) * 100}%`;
         form!.querySelector<HTMLElement>("[data-cmp-f]")!.style.width = "100%";

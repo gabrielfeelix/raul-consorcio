@@ -8,7 +8,7 @@ const ano = new Date().getFullYear();
 <footer class="rod">
   <div class="wrap">
     <div class="rod__cta">
-      <h2 class="display d-m" data-split>
+      <h2 class="display rod__titulo" data-split>
         <span class="linha"><span>Seu patrimônio</span></span>
         <span class="linha"><span>começa numa conversa.</span></span>
       </h2>
@@ -27,7 +27,6 @@ const ano = new Date().getFullYear();
       <span>Presencial e online, em todo o Brasil</span>
     </div>
 
-    <p class="rod__marca display" data-rod-marca aria-hidden="true">Raul Carvalho</p>
 
     <div class="rod__legal">
       <span>© {ano} Raul Carvalho Consórcios. CNPJ 00.000.000/0000-00</span>
@@ -45,13 +44,16 @@ const ano = new Date().getFullYear();
   }
   .rod__cta {
     display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 32px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 36px;
+    padding-bottom: clamp(56px, 9vh, 96px);
   }
-  .rod__cta h2 {
-    max-width: 11em;
+  .rod__titulo {
+    font-size: clamp(44px, 7.4vw, 120px);
+    font-weight: 500;
+    letter-spacing: -0.055em;
   }
   .rod__acoes {
     display: flex;

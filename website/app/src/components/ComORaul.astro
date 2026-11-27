@@ -15,7 +15,6 @@ const fases = [
 <section class="com" id="com-raul" aria-labelledby="com-titulo">
   <div class="wrap com__in">
     <div class="com__lado">
-      <img src="/img/raul-avatar.webp" alt="Raul Carvalho" width="72" height="72" loading="lazy" data-reveal />
       <h2 id="com-titulo" class="display com__titulo" data-split>
         <span class="linha"><span>Como é fazer</span></span>
         <span class="linha"><span>consórcio</span></span>
@@ -25,8 +24,8 @@ const fases = [
 
     <div class="com__fases">
       {
-        fases.map(([t, d]) => (
-          <p class="com__fase" data-reveal>
+        fases.map(([t, d], i) => (
+          <p class="com__fase" style={`--i:${i}`} data-reveal>
             <strong>{t}</strong> {d}
           </p>
         ))
@@ -54,16 +53,8 @@ const fases = [
     position: sticky;
     top: 110px;
   }
-  .com__lado img {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    object-fit: cover;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.25);
-  }
   .com__titulo {
-    margin-top: 24px;
-    font-size: clamp(36px, 3.8vw, 64px);
+    font-size: clamp(40px, 4.6vw, 76px);
   }
   .com__fases {
     display: grid;
@@ -74,7 +65,8 @@ const fases = [
     line-height: 1.3;
     letter-spacing: -0.025em;
     color: rgba(255, 255, 255, 0.72);
-    max-width: 24em;
+    max-width: 22em;
+    margin-left: calc(var(--i) * 6%);
   }
   .com__fase strong {
     font-weight: 600;
@@ -82,6 +74,7 @@ const fases = [
   }
   .com__cta {
     justify-self: start;
+    margin-left: 18%;
     display: inline-flex;
     align-items: center;
     gap: 10px;
@@ -103,10 +96,8 @@ const fases = [
       align-items: center;
       gap: 16px;
     }
-    .com__lado img {
-      width: 56px;
-      height: 56px;
-      flex: none;
+    .com__cta {
+      margin-left: 0;
     }
     .com__titulo {
       margin-top: 0;
@@ -114,6 +105,7 @@ const fases = [
     }
     .com__fase {
       font-size: 19px;
+      margin-left: 0;
     }
   }
 </style>

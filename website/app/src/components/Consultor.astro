@@ -1,11 +1,6 @@
 ---
 import Seta from "./Seta.astro";
 import { wa } from "../data/site";
-const fatos = [
-  ["8 anos", "de experiência comercial"],
-  ["Mais de 100 clientes", "atendidos com consórcio"],
-  ["Presencial e online", "em todo o Brasil"],
-];
 ---
 
 <section class="raul" id="consultor">
@@ -24,15 +19,9 @@ const fatos = [
       falo.”
     </blockquote>
 
-    <ul class="raul__fatos" data-reveal>
-      {
-        fatos.map(([n, l]) => (
-          <li>
-            <strong>{n}</strong> <span>{l}</span>
-          </li>
-        ))
-      }
-    </ul>
+    <p class="raul__fatos" data-reveal>
+      <strong>8 anos</strong> de experiência comercial, <strong>mais de 100 clientes</strong> atendidos com consórcio, <strong>presencial e online</strong> em todo o Brasil.
+    </p>
 
     <a href={wa("Oi Raul! Vim pelo site e queria conversar sobre consórcio.")} target="_blank" rel="noopener" class="raul__cta" data-reveal>Conversar com o Raul<Seta /></a>
   </div>
@@ -78,25 +67,19 @@ const fatos = [
   }
   .raul__fala {
     margin: 40px 0 0;
-    font-size: clamp(24px, 2.1vw, 34px);
+    font-size: clamp(26px, 2.8vw, 46px);
     font-weight: 500;
-    letter-spacing: -0.025em;
-    line-height: 1.28;
+    letter-spacing: -0.035em;
+    line-height: 1.18;
     color: #1a1a1a;
-    max-width: 19em;
+    max-width: 17em;
     text-indent: -0.42em;
   }
   .raul__fatos {
-    list-style: none;
-    margin: 44px 0 0;
-    padding: 0;
+    margin: 36px 0 0;
     max-width: 30em;
-    border-top: 1px solid var(--linha-clara);
-  }
-  .raul__fatos li {
-    padding: 14px 0;
-    border-bottom: 1px solid var(--linha-clara);
     font-size: 16px;
+    line-height: 1.6;
     color: #6b6b6f;
   }
   .raul__fatos strong {
@@ -121,7 +104,10 @@ const fatos = [
       grid-template-columns: 1fr;
     }
     .raul__foto {
-      height: 40svh;
+      height: 44svh;
+    }
+    .raul__foto img {
+      object-position: 50% 12%;
     }
     .raul__conteudo {
       padding-top: 40px;

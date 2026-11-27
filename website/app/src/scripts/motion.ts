@@ -280,9 +280,13 @@ function construir(sec: HTMLElement) {
   gsap.set(r, { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
   gsap.set(fim, { opacity: 0, x: -4 });
 
+  // Desktop: trava curta (60%) com o anel em escala de tela. Celular: sem trava, desenha ao passar.
+  const largo = matchMedia("(min-width: 861px)").matches;
   const tl = gsap.timeline({
     defaults: { ease: "none" },
-    scrollTrigger: { trigger: palco, start: "top 85%", end: "bottom 45%", scrub: 0.6 },
+    scrollTrigger: largo
+      ? { trigger: sec, start: "top top", end: "+=60%", pin: true, scrub: 0.6, anticipatePin: 1 }
+      : { trigger: palco, start: "top 80%", end: "bottom 60%", scrub: 0.6 },
   });
   segs.forEach((seg, i) => {
     tl.to(seg, { strokeDashoffset: 0, duration: 1 });
