@@ -34,6 +34,9 @@ O Gabriel (designer) quer que cada uma tenha apresentação própria, do jeito q
   - "viajadão mas legal": Gigantic Media, process steps — https://www.awwwards.com/inspiration/process-steps-gigantic-media
   - "viajado mas legal": 1910 Genetics, storytelling timeline — https://www.awwwards.com/inspiration/storytelling-timeline-1910-genetics
   - Condição do Gabriel: ousado pode, mas **fácil de entender** para cliente leigo.
+- **Exemplo de "sem cara de IA" (Gabriel amou)**: Wealthsimple — https://www.wealthsimple.com. Não copiar, mas é o tom certo: fonte geométrica com personalidade (sans tipo Futura nos textos, serifada só no título grande "Trusted by over 4 million Canadians"), botões em pílula com contorno fino, frase curta centralizada, muito respiro, gradiente suave de fundo, cartões arredondados em cor pastel, um objeto 3D bonito (moeda) em vez de ícone.
+- **Segunda rodada de refs (27/11)**: reprovadas Maxima Finance, ZAK, Noomo; Explicit "+-, sem cara de IA mas feio". Lento: links quebrados. Obsidian Assembly e Obys Ukraine: lindas, mas não para o Raul (salvas em `../jogos/cova-para-um/referencias-externas/site-landing-page.md`).
+- **Ao listar refs**: um link por item, numeração batendo com o link, e testar se abre antes de mandar.
 - **Como trabalhar a próxima rodada**: ver os 4 (frames de vídeo via ffmpeg `fps=6/dur,tile=3x2`, ou filmstrip Playwright), extrair o mecanismo comum, propor 1–2 direções em texto + 1 quadro de referência ANTES de codar, esperar ok. Fonte que funcionou: busca `site:awwwards.com/inspiration <tema>`; vídeos em `assets.awwwards.com/awards/element/...mp4`. Fonte que não funcionou: marketplace Framer (genérico).
 
 ## Como publicar
