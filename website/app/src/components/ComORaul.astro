@@ -58,18 +58,25 @@ const conversa = [
   if (reduz || !("IntersectionObserver" in window)) {
     pares.forEach((p) => p.classList.add("is-on", "is-dito"));
   } else {
-    const io = new IntersectionObserver(
-      (es) =>
-        es.forEach((e) => {
-          if (!e.isIntersecting) return;
-          const p = e.target as HTMLElement;
-          io.unobserve(p);
-          p.classList.add("is-on");
-          setTimeout(() => p.classList.add("is-dito"), 1500);
-        }),
-      { rootMargin: "0px 0px -22% 0px" },
-    );
-    pares.forEach((p) => io.observe(p));
+    // A conversa inteira roda uma vez quando a seção aparece: uma troca a cada ~1,1 s.
+    // Se a pessoa já passou da seção, mostra tudo na hora.
+    const chat = document.querySelector<HTMLElement>("[data-chat]");
+    const tudo = () => pares.forEach((p) => p.classList.add("is-on", "is-dito"));
+    if (chat && chat.getBoundingClientRect().bottom < 0) tudo();
+    else if (chat) {
+      const io = new IntersectionObserver(
+        (es) => {
+          if (!es[0].isIntersecting) return;
+          io.disconnect();
+          pares.forEach((p, k) => {
+            setTimeout(() => p.classList.add("is-on"), k * 1100);
+            setTimeout(() => p.classList.add("is-dito"), k * 1100 + 650);
+          });
+        },
+        { threshold: 0.2 },
+      );
+      io.observe(chat);
+    }
   }
 </script>
 

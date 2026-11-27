@@ -81,8 +81,9 @@ if (!reduz) {
   gsap.ticker.lagSmoothing(0);
   $$<HTMLAnchorElement>('a[href^="#"]').forEach((a) =>
     a.addEventListener("click", (e) => {
-      const alvo = a.getAttribute("href")!;
-      if (alvo.length < 2) return;
+      // Confere na hora do clique: links que nascem "#" e viram externos (ex.: WhatsApp do resultado)
+      const alvo = a.getAttribute("href") || "";
+      if (!alvo.startsWith("#") || alvo.length < 2) return;
       e.preventDefault();
       lenis.scrollTo(alvo, { offset: alvo === "#topo" ? 0 : -20, duration: 1.4 });
     }),
