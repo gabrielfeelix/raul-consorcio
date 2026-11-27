@@ -25,6 +25,15 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         <span class="linha"><span>parcela.</span></span>
       </h2>
       <p class="sim__texto" data-reveal>Responda no seu tempo. Não existe resposta errada e nada aqui te compromete: é só um ponto de partida para conversar com o Raul. Você vê o resultado sem precisar deixar contato.</p>
+      <div class="sim__resumo" data-reveal>
+        <p class="sim__resumo-t">Seu plano</p>
+        <ul class="sim__itens">
+          <li><button type="button" class="item" data-lacuna="0"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Objetivo</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="1"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Valor</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="2"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Prazo</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="3"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Reserva para lance</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+        </ul>
+      </div>
     </div>
 
     <form class="sim__card" data-sim novalidate>
@@ -177,22 +186,36 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     font-weight: 600;
     margin-bottom: 10px;
   }
+  /* Passo a passo vertical, direto no fundo: círculos ligados por uma linha */
   .sim__itens {
     list-style: none;
     margin: 0;
-    padding: 6px;
-    border-radius: 18px;
-    background: var(--branco);
-    border: 1px solid var(--linha-clara);
+    padding: 0;
+  }
+  .sim__itens li {
+    position: relative;
+  }
+  .sim__itens li + li::before {
+    content: "";
+    position: absolute;
+    left: 11px;
+    top: -14px;
+    height: 28px;
+    width: 2px;
+    border-radius: 2px;
+    background: #dcdce0;
+  }
+  .sim__itens li:has(.is-cheia) + li::before {
+    background: #1a8f4a;
   }
   .item {
     display: flex;
     align-items: center;
     gap: 14px;
     width: 100%;
-    padding: 12px 12px;
+    padding: 14px 0;
     border: 0;
-    border-radius: 12px;
+    border-radius: 0;
     background: none;
     font: inherit;
     text-align: left;
@@ -202,6 +225,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   }
   .item__ck {
     position: relative;
+    z-index: 1;
+    background: var(--papel);
     flex: none;
     width: 24px;
     height: 24px;
@@ -253,9 +278,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .item.is-cheia {
     cursor: pointer;
   }
-  .item.is-cheia:hover {
-    background: #f4f4f6;
-  }
+
   .item.is-cheia:hover .item__ed {
     color: var(--vermelho);
   }
