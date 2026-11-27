@@ -101,43 +101,50 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       </fieldset>
 
       <div class="sim__passo sim__res" data-passo="resultado" hidden>
-        <p class="res__rot">Parcela estimada</p>
-        <p class="res__valor"><strong data-res-parcela>—</strong><span>/mês</span></p>
-        <ul class="res__chips">
-          <li>Carta de <b data-res-carta>—</b></li>
-          <li><b data-res-prazo>—</b> de plano</li>
-        </ul>
+        <p class="res__carregando" data-res-load><span class="res__giro" aria-hidden="true"></span>Calculando o seu plano…</p>
 
-        <div class="zap" aria-label="Mensagem do Raul">
+        <div class="res__topo" data-anim>
+          <p class="res__rot">Parcela estimada</p>
+          <p class="res__valor"><strong data-res-parcela>—</strong><span>/mês</span></p>
+          <ul class="res__chips">
+            <li>Carta de <b data-res-carta>—</b></li>
+            <li><b data-res-prazo>—</b> de plano</li>
+          </ul>
+        </div>
+
+        <div class="zap" aria-label="Mensagem do Raul" data-anim>
           <img src="/img/raul-avatar.webp" alt="" width="40" height="40" loading="lazy" />
           <div class="zap__msgs">
-            <p class="zap__msg"><b class="zap__nome">Raul Carvalho</b><span data-res-caminho></span><span class="zap__hora">agora</span></p>
-            <p class="zap__msg"><span data-res-eco></span><span class="zap__hora">agora</span></p>
+            <p class="zap__msg" data-anim><b class="zap__nome">Raul Carvalho</b><span data-res-caminho></span><span class="zap__hora">agora</span></p>
+            <p class="zap__msg" data-anim><span data-res-eco></span><span class="zap__hora">agora</span></p>
+            <p class="zap__msg zap__digitando" data-res-dig aria-hidden="true" hidden><i></i><i></i><i></i></p>
           </div>
         </div>
 
-        <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Continuar no WhatsApp<Seta /></a>
-        <details class="res__contato">
-          <summary>Prefere que o Raul te chame? Deixe seu contato.</summary>
-            <div class="sim__contato">
-              <label>
-                <span>Seu nome</span>
-                <input name="nome" autocomplete="name" required />
+        <div class="res__fim" data-anim>
+          <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Continuar no WhatsApp<Seta /></a>
+          <details class="res__contato">
+            <summary>Prefere que o Raul te chame? Deixe seu contato.</summary>
+              <div class="sim__contato">
+                <label>
+                  <span>Seu nome</span>
+                  <input name="nome" autocomplete="name" required />
+                </label>
+                <label>
+                  <span>WhatsApp</span>
+                  <input name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(44) 9 0000-0000" required />
+                </label>
+              </div>
+              <label class="sim__lgpd">
+                <input type="checkbox" name="lgpd" />
+                <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
               </label>
-              <label>
-                <span>WhatsApp</span>
-                <input name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(44) 9 0000-0000" required />
-              </label>
-            </div>
-            <label class="sim__lgpd">
-              <input type="checkbox" name="lgpd" />
-              <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
-            </label>
-            <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
-        </details>
-        <p class="sim__res-nota">
-          Estimativa com taxas médias de mercado. O valor real depende da administradora, do grupo e da estratégia de lance.
-        </p>
+              <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
+          </details>
+          <p class="sim__res-nota">
+            Estimativa com taxas médias de mercado. O valor real depende da administradora, do grupo e da estratégia de lance.
+          </p>
+        </div>
       </div>
 
       <div class="sim__nav">
@@ -811,7 +818,11 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .zap__msg + .zap__msg {
     border-radius: 10px;
   }
-  .zap__msg:first-child::before {
+  .zap__msg:first-child:not(.is-in) ~ .zap__digitando {
+    border-radius: 0 10px 10px 10px;
+  }
+  .zap__msg:first-child::before,
+  .zap__msg:first-child:not(.is-in) ~ .zap__digitando::before {
     content: "";
     position: absolute;
     top: -1px;
@@ -828,6 +839,70 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     font-size: 13px;
     font-weight: 600;
     color: #008069;
+  }
+  .res__carregando {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: #45454a;
+  }
+  .res__carregando[hidden] {
+    display: none;
+  }
+  .res__giro {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 2.5px solid #e5e5ea;
+    border-top-color: var(--vermelho);
+    animation: giro 0.8s linear infinite;
+  }
+  @keyframes giro {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .sim__res [data-anim]:not(.is-in) {
+    display: none;
+  }
+  .sim__res [data-anim].is-in {
+    animation: res-entra 0.5s var(--ease);
+  }
+  @keyframes res-entra {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+  .zap__digitando {
+    display: inline-flex;
+    gap: 4px;
+    padding: 12px 14px;
+  }
+  .zap__digitando[hidden] {
+    display: none;
+  }
+  .zap__digitando i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #b0b0b5;
+    animation: zap-digita 1s infinite;
+  }
+  .zap__digitando i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .zap__digitando i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes zap-digita {
+    50% {
+      transform: translateY(-3px);
+      opacity: 0.5;
+    }
   }
   .zap__hora {
     float: right;
@@ -992,19 +1067,19 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       $r("res-carta").textContent = brl(credito);
       $r("res-prazo").textContent = `${n} meses`;
       $r("res-eco").textContent =
-        `Comparando com um financiamento no mesmo prazo, você deixaria de pagar cerca de ${eco} em juros.`;
+        `E olha só: comparando com um financiamento no mesmo prazo, você deixaria de pagar cerca de ${eco} em juros. Se quiser, eu te explico cada número.`;
 
       const quando = val("quando");
       const lance = val("lance");
       let caminho: string;
       if (quando === "ja" && (lance === "bom" || lance === "bem")) {
-        caminho = "Com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
+        caminho = "Boa notícia: com a reserva que você tem, dá pra usar um lance e tentar ser contemplado logo nos primeiros meses. Eu te ajudo a escolher o valor certo.";
       } else if (quando === "ja") {
-        caminho = "Com pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender com o Raul se compensa.";
+        caminho = "Entendi que você tem pressa. Existe o lance embutido, que usa parte da própria carta para antecipar. Ele tem um custo, e eu te mostro se vale a pena no seu caso.";
       } else if (quando === "1-2") {
-        caminho = "Dá para montar um lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
+        caminho = "Dá pra fazer assim: você vai juntando uma reserva enquanto paga as parcelas e, quando fizer sentido, usa ela como lance. Eu acompanho com você a melhor hora.";
       } else {
-        caminho = "Com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para quando fizer mais sentido.";
+        caminho = "Como você não tem pressa, dá pra contar com o sorteio todo mês e guardar o lance pra usar só se precisar. É o jeito mais tranquilo de fazer consórcio.";
       }
       form!.querySelector("[data-res-caminho]")!.textContent = caminho;
 
@@ -1015,6 +1090,48 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         `Objetivo: ${mod?.nome}\nValor: ${faixaTxt}\nParcela estimada: entre ${parcela} por mês\n\nQuero entender o meu caso.` +
         (indicacao ? `\nIndicação: ${indicacao}` : "");
       form!.querySelector<HTMLAnchorElement>("[data-res-zap]")!.href = wa(resumo);
+      animarResultado();
+    }
+
+    // Resultado entra em etapas: carregando, parcela, Raul digita, mensagens, botão.
+    let relogios: number[] = [];
+    function animarResultado() {
+      const res = passos["resultado"];
+      const load = res.querySelector<HTMLElement>("[data-res-load]")!;
+      const dig = res.querySelector<HTMLElement>("[data-res-dig]")!;
+      const [topo, zapEl, m1, m2, fimEl] = [
+        res.querySelector(".res__topo"),
+        res.querySelector(".zap"),
+        ...res.querySelectorAll(".zap__msg[data-anim]"),
+        res.querySelector(".res__fim"),
+      ] as HTMLElement[];
+      relogios.forEach(clearTimeout);
+      relogios = [];
+      const todos = [topo, zapEl, m1, m2, fimEl];
+      if (matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        load.hidden = true;
+        dig.hidden = true;
+        todos.forEach((e) => e.classList.add("is-in"));
+        return;
+      }
+      todos.forEach((e) => e.classList.remove("is-in"));
+      load.hidden = false;
+      dig.hidden = true;
+      const em = (ms: number, fn: () => void) => relogios.push(window.setTimeout(fn, ms));
+      em(1300, () => {
+        load.hidden = true;
+        topo.classList.add("is-in");
+      });
+      em(2000, () => {
+        zapEl.classList.add("is-in");
+        dig.hidden = false;
+      });
+      em(3400, () => m1.classList.add("is-in"));
+      em(4900, () => {
+        m2.classList.add("is-in");
+        dig.hidden = true;
+      });
+      em(5400, () => fimEl.classList.add("is-in"));
     }
 
     form.addEventListener("change", (e) => {
