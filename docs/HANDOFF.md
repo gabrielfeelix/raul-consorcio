@@ -54,6 +54,12 @@ Código: props `modelo` em `src/components/Construcao.astro` e `ComORaul.astro`;
 - Conferir: num print dele o texto do cartão de trás ainda vazava na pilha; o conserto (`.is-atras > * {opacity:0}`) está no código, confirmar no link.
 - Limpar depois: `construir()` em `src/scripts/motion.ts` ficou sem uso (a seção não tem mais `data-build`); apagar o projeto Vercel `raul-consorcio-modelos` quando escolher.
 
+## Rodada 27/11 (fim) — estado atual
+- **Como funciona** virou cena de cinema guiada pela rolagem (`Construcao.astro`, prop `modelo` ignorada): a foto abre até a tela cheia, fica fixa (~3,5 telas), câmera com zoom/deslize pela rolagem, pílulas acompanham a etapa (clicar rola até ela), letreiro grande direto na foto com palavras subindo uma a uma. Sem cartões de interface (Gabriel: "cara de IA"). Pedido dele: "scroll muda as tabs, animação orgânica". Pin longo foi pedido explícito dele.
+- **Com o Raul**: index usa `modelo="jornada"` (fotos reais do Raul, 4 passos). Gabriel: "para de inventar moda, só explica de forma legal como é". Ainda não validado por ele.
+- No ar para ver (sem login): https://raul-consorcio-modelos.vercel.app/ (index). Produção oficial raul-consorcio-v3 NÃO atualizada.
+- Falta: validação com as personas (baixo letramento + crítico de estúdio), publicar na produção quando ele aprovar, limpar `construir()` de `motion.ts`, páginas `/modelos/*` e o projeto Vercel `raul-consorcio-modelos`.
+
 ## Como publicar
 ```
 cd website/app && npm run build
