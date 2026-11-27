@@ -8,7 +8,7 @@ const ano = new Date().getFullYear();
 <footer class="rod">
   <div class="wrap">
     <div class="rod__cta">
-      <h2 class="display d-l" data-split>
+      <h2 class="display d-m" data-split>
         <span class="linha"><span>Seu patrimônio</span></span>
         <span class="linha"><span>começa numa conversa.</span></span>
       </h2>
@@ -22,12 +22,12 @@ const ano = new Date().getFullYear();
 
     <div class="rod__links">
       <a href={INSTAGRAM} target="_blank" rel="noopener"><Onda texto="Instagram" /></a>
-      <a href="#modalidades"><Onda texto="Modalidades" /></a>
+      <a href="#simulacao"><Onda texto="Simulação" /></a>
       <a href="#faq"><Onda texto="Dúvidas" /></a>
       <span>Presencial e online, em todo o Brasil</span>
     </div>
 
-    <p class="rod__marca display" data-rod-marca aria-hidden="true">Raul Carvalho<span>.</span></p>
+    <p class="rod__marca display" data-rod-marca aria-hidden="true">Raul Carvalho</p>
 
     <div class="rod__legal">
       <span>© {ano} Raul Carvalho Consórcios. CNPJ 00.000.000/0000-00</span>
@@ -38,7 +38,7 @@ const ano = new Date().getFullYear();
 
 <style>
   .rod {
-    padding: clamp(96px, 14vh, 160px) 0 32px;
+    padding: clamp(56px, 8vh, 88px) 0 28px;
     background: var(--preto);
     border-top: 1px solid var(--linha);
     overflow: hidden;
@@ -74,7 +74,7 @@ const ano = new Date().getFullYear();
   .rod__marca {
     margin: 0;
     padding: 0.08em 0 0.12em;
-    font-size: 13.2vw;
+    font-size: 9vw;
     line-height: 0.9;
     white-space: nowrap;
     letter-spacing: -0.06em;
@@ -86,7 +86,7 @@ const ano = new Date().getFullYear();
   }
   @media (min-width: 1440px) {
     .rod__marca {
-      font-size: 190px;
+      font-size: 130px;
     }
   }
   .rod__legal {

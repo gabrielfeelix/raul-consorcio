@@ -105,6 +105,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
           <span>Parcela estimada</span>
           <strong data-res-parcela>—</strong>
           <em>por mês, com prazo de referência de <b data-res-prazo>—</b></em>
+          <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
         </div>
 
         <div class="cmp">
@@ -503,6 +504,16 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .cmp__eco strong {
     color: #1f7a4d;
   }
+  .res__zap {
+    margin-top: 18px;
+    height: 50px;
+  }
+  @media (max-width: 900px) {
+    .res__zap {
+      width: 100%;
+      justify-content: center;
+    }
+  }
   .res__caminho {
     margin-top: 20px;
     font-size: 16px;
@@ -666,7 +677,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   // Indicação de parceiro: link da plataforma com ?ref=CODIGO
   const refUrl = new URLSearchParams(location.search).get("ref");
   if (refUrl) sessionStorage.setItem("raul_ref", refUrl.slice(0, 40));
-  const ref = sessionStorage.getItem("raul_ref");
+  const indicacao = sessionStorage.getItem("raul_ref");
 
   // Ponto único para mandar o lead ao CRM da plataforma (Supabase) quando o backend existir.
   // Defina PUBLIC_LEAD_ENDPOINT no build para ativar; sem ele, o lead segue só pelo WhatsApp.
@@ -740,6 +751,13 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const base = (credito * (1 + ref.taxa)) / ref.prazo;
       form!.querySelector("[data-res-parcela]")!.textContent = `${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))}`;
       form!.querySelector("[data-res-prazo]")!.textContent = `${ref.prazo} meses`;
+      const mod = modalidades.find((x) => x.id === obj);
+      const faixaTxt = ref.faixas[Number(val("valor"))]?.[0];
+      const resumo =
+        `Olá, Raul. Fiz a simulação no site.\n\n` +
+        `Objetivo: ${mod?.nome}\nValor: ${faixaTxt}\nParcela estimada: ${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))} por mês\n\nQuero entender o meu caso.` +
+        (indicacao ? `\nIndicação: ${indicacao}` : "");
+      form!.querySelector<HTMLAnchorElement>("[data-res-zap]")!.href = wa(resumo);
 
       const i = FIN[obj], n = ref.prazo;
       const fin = ((credito * i) / (1 - Math.pow(1 + i, -n))) * n;
@@ -800,8 +818,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       track("sim_envio", { objetivo: val("objetivo") });
       track("Lead");
       const m = modalidades.find((x) => x.id === val("objetivo"));
-      const ref = REF[val("objetivo")];
-      const faixa = ref.faixas[Number(val("valor"))]?.[0];
+      const cfg = REF[val("objetivo")];
+      const faixa = cfg.faixas[Number(val("valor"))]?.[0];
       const quandoTxt = (form.querySelector(`input[name="quando"]:checked + .op__c b`) as HTMLElement)?.textContent;
       const lanceTxt = (form.querySelector(`input[name="lance"]:checked + .op__c b`) as HTMLElement)?.textContent;
       gravarLead({
@@ -811,14 +829,14 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         valor: faixa,
         prazo: quandoTxt,
         lance: lanceTxt,
-        indicadoPor: ref,
+        indicadoPor: indicacao,
         origem: "lp-simulacao",
       });
       const msg =
         `Olá, Raul. Sou ${nome.value.trim()} e fiz a simulação no site.\n\n` +
         `Objetivo: ${m?.nome}\nValor: ${faixa}\nPrazo: ${quandoTxt}\nReserva para lance: ${lanceTxt}\n\n` +
         `Meu WhatsApp: ${fone.value.trim()}` +
-        (ref ? `\nIndicação: ${ref}` : "");
+        (indicacao ? `\nIndicação: ${indicacao}` : "");
       window.open(wa(msg), "_blank", "noopener");
     });
 

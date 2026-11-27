@@ -268,69 +268,26 @@ if (!reduz) {
 }
 
 function construir(sec: HTMLElement) {
+  // Sem trava: o C se desenha enquanto a seção atravessa a tela.
   const segs = $$<SVGPathElement>(".arco__seg", sec);
   const rotulos = $$<SVGGElement>(".arco__rot", sec);
-  const etapas = $$(".build__etapa", sec);
   const r = $<SVGGElement>(".arco__r", sec)!;
   const fim = $<SVGGElement>(".arco__fim", sec)!;
-  const raul = $<SVGGElement>('[data-cursor="raul"]', sec)!;
-  // Ângulos de cada trecho do C (abertura à direita, desenho no sentido anti-horário)
-  const angulos = [
-    [-45, -134],
-    [-136, -224],
-    [-226, -315],
-  ];
-  const ponto = (a: number) => {
-    const rad = (a * Math.PI) / 180;
-    return { x: 60 + 40 * Math.cos(rad), y: 60 + 40 * Math.sin(rad) };
-  };
+  const palco = $(".build__palco", sec)!;
 
   gsap.set(segs, { strokeDashoffset: 1 });
   gsap.set(rotulos, { opacity: 0 });
   gsap.set(r, { opacity: 0, scale: 0.86, transformOrigin: "50% 50%" });
   gsap.set(fim, { opacity: 0, x: -4 });
-  const p0 = ponto(-45);
-  gsap.set(raul, { x: p0.x + 10, y: p0.y - 16, opacity: 1 });
 
   const tl = gsap.timeline({
     defaults: { ease: "none" },
-    scrollTrigger: { trigger: sec, start: "top top", end: "+=100%", pin: true, scrub: 0.6, anticipatePin: 1 },
+    scrollTrigger: { trigger: palco, start: "top 85%", end: "bottom 45%", scrub: 0.6 },
   });
-
-  const marcos: number[] = [];
-  tl.to(raul, { x: p0.x, y: p0.y, duration: 0.3, ease: "power2.out" });
   segs.forEach((seg, i) => {
-    marcos.push(tl.duration());
-    const [a0, a1] = angulos[i];
-    const caneta = { a: a0 };
-    const rot = "t" + i;
-    tl.addLabel(rot);
-    tl.to(seg, { strokeDashoffset: 0, duration: 1 }, rot);
-    tl.to(
-      caneta,
-      {
-        a: a1,
-        duration: 1,
-        onUpdate: () => {
-          const p = ponto(caneta.a);
-          gsap.set(raul, { x: p.x, y: p.y });
-        },
-      },
-      rot,
-    );
-    tl.to(rotulos[i], { opacity: 1, duration: 0.35 }, rot + "+=0.55");
+    tl.to(seg, { strokeDashoffset: 0, duration: 1 });
+    tl.to(rotulos[i], { opacity: 1, duration: 0.35 }, "<0.55");
   });
-  tl.to(raul, { opacity: 0, duration: 0.25 });
-  tl.to(r, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" }, "<");
+  tl.to(r, { opacity: 1, scale: 1, duration: 0.6, ease: "power2.out" });
   tl.to(fim, { opacity: 1, x: 0, duration: 0.4 }, "<0.3");
-  tl.to({}, { duration: 0.3 });
-
-  const ativar = () => {
-    const t = tl.time();
-    let k = 0;
-    marcos.forEach((m, i) => t >= m - 0.01 && (k = i));
-    etapas.forEach((e, i) => e.classList.toggle("is-ativa", i === k));
-  };
-  tl.eventCallback("onUpdate", ativar);
-  ativar();
 }
