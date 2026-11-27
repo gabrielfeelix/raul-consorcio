@@ -27,12 +27,12 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       <p class="sim__texto" data-reveal>Responda no seu tempo. Não existe resposta errada e nada aqui te compromete: é só um ponto de partida para conversar com o Raul. Você vê o resultado sem precisar deixar contato.</p>
       <div class="sim__resumo" data-reveal>
         <p class="sim__resumo-t">Seu plano</p>
-        <dl>
-          <div><dt>Objetivo</dt><dd><button type="button" class="lacuna" data-lacuna="0">—</button></dd></div>
-          <div><dt>Valor</dt><dd><button type="button" class="lacuna" data-lacuna="1">—</button></dd></div>
-          <div><dt>Prazo</dt><dd><button type="button" class="lacuna" data-lacuna="2">—</button></dd></div>
-          <div><dt>Reserva para lance</dt><dd><button type="button" class="lacuna" data-lacuna="3">—</button></dd></div>
-        </dl>
+        <ul class="sim__itens">
+          <li><button type="button" class="item" data-lacuna="0"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Objetivo</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="1"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Valor</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="2"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Prazo</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+          <li><button type="button" class="item" data-lacuna="3"><span class="item__ck" aria-hidden="true"></span><span class="item__t"><small>Reserva para lance</small><b data-v>a responder</b></span><span class="item__ed"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M11.3 2.3l2.4 2.4-8 8H3.3v-2.4z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Trocar</span></button></li>
+        </ul>
       </div>
     </div>
 
@@ -106,10 +106,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         <div class="res__topo" data-anim>
           <p class="res__rot">Parcela estimada</p>
           <p class="res__valor"><strong data-res-parcela>—</strong><span>/mês</span></p>
-          <ul class="res__chips">
-            <li>Carta de <b data-res-carta>—</b></li>
-            <li><b data-res-prazo>—</b> de plano</li>
-          </ul>
+          <p class="res__sobre">Carta de <b data-res-carta>—</b> · <b data-res-prazo>—</b></p>
         </div>
 
         <div class="zap" aria-label="Mensagem do Raul" data-anim>
@@ -188,45 +185,109 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .sim__resumo-t {
     font-size: 15px;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
   }
-  .sim__resumo dl {
+  .sim__itens {
+    list-style: none;
     margin: 0;
-    border-top: 1px solid var(--linha-clara);
+    padding: 6px;
+    border-radius: 18px;
+    background: var(--branco);
+    border: 1px solid var(--linha-clara);
   }
-  .sim__resumo dl div {
+  .item {
     display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 16px;
-    padding: 12px 0;
-    border-bottom: 1px solid var(--linha-clara);
-    font-size: 15px;
-  }
-  .sim__resumo dt {
-    color: #6b6b6f;
-  }
-  .sim__resumo dd {
-    margin: 0;
-    text-align: right;
-  }
-  .lacuna {
+    align-items: center;
+    gap: 14px;
+    width: 100%;
+    padding: 12px 12px;
+    border: 0;
+    border-radius: 12px;
+    background: none;
     font: inherit;
+    text-align: left;
+    color: #111;
+    cursor: default;
+    transition: background-color 0.2s var(--ease);
+  }
+  .item__ck {
+    position: relative;
+    flex: none;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid #d1d1d6;
+    transition:
+      background-color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .item__ck::after {
+    content: "";
+    position: absolute;
+    left: 7px;
+    top: 3px;
+    width: 6px;
+    height: 11px;
+    border: solid #fff;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg) scale(0);
+    transition: transform 0.3s var(--ease);
+  }
+  .item__t {
+    flex: 1;
+    min-width: 0;
+  }
+  .item__t small {
+    display: block;
+    font-size: 12.5px;
+    color: #8e8e93;
+  }
+  .item__t b {
+    display: block;
+    font-size: 15px;
     font-weight: 600;
     color: #c7c7cc;
-    background: none;
-    border: 0;
-    padding: 0;
-    cursor: default;
   }
-  .lacuna.is-cheia {
-    color: #111;
+  .item__ed {
+    display: none;
+    align-items: center;
+    gap: 5px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #6b6b6f;
+  }
+  .item__ed svg {
+    width: 14px;
+    height: 14px;
+  }
+  .item.is-cheia {
     cursor: pointer;
   }
-  .lacuna.is-cheia:hover {
+  .item.is-cheia:hover {
+    background: #f4f4f6;
+  }
+  .item.is-cheia:hover .item__ed {
     color: var(--vermelho);
-    text-decoration: underline;
-    text-underline-offset: 3px;
+  }
+  .item.is-cheia .item__ck {
+    background: #1a8f4a;
+    border-color: #1a8f4a;
+  }
+  .item.is-cheia .item__ck::after {
+    transform: rotate(45deg) scale(1);
+  }
+  .item.is-cheia .item__t b {
+    color: #111;
+  }
+  .item.is-cheia .item__ed {
+    display: inline-flex;
+  }
+  .item.is-atual:not(.is-cheia) .item__ck {
+    border-color: var(--vermelho);
+    box-shadow: 0 0 0 4px rgba(166, 17, 31, 0.12);
+  }
+  .item.is-atual:not(.is-cheia) .item__t b {
+    color: var(--vermelho);
   }
   .sim__raul {
     display: flex;
@@ -766,22 +827,13 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     font-weight: 500;
     color: #6b6b6f;
   }
-  .res__chips {
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 14px 0 0;
-    padding: 0;
+  .res__sobre {
+    margin-top: 8px;
+    font-size: 15px;
+    color: #6b6b6f;
   }
-  .res__chips li {
-    padding: 6px 12px;
-    border-radius: 99px;
-    background: #f2f2f4;
-    font-size: 13.5px;
-    color: #45454a;
-  }
-  .res__chips b {
+  .res__sobre b {
+    font-weight: 600;
     color: #111;
   }
   .zap {
@@ -1190,7 +1242,6 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
 
     // Frase viva do lado esquerdo: cada resposta preenche uma lacuna; tocar numa lacuna volta à pergunta.
     const lacunas = [...document.querySelectorAll<HTMLButtonElement>("[data-lacuna]")];
-    const vazio = lacunas.map((l) => l.textContent || "");
     const OBJ: Record<string, string> = {
       imovel: "um imóvel",
       veiculo: "um veículo",
@@ -1213,12 +1264,12 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       let primeiraVazia = -1;
       lacunas.forEach((l, k) => {
         const cheia = !!txt[k];
-        l.textContent = cheia ? txt[k] : vazio[k];
+        l.querySelector("[data-v]")!.textContent = cheia ? txt[k] : "a responder";
         l.classList.toggle("is-cheia", cheia);
         if (!cheia && primeiraVazia < 0) primeiraVazia = k;
         l.tabIndex = cheia ? 0 : -1;
       });
-      lacunas.forEach((l, k) => l.classList.toggle("is-atual", k === primeiraVazia && atual === k));
+      lacunas.forEach((l, k) => l.classList.toggle("is-atual", atual === k));
       const barra = form.querySelector<HTMLElement>("[data-sim-barra]");
       if (barra) barra.style.width = `${Math.max(6, (atual / 4) * 100)}%`;
     }
