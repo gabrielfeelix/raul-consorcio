@@ -20,17 +20,12 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
 <section class="sim" id="simulacao">
   <div class="wrap sim__in">
     <div class="sim__intro">
-      <h2 class="display d-m" data-split>
-        <span class="linha"><span>Vamos começar</span></span>
-        <span class="linha"><span>pelo seu plano.</span></span>
-      </h2>
-      <p class="sim__texto" data-reveal>
-        Quatro perguntas, menos de um minuto. Você vê a parcela estimada na hora, sem cadastro e sem compromisso.
+      <h2 class="sim__titulo" data-reveal>Monte o seu plano. Leva menos de um minuto, sem cadastro.</h2>
+      <p class="sim__frase" data-frase aria-hidden="true">Quero <button type="button" class="lacuna" data-lacuna="0">o quê</button> de <button type="button" class="lacuna" data-lacuna="1">quanto</button>, <button type="button" class="lacuna" data-lacuna="2">para quando</button>, com <button type="button" class="lacuna" data-lacuna="3">quanto de reserva</button>.</p>
+      <p class="sim__raul" data-reveal>
+        <img src="/img/raul-avatar.webp" alt="" width="36" height="36" loading="lazy" />
+        Quem lê a sua simulação é o Raul, não um robô.
       </p>
-      <div class="sim__raul" data-reveal>
-        <img src="/img/raul-avatar.webp" alt="" width="48" height="48" loading="lazy" />
-        <p>Quem lê a sua simulação é o Raul. <span>Não é robô nem call center.</span></p>
-      </div>
     </div>
 
     <form class="sim__card" data-sim novalidate>
@@ -181,44 +176,73 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     position: sticky;
     top: 110px;
   }
-  .sim__intro h2 {
-    margin: 0 0 24px;
+  .sim__titulo {
+    max-width: 22em;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.45;
+    color: #6b6b6f;
   }
-  .sim__texto {
-    color: #45454a;
-    max-width: 24em;
-    font-size: 17px;
+  .sim__frase {
+    margin-top: 20px;
+    font-size: clamp(30px, 3.3vw, 54px);
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    line-height: 1.16;
+    color: #111;
+  }
+  .lacuna {
+    font: inherit;
+    letter-spacing: inherit;
+    color: #b9b9be;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: default;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    text-decoration-thickness: 0.06em;
+    text-underline-offset: 0.14em;
+    transition: color 0.4s var(--ease);
+  }
+  .lacuna.is-atual {
+    color: #8e8e93;
+    text-decoration-color: var(--vermelho);
+    animation: lacuna-pulsa 1.6s var(--ease) infinite;
+  }
+  @keyframes lacuna-pulsa {
+    50% {
+      color: #c7c7cc;
+    }
+  }
+  .lacuna.is-cheia {
+    color: var(--vermelho);
+    text-decoration-style: solid;
+    text-decoration-color: rgba(166, 17, 31, 0.35);
+    cursor: pointer;
+  }
+  .lacuna.is-cheia:hover {
+    text-decoration-color: var(--vermelho);
   }
   .sim__raul {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     margin-top: 32px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #45454a;
   }
   .sim__raul img {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
     flex: none;
   }
-  .sim__raul p {
-    font-size: 15px;
-    font-weight: 600;
-    line-height: 1.35;
-  }
-  .sim__raul span {
-    display: block;
-    font-weight: 500;
-    color: #6b6b6f;
-  }
 
   /* Card */
   .sim__card {
-    background: var(--branco);
-    border-radius: 16px;
-    padding: clamp(22px, 2.6vw, 40px);
-    border: 1px solid var(--linha-clara);
     display: flex;
     flex-direction: column;
   }
@@ -230,6 +254,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     clip: rect(0 0 0 0);
   }
   .sim__etapas {
+    display: none !important;
     list-style: none;
     margin: 0 0 28px;
     padding: 0;
@@ -281,11 +306,11 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   }
   .sim legend {
     padding: 0;
-    font-size: clamp(24px, 2.2vw, 32px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-    line-height: 1.15;
-    margin-bottom: 22px;
+    font-size: clamp(26px, 2.4vw, 38px);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 1.12;
+    margin-bottom: 20px;
   }
   .sim__dica {
     display: block;
@@ -301,7 +326,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .sim__ops {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: 8px;
+    border-bottom: 1px solid var(--linha-clara);
   }
   .op {
     position: relative;
@@ -316,35 +341,40 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .op__c {
     display: flex;
     align-items: center;
-    gap: 16px;
-    min-height: 64px;
-    padding: 10px 16px 10px 12px;
-    border: 1px solid var(--linha-clara);
-    border-radius: 12px;
-    transition:
-      border-color 0.25s var(--ease),
-      background-color 0.25s var(--ease),
-      transform 0.25s var(--ease);
-  }
-  .op__c:not(:has(.op__img)) {
-    padding-left: 18px;
+    gap: 18px;
+    min-height: 68px;
+    padding: 14px 0;
+    border-top: 1px solid var(--linha-clara);
   }
   .op__img {
-    width: 52px;
+    order: 2;
+    width: 0;
     height: 52px;
     border-radius: 8px;
     object-fit: cover;
     flex: none;
+    opacity: 0;
+    transition:
+      width 0.5s var(--ease),
+      opacity 0.4s var(--ease);
+  }
+  .op:hover .op__img,
+  .op input:checked + .op__c .op__img {
+    width: 78px;
+    opacity: 1;
   }
   .op__t {
     flex: 1;
     min-width: 0;
+    transition: transform 0.5s var(--ease);
   }
   .op__t b {
     display: block;
-    font-size: 16px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
+    font-size: clamp(20px, 1.7vw, 26px);
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    transition: color 0.3s var(--ease);
   }
   .op__t small {
     display: block;
@@ -357,49 +387,37 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   }
   .op__r {
     flex: none;
-    width: 22px;
-    height: 22px;
-    border-radius: 50%;
-    border: 1.5px solid #c7c7cc;
-    position: relative;
+    order: 3;
+    width: 18px;
+    height: 18px;
+    color: var(--vermelho);
+    opacity: 0;
+    transform: translateX(-6px);
     transition:
-      border-color 0.25s var(--ease),
-      background-color 0.25s var(--ease);
+      opacity 0.3s var(--ease),
+      transform 0.4s var(--ease);
   }
   .op__r::after {
-    content: "";
-    position: absolute;
-    inset: 5px;
-    border-radius: 50%;
-    background: var(--branco);
-    transform: scale(0);
-    transition: transform 0.25s var(--ease);
+    content: "→";
+    font-style: normal;
+    font-size: 18px;
+    line-height: 18px;
   }
-  .op:hover .op__c {
-    border-color: #111;
-    background: #fafafa;
+  .op:hover .op__t,
+  .op input:checked + .op__c .op__t {
+    transform: translateX(10px);
   }
-  .op:hover .op__r {
-    border-color: #111;
-  }
-  .op input:checked + .op__c {
-    border-color: var(--vermelho);
-    background: rgba(166, 17, 31, 0.04);
-    box-shadow: inset 0 0 0 1px var(--vermelho);
-  }
+  .op:hover .op__r,
   .op input:checked + .op__c .op__r {
-    border-color: var(--vermelho);
-    background: var(--vermelho);
+    opacity: 1;
+    transform: none;
   }
-  .op input:checked + .op__c .op__r::after {
-    transform: scale(1);
+  .op input:checked + .op__c .op__t b {
+    color: var(--vermelho);
   }
   .op input:focus-visible + .op__c {
     outline: 2px solid #111;
-    outline-offset: 2px;
-  }
-  .op:active .op__c {
-    transform: scale(0.99);
+    outline-offset: 4px;
   }
 
   /* Rodapé do card */
@@ -661,9 +679,22 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     .sim__raul {
       display: none;
     }
-    .sim__card {
-      padding: 20px 16px;
-      margin: 0 calc(var(--margem) * -0.5);
+    .sim__intro {
+      margin-bottom: 8px;
+    }
+    .sim__frase {
+      margin-top: 12px;
+      font-size: 26px;
+    }
+    .op__img {
+      order: 0;
+      width: 48px;
+      height: 48px;
+      opacity: 1;
+    }
+    .op:hover .op__img,
+    .op input:checked + .op__c .op__img {
+      width: 48px;
     }
     .sim__contato {
       grid-template-columns: 1fr;
@@ -877,6 +908,51 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         (indicacao ? `\nIndicação: ${indicacao}` : "");
       window.open(wa(msg), "_blank", "noopener");
     });
+
+    // Frase viva do lado esquerdo: cada resposta preenche uma lacuna; tocar numa lacuna volta à pergunta.
+    const lacunas = [...document.querySelectorAll<HTMLButtonElement>("[data-lacuna]")];
+    const vazio = lacunas.map((l) => l.textContent || "");
+    const OBJ: Record<string, string> = {
+      imovel: "um imóvel",
+      veiculo: "um veículo",
+      pesados: "um caminhão ou máquina",
+      servicos: "um serviço planejado",
+      investimento: "um investimento",
+    };
+    const LANCE: Record<string, string> = {
+      nao: "nenhuma reserva para lance ainda",
+      pouco: "um pouco de reserva para lance",
+      bom: "uma boa reserva para lance",
+      bem: "um bem para usar no lance",
+    };
+    const rotulo = (n: string) =>
+      (form.querySelector(`input[name="${n}"]:checked + .op__c b`) as HTMLElement | null)?.textContent?.trim() || "";
+    function frase() {
+      const q = rotulo("quando");
+      const txt = [
+        OBJ[val("objetivo")] || "",
+        rotulo("valor"),
+        q ? q[0].toLowerCase() + q.slice(1) : "",
+        LANCE[val("lance")] || "",
+      ];
+      let primeiraVazia = -1;
+      lacunas.forEach((l, k) => {
+        const cheia = !!txt[k];
+        l.textContent = cheia ? txt[k] : vazio[k];
+        l.classList.toggle("is-cheia", cheia);
+        if (!cheia && primeiraVazia < 0) primeiraVazia = k;
+        l.tabIndex = cheia ? 0 : -1;
+      });
+      lacunas.forEach((l, k) => l.classList.toggle("is-atual", k === primeiraVazia && atual === k));
+    }
+    form.addEventListener("change", () => setTimeout(frase, 0));
+    lacunas.forEach((l, k) => l.addEventListener("click", () => l.classList.contains("is-cheia") && ir(k)));
+    const irOriginal = ir;
+    ir = ((i: number, rolar = true) => {
+      irOriginal(i, rolar);
+      frase();
+    }) as typeof ir;
+    frase();
 
     const tipo = new URLSearchParams(location.search).get("tipo");
     if (tipo) {

@@ -1,14 +1,16 @@
 ---
 // "Como funciona o consórcio com você" (item 4 da estrutura combinada com o Raul).
-// Na voz dele, em frases, sem cards nem numeração. Só afirma o que o site já afirma
-// (compara administradoras, explica antes da assinatura, acompanha até a contemplação).
+// Formato de conversa: o atendimento dele acontece no WhatsApp. Cada etapa é uma dúvida
+// real de cliente e a resposta do Raul, que "digita" e responde quando entra na tela.
+// Só afirma o que o site já afirma (compara administradoras, explica antes da assinatura,
+// acompanha até a contemplação).
 import Seta from "./Seta.astro";
 import { wa } from "../data/site";
-const fases = [
-  ["Primeiro, a gente conversa.", "Eu quero entender o que você quer construir, para quando e quanto cabe no seu mês sem apertar o resto."],
-  ["Depois, eu comparo.", "Administradoras, grupos e prazos diferentes, para achar o plano que serve ao seu objetivo, e não ao meu."],
-  ["Antes de assinar, você entende tudo.", "Taxa de administração, fundo de reserva, seguro, reajuste e a estratégia de lance, com os números do seu caso."],
-  ["Depois da assinatura, eu continuo do seu lado.", "Acompanho as assembleias, a hora do lance e a contemplação, até o bem estar na sua mão."],
+const conversa = [
+  ["Tá, mas por onde a gente começa?", "Por uma conversa. Eu quero entender o que você quer construir, para quando e quanto cabe no seu mês sem apertar o resto."],
+  ["E qual administradora é a melhor?", "Depende do seu objetivo. Eu comparo administradoras, grupos e prazos e te mostro o plano que serve para você, e não para mim."],
+  ["Tem letra miúda?", "Antes de assinar você entende tudo: taxa de administração, fundo de reserva, seguro, reajuste e a estratégia de lance, com os números do seu caso."],
+  ["E depois que eu assinar, sumo do seu radar?", "Não. Eu acompanho as assembleias, a hora do lance e a contemplação, até o bem estar na sua mão."],
 ];
 ---
 
@@ -20,22 +22,56 @@ const fases = [
         <span class="linha"><span>consórcio</span></span>
         <span class="linha"><span>com o Raul.</span></span>
       </h2>
-    </div>
-
-    <div class="com__fases">
-      {
-        fases.map(([t, d], i) => (
-          <p class="com__fase" style={`--i:${i}`} data-reveal>
-            <strong>{t}</strong> {d}
-          </p>
-        ))
-      }
-      <a href={wa("Oi Raul! Vim pelo site e queria marcar uma conversa sobre consórcio.")} target="_blank" rel="noopener" class="com__cta" data-reveal>
-        Marcar a primeira conversa<Seta />
+      <p class="com__sub" data-reveal>As dúvidas que todo cliente manda antes de começar, e o que ele responde.</p>
+      <a href={wa("Oi Raul! Vim pelo site e queria marcar uma conversa sobre consórcio.")} target="_blank" rel="noopener" class="btn btn--branco com__cta" data-reveal>
+        Mandar a minha dúvida<Seta />
       </a>
     </div>
+
+    <ol class="chat" data-chat>
+      {
+        conversa.map(([pergunta, resposta]) => (
+          <li class="chat__par">
+            <p class="msg msg--cliente">{pergunta}</p>
+            <div class="msg msg--raul">
+              <img src="/img/raul-avatar.webp" alt="" width="32" height="32" loading="lazy" />
+              <p>
+                <span class="msg__digitando" aria-hidden="true">
+                  <i />
+                  <i />
+                  <i />
+                </span>
+                <span class="msg__txt">{resposta}</span>
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
   </div>
 </section>
+
+<script>
+  // Cada par entra quando chega à tela: a dúvida aparece, o Raul digita e responde.
+  const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const pares = [...document.querySelectorAll<HTMLElement>("[data-chat] .chat__par")];
+  if (reduz || !("IntersectionObserver" in window)) {
+    pares.forEach((p) => p.classList.add("is-on", "is-dito"));
+  } else {
+    const io = new IntersectionObserver(
+      (es) =>
+        es.forEach((e) => {
+          if (!e.isIntersecting) return;
+          const p = e.target as HTMLElement;
+          io.unobserve(p);
+          p.classList.add("is-on");
+          setTimeout(() => p.classList.add("is-dito"), 900);
+        }),
+      { rootMargin: "0px 0px -22% 0px" },
+    );
+    pares.forEach((p) => io.observe(p));
+  }
+</script>
 
 <style>
   .com {
@@ -45,7 +81,7 @@ const fases = [
   }
   .com__in {
     display: grid;
-    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(32px, 6vw, 112px);
     align-items: start;
   }
@@ -56,56 +92,138 @@ const fases = [
   .com__titulo {
     font-size: clamp(40px, 4.6vw, 76px);
   }
-  .com__fases {
-    display: grid;
-    gap: clamp(28px, 4.5vh, 48px);
-  }
-  .com__fase {
-    font-size: clamp(21px, 2vw, 32px);
-    line-height: 1.3;
-    letter-spacing: -0.025em;
-    color: rgba(255, 255, 255, 0.72);
+  .com__sub {
+    margin-top: 20px;
     max-width: 22em;
-    margin-left: calc(var(--i) * 6%);
-  }
-  .com__fase strong {
-    font-weight: 600;
-    color: var(--branco);
+    font-size: 17px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.78);
   }
   .com__cta {
-    justify-self: start;
-    margin-left: 18%;
-    display: inline-flex;
-    align-items: center;
+    margin-top: 28px;
+    --bg: var(--branco);
+    color: var(--vermelho);
+  }
+  .chat {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 28px;
+  }
+  .chat__par {
+    display: grid;
     gap: 10px;
-    font-size: 17px;
-    font-weight: 600;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
-    padding-bottom: 4px;
   }
-  .com__cta:hover :global(.btn__seta) {
-    transform: translate(3px, -3px);
+  .msg {
+    margin: 0;
+    font-size: clamp(16px, 1.25vw, 19px);
+    line-height: 1.45;
   }
+  .msg--cliente {
+    justify-self: end;
+    max-width: 78%;
+    padding: 12px 16px;
+    border-radius: 18px 18px 4px 18px;
+    background: rgba(0, 0, 0, 0.22);
+    color: var(--branco);
+  }
+  .msg--raul {
+    justify-self: start;
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    max-width: 86%;
+  }
+  .msg--raul img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+  .msg--raul p {
+    margin: 0;
+    padding: 14px 18px;
+    border-radius: 18px 18px 18px 4px;
+    background: var(--branco);
+    color: #1a1a1a;
+  }
+  .msg__digitando {
+    display: none;
+    gap: 4px;
+    padding: 4px 2px;
+  }
+  .msg__digitando i {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #b0b0b5;
+    animation: digita 1s infinite;
+  }
+  .msg__digitando i:nth-child(2) {
+    animation-delay: 0.15s;
+  }
+  .msg__digitando i:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+  @keyframes digita {
+    50% {
+      transform: translateY(-3px);
+      opacity: 0.5;
+    }
+  }
+
+  /* Coreografia: só com movimento ligado */
+  :global(html.js-motion) .chat__par .msg {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+    transition:
+      opacity 0.45s var(--ease),
+      transform 0.6s var(--ease);
+  }
+  :global(html.js-motion) .chat__par .msg--cliente {
+    transform-origin: 100% 100%;
+  }
+  :global(html.js-motion) .chat__par .msg--raul {
+    transform-origin: 0 100%;
+    transition-delay: 0.35s;
+  }
+  :global(html.js-motion) .chat__par.is-on .msg {
+    opacity: 1;
+    transform: none;
+  }
+  :global(html.js-motion) .chat__par.is-on:not(.is-dito) .msg__digitando {
+    display: inline-flex;
+  }
+  :global(html.js-motion) .chat__par:not(.is-dito) .msg__txt {
+    display: none;
+  }
+
   @media (max-width: 860px) {
     .com__in {
       grid-template-columns: 1fr;
     }
     .com__lado {
       position: static;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-    .com__cta {
-      margin-left: 0;
     }
     .com__titulo {
-      margin-top: 0;
-      font-size: 30px;
+      font-size: 34px;
     }
-    .com__fase {
-      font-size: 19px;
-      margin-left: 0;
+    .com__sub {
+      font-size: 16px;
+    }
+    .com__cta {
+      display: none;
+    }
+    .chat {
+      gap: 22px;
+    }
+    .msg--cliente {
+      max-width: 86%;
+    }
+    .msg--raul {
+      max-width: 94%;
     }
   }
 </style>
