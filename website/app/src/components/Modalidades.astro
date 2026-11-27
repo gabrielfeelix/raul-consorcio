@@ -6,11 +6,6 @@ const linhas = ["Cada objetivo", "pede um plano", "diferente."];
 
 <section class="mod" id="modalidades">
   <div class="wrap">
-    <div class="mod__topo">
-      <p class="rotulo" data-reveal><b>05</b> Tipos de consórcio</p>
-      <p class="mod__sub" data-reveal>O Raul trabalha com todos. Toque no seu para simular.</p>
-    </div>
-
     <h2 class="mod__escada display d-l">
       {
         linhas.map((l, i) => (
@@ -20,26 +15,56 @@ const linhas = ["Cada objetivo", "pede um plano", "diferente."];
         ))
       }
     </h2>
-  </div>
 
-  <div class="mod__grade wrap">
-    {
-      modalidades.map((m) => (
-        <a href="#simulacao" class="card" data-objetivo={m.id} data-reveal>
-          <img src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" />
-          <div class="card__txt">
-            <h3>{m.nome}</h3>
-            <p>{m.usos.slice(0, 3).join(" · ")}</p>
-            <span class="card__cta">
-              Simular {m.nome.toLowerCase()}
-              <Seta />
-            </span>
-          </div>
-        </a>
-      ))
-    }
+    <div class="mod__corpo">
+      <div>
+        <p class="mod__sub" data-reveal>O Raul trabalha com todos os tipos de consórcio. Escolha o seu para simular.</p>
+        <ul class="mod__lista" data-mod-lista>
+          {
+            modalidades.map((m, i) => (
+              <li data-reveal>
+                <a href="#simulacao" class="tipo" data-objetivo={m.id} data-mod-i={i}>
+                  <img class="tipo__mini" src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" />
+                  <span class="tipo__txt">
+                    <span class="tipo__nome">{m.nome}</span>
+                    <span class="tipo__usos">{m.usos.slice(0, 3).map((u, k) => (k ? u[0].toLowerCase() + u.slice(1) : u)).join(", ")}</span>
+                  </span>
+                  <span class="tipo__ir" aria-hidden="true">
+                    <Seta />
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <figure class="mod__foto" aria-hidden="true">
+        <div class="mod__imgs">
+          {modalidades.map((m, i) => <img src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" class={i === 0 ? "is-on" : ""} />)}
+        </div>
+        <figcaption>
+          {modalidades.map((m, i) => <span class={i === 0 ? "is-on" : ""}>{m.frase}</span>)}
+        </figcaption>
+      </figure>
+    </div>
   </div>
 </section>
+
+<script>
+  const lista = document.querySelector("[data-mod-lista]");
+  const imgs = [...document.querySelectorAll(".mod__imgs img")];
+  const frases = [...document.querySelectorAll(".mod__foto figcaption span")];
+  const mostrar = (i: number) => {
+    imgs.forEach((im, k) => im.classList.toggle("is-on", k === i));
+    frases.forEach((f, k) => f.classList.toggle("is-on", k === i));
+  };
+  lista?.querySelectorAll<HTMLElement>("[data-mod-i]").forEach((a) => {
+    const i = Number(a.dataset.modI);
+    a.addEventListener("mouseenter", () => mostrar(i));
+    a.addEventListener("focus", () => mostrar(i));
+  });
+</script>
 
 <style>
   .mod {
@@ -47,23 +72,8 @@ const linhas = ["Cada objetivo", "pede um plano", "diferente."];
     color: #111;
     padding: clamp(96px, 14vh, 160px) 0;
   }
-  .mod .rotulo {
-    color: #6b6b6f;
-  }
-  .mod__topo {
-    display: flex;
-    justify-content: space-between;
-    gap: 24px;
-    align-items: baseline;
-    flex-wrap: wrap;
-  }
-  .mod__sub {
-    font-size: 15px;
-    font-weight: 500;
-    color: #45454a;
-  }
   .mod__escada {
-    margin: 40px 0 clamp(48px, 7vh, 80px);
+    margin: 0 0 clamp(48px, 7vh, 80px);
   }
   .mod__degrau {
     display: block;
@@ -79,90 +89,147 @@ const linhas = ["Cada objetivo", "pede um plano", "diferente."];
     background-clip: text;
     color: transparent;
   }
-  .mod__grade {
+  .mod__corpo {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 14px;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(32px, 6vw, 112px);
+    align-items: start;
   }
-  .card {
-    position: relative;
+  .mod__sub {
+    font-size: 17px;
+    color: #45454a;
+    max-width: 30em;
+    margin-bottom: 28px;
+  }
+  .mod__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid var(--linha-clara);
+  }
+  .tipo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 24px;
+    padding: 22px 0;
+    border-top: 1px solid var(--linha-clara);
+  }
+  .tipo__mini {
+    display: none;
+  }
+  .tipo__nome {
     display: block;
-    aspect-ratio: 3 / 4.4;
+    font-size: clamp(34px, 3.6vw, 56px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1;
+    transition: transform 0.6s var(--ease), color 0.3s var(--ease);
+  }
+  .tipo__usos {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b6b6f;
+    transition: transform 0.6s var(--ease);
+  }
+  .tipo__ir {
+    color: var(--vermelho);
+    opacity: 0.35;
+    transition: opacity 0.3s var(--ease);
+  }
+  .tipo:hover .tipo__nome,
+  .tipo:focus-visible .tipo__nome {
+    color: var(--vermelho);
+    transform: translateX(10px);
+  }
+  .tipo:hover .tipo__usos,
+  .tipo:focus-visible .tipo__usos {
+    transform: translateX(10px);
+  }
+  .tipo:hover .tipo__ir,
+  .tipo:focus-visible .tipo__ir {
+    opacity: 1;
+  }
+  .tipo:hover :global(.btn__seta) {
+    transform: translate(3px, -3px);
+  }
+  .tipo:focus-visible {
+    outline: 3px solid var(--vermelho);
+    outline-offset: 4px;
+  }
+  .mod__foto {
+    position: sticky;
+    top: 110px;
+    margin: 0;
+  }
+  .mod__imgs {
+    position: relative;
+    aspect-ratio: 4 / 5;
     border-radius: 16px;
     overflow: hidden;
     background: var(--preto);
-    color: var(--branco);
-    isolation: isolate;
   }
-  .card img {
+  .mod__imgs img {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;
-    transition: transform 0.9s var(--ease);
+    opacity: 0;
+    transform: scale(1.04);
+    transition: opacity 0.5s var(--ease), transform 1.2s var(--ease);
   }
-  .card::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background: linear-gradient(0deg, rgba(11, 11, 12, 0.92) 0%, rgba(11, 11, 12, 0.35) 45%, rgba(11, 11, 12, 0) 70%);
+  .mod__imgs img.is-on {
+    opacity: 1;
+    transform: none;
   }
-  .card__txt {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    padding: 20px;
-  }
-  .card h3 {
-    font-size: clamp(22px, 1.9vw, 30px);
-    font-weight: 600;
-    letter-spacing: -0.035em;
-  }
-  .card p {
-    margin-top: 6px;
-    font-size: 13px;
-    line-height: 1.45;
-    color: rgba(255, 255, 255, 0.75);
-  }
-  .card__cta {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
+  .mod__foto figcaption {
+    display: grid;
     margin-top: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    padding-bottom: 3px;
-    border-bottom: 1px solid var(--vermelho);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #45454a;
   }
-  .card:hover img {
-    transform: scale(1.06);
+  .mod__foto figcaption span {
+    grid-area: 1 / 1;
+    opacity: 0;
+    transition: opacity 0.4s var(--ease);
   }
-  .card:hover :global(.btn__seta) {
-    transform: translate(3px, -3px);
+  .mod__foto figcaption span.is-on {
+    opacity: 1;
   }
-  .card:focus-visible {
-    outline: 3px solid var(--vermelho);
-    outline-offset: 3px;
-  }
-  @media (max-width: 1100px) {
-    .mod__grade {
-      grid-auto-flow: column;
-      grid-template-columns: none;
-      grid-auto-columns: minmax(240px, 62vw);
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      scrollbar-width: none;
-      padding-bottom: 8px;
+  @media (max-width: 900px) {
+    .mod__corpo {
+      grid-template-columns: minmax(0, 1fr);
     }
-    .mod__grade::-webkit-scrollbar {
+    .mod__foto {
       display: none;
     }
-    .card {
-      scroll-snap-align: start;
+    .mod__sub {
+      font-size: 16px;
+    }
+    .tipo {
+      grid-template-columns: 64px minmax(0, 1fr) auto;
+      gap: 16px;
+      padding: 16px 0;
+    }
+    .tipo__mini {
+      display: block;
+      width: 64px;
+      height: 64px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+    .tipo__nome {
+      font-size: 28px;
+    }
+    .tipo__usos {
+      margin-top: 4px;
+      font-size: 13px;
+    }
+    .tipo__ir {
+      opacity: 1;
     }
   }
 </style>

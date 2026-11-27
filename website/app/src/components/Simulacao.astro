@@ -20,19 +20,13 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
 <section class="sim" id="simulacao">
   <div class="wrap sim__in">
     <div class="sim__intro">
-      <p class="rotulo" data-reveal><b>04</b> Simulação</p>
       <h2 class="display d-m" data-split>
         <span class="linha"><span>Vamos começar</span></span>
         <span class="linha"><span>pelo seu plano.</span></span>
       </h2>
       <p class="sim__texto" data-reveal>
-        Quatro perguntas, menos de um minuto. Você vê a parcela estimada na hora, sem deixar contato.
+        Quatro perguntas, menos de um minuto. Você vê a parcela estimada na hora, sem cadastro e sem compromisso.
       </p>
-      <ul class="sim__garantias" data-reveal>
-        <li><b>1 min</b><span>para responder</span></li>
-        <li><b>0</b><span>cadastro para ver o resultado</span></li>
-        <li><b>100%</b><span>sem compromisso</span></li>
-      </ul>
       <div class="sim__raul" data-reveal>
         <img src="/img/raul-avatar.webp" alt="" width="48" height="48" loading="lazy" />
         <p>Quem lê a sua simulação é o Raul. <span>Não é robô nem call center.</span></p>
@@ -56,7 +50,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
                   <img class="op__img" src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" />
                   <span class="op__t">
                     <b>{m.nome}</b>
-                    <small>{m.usos.slice(0, 3).join(", ")}</small>
+                    <small>{m.usos.slice(0, 3).map((u, k) => (k ? u[0].toLowerCase() + u.slice(1) : u)).join(", ")}</small>
                   </span>
                   <i class="op__r" />
                 </span>
@@ -128,10 +122,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
           <p class="cmp__eco">Você deixaria de pagar cerca de <strong data-cmp-eco>—</strong> em juros.</p>
         </div>
 
-        <div class="res__caminho">
-          <span>Caminho possível</span>
-          <p data-res-caminho></p>
-        </div>
+        <p class="res__caminho"><b>Caminho possível:</b> <span data-res-caminho></span></p>
         <p class="sim__res-nota">
           Estimativa com taxa de administração média de mercado. O valor real depende da administradora, do grupo e da
           estratégia de lance.
@@ -155,11 +146,7 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
             <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
           </label>
           <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
-          <ol class="passos">
-            <li><b>1</b>O Raul te chama</li>
-            <li><b>2</b>Conversa de 30 min</li>
-            <li><b>3</b>Análise sem compromisso</li>
-          </ol>
+          <p class="passos">Depois disso, o Raul te chama para uma conversa de uns 30 minutos. Sem compromisso.</p>
         </div>
       </div>
 
@@ -177,9 +164,6 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     color: #111;
     padding: clamp(96px, 14vh, 160px) 0;
   }
-  .sim .rotulo {
-    color: #6b6b6f;
-  }
   .sim__in {
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -191,42 +175,12 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     top: 110px;
   }
   .sim__intro h2 {
-    margin: 24px 0 24px;
+    margin: 0 0 24px;
   }
   .sim__texto {
     color: #45454a;
     max-width: 24em;
     font-size: 17px;
-  }
-  .sim__garantias {
-    list-style: none;
-    margin: 40px 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 1px solid var(--linha-clara);
-    border-bottom: 1px solid var(--linha-clara);
-  }
-  .sim__garantias li {
-    padding: 18px 16px 18px 0;
-  }
-  .sim__garantias li + li {
-    padding-left: 16px;
-    border-left: 1px solid var(--linha-clara);
-  }
-  .sim__garantias b {
-    display: block;
-    font-size: clamp(26px, 2.4vw, 36px);
-    font-weight: 600;
-    letter-spacing: -0.04em;
-    line-height: 1;
-  }
-  .sim__garantias span {
-    display: block;
-    margin-top: 6px;
-    font-size: 13px;
-    line-height: 1.35;
-    color: #6b6b6f;
   }
   .sim__raul {
     display: flex;
@@ -551,22 +505,13 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   }
   .res__caminho {
     margin-top: 20px;
-    padding-left: 16px;
-    border-left: 3px solid var(--vermelho);
-  }
-  .res__caminho span {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: #6b6b6f;
-  }
-  .res__caminho p {
-    margin-top: 6px;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.5;
+  }
+  .res__caminho b {
+    font-weight: 600;
+    color: var(--vermelho);
   }
   .sim__res-nota {
     margin-top: 14px;
@@ -653,31 +598,10 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     height: 56px;
   }
   .passos {
-    list-style: none;
-    margin: 18px 0 0;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: space-between;
-    gap: 8px;
-    font-size: 13px;
+    margin-top: 16px;
+    font-size: 13.5px;
+    line-height: 1.5;
     color: rgba(255, 255, 255, 0.65);
-  }
-  .passos li {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-  }
-  .passos b {
-    flex: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: grid;
-    place-items: center;
-    background: rgba(255, 255, 255, 0.12);
-    color: #fff;
-    font-size: 11px;
   }
 
   @media (max-width: 900px) {
@@ -690,15 +614,6 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     }
     .sim__texto {
       font-size: 16px;
-    }
-    .sim__garantias {
-      margin-top: 24px;
-    }
-    .sim__garantias li {
-      padding: 14px 10px 14px 0;
-    }
-    .sim__garantias li + li {
-      padding-left: 12px;
     }
     .sim__raul {
       display: none;
@@ -721,9 +636,6 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     .res__contato {
       padding: 20px 16px;
       margin: 24px -4px 0;
-    }
-    .passos {
-      grid-template-columns: 1fr;
     }
     .sim__nota-nav {
       display: none;

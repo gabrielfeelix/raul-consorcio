@@ -2,13 +2,12 @@
 import { depoimentos, DEPOIMENTOS_SAO_EXEMPLO, INSTAGRAM } from "../data/site";
 import Onda from "./Onda.astro";
 import Seta from "./Seta.astro";
-const total = String(depoimentos.length).padStart(2, "0");
+const total = depoimentos.length;
 ---
 
 <section class="dep" id="depoimentos" data-dep>
   <div class="wrap">
     <div class="dep__topo">
-      <p class="rotulo" data-reveal><b>06</b> Depoimentos</p>
       {DEPOIMENTOS_SAO_EXEMPLO && <span class="dep__aviso">Textos de exemplo · aguardando depoimentos reais autorizados</span>}
     </div>
 
@@ -36,7 +35,7 @@ const total = String(depoimentos.length).padStart(2, "0");
         }
       </div>
       <div class="dep__ctrl">
-        <span class="dep__cont"><b data-dep-n>01</b> / {total}</span>
+        <span class="dep__cont"><b data-dep-n>1</b> / {total}</span>
         <div class="dep__botoes">
           <button type="button" data-dep-ant aria-label="Depoimento anterior">
             <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
@@ -74,7 +73,7 @@ const total = String(depoimentos.length).padStart(2, "0");
     padding: 4px 10px;
   }
   .dep__titulo {
-    margin: 24px 0 clamp(48px, 8vh, 96px);
+    margin: 16px 0 clamp(48px, 8vh, 96px);
   }
   .dep__palco {
     display: grid;

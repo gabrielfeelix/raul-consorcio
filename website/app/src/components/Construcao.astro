@@ -5,7 +5,7 @@ import Seta from "./Seta.astro";
 interface Props {
   titulo?: string;
 }
-const { titulo = "Três etapas. Um patrimônio." } = Astro.props;
+const { titulo = "Como funciona o consórcio." } = Astro.props;
 const etapas = [
   {
     t: "A carta",
@@ -37,13 +37,11 @@ const volumes = [
 <section class="build" id="construcao" data-build>
   <div class="build__in wrap">
     <div class="build__col">
-      <p class="rotulo"><b>02</b> Como funciona o consórcio</p>
       <h2 class="display d-m build__titulo">{titulo}</h2>
       <ol class="build__etapas">
         {
           etapas.map((e, i) => (
             <li class="build__etapa" data-etapa={i}>
-              <span class="build__n">0{i + 1}</span>
               <div>
                 <h3>{e.t}</h3>
                 <p>{e.d}</p>
@@ -128,7 +126,7 @@ const volumes = [
     padding-bottom: 48px;
   }
   .build__titulo {
-    margin: 24px 0 48px;
+    margin: 0 0 40px;
     max-width: 9em;
   }
   .build__etapas {
@@ -138,8 +136,6 @@ const volumes = [
   }
   .build__etapa {
     display: grid;
-    grid-template-columns: 44px 1fr;
-    gap: 16px;
     padding: 22px 0;
     border-top: 1px solid var(--linha);
     opacity: 0.32;
@@ -147,11 +143,6 @@ const volumes = [
   }
   .build__etapa.is-ativa {
     opacity: 1;
-  }
-  .build__n {
-    font-size: 13px;
-    color: var(--cinza);
-    padding-top: 4px;
   }
   .build__etapa h3 {
     font-size: 22px;
@@ -309,7 +300,7 @@ const volumes = [
       display: none;
     }
     .build__titulo {
-      margin: 12px 0 16px;
+      margin: 0 0 16px;
       font-size: 30px;
     }
     :global(html.js-motion) .build__etapa:not(.is-ativa) {

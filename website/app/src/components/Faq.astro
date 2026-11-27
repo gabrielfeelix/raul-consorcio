@@ -5,14 +5,14 @@ const perguntas = [
   ["Quanto custa de verdade?", "Quatro coisas: a taxa de administração (a remuneração da administradora, diluída nas parcelas), o fundo de reserva (protege o grupo se alguém atrasa), o seguro (quita o saldo em caso de imprevisto) e o reajuste anual da carta, que acompanha um índice como o INCC no imóvel. Eu mostro cada uma no seu caso antes de qualquer assinatura."],
   ["É seguro?", "Consórcio é regulado e fiscalizado pelo Banco Central. Trabalho só com administradoras autorizadas e explico cada regra antes da assinatura."],
   ["Por que um consultor e não direto na administradora?", "Porque eu comparo várias. Meu trabalho é encontrar o grupo e a estratégia que servem para o seu objetivo, e acompanhar você até a contemplação."],
-  ["Atende fora de Maringá?", "Sim. O atendimento é presencial em Maringá e online para qualquer cidade."],
+  ["Consórcio serve para qualquer pessoa?", "Não. Se você precisa do bem amanhã, não tem reserva para lance ou não tem folga no orçamento para a parcela, provavelmente não é o caminho, e eu te digo isso antes de qualquer simulação. Faz sentido para quem quer comprar sem juros e consegue planejar com alguns meses ou anos de antecedência."],
+  ["Atende fora de Maringá?", "Sim. O atendimento é presencial e online, para qualquer cidade do Brasil."],
 ];
 ---
 
 <section class="faq" id="faq">
   <div class="wrap faq__in">
     <div>
-      <p class="rotulo" data-reveal><b>07</b> Dúvidas</p>
       <h2 class="display d-m faq__titulo" data-split>
         <span class="linha"><span>O que todo mundo</span></span>
         <span class="linha"><span>pergunta antes.</span></span>
@@ -88,9 +88,6 @@ const perguntas = [
     display: grid;
     grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
     gap: clamp(32px, 6vw, 96px);
-  }
-  .faq__titulo {
-    margin-top: 24px;
   }
   details {
     border-top: 1px solid var(--linha);

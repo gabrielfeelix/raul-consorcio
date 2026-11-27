@@ -1,9 +1,10 @@
 ---
 import Seta from "./Seta.astro";
+import { wa } from "../data/site";
 const fatos = [
   ["8 anos", "de experiência comercial"],
-  ["Multimarcas", "compara várias administradoras"],
-  ["Maringá/PR", "atende presencial e online"],
+  ["Mais de 100 clientes", "atendidos com consórcio"],
+  ["Presencial e online", "em todo o Brasil"],
 ];
 ---
 
@@ -13,30 +14,27 @@ const fatos = [
   </figure>
 
   <div class="raul__conteudo">
-    <p class="rotulo" data-reveal><b>01</b> Quem vai te atender</p>
     <h2 class="display raul__nome" data-split>
-      <span class="linha"><span>Raul</span></span>
-      <span class="linha"><span>Carvalho</span></span>
+      <span class="linha"><span>Raul Carvalho</span></span>
     </h2>
-    <p class="raul__cargo" data-reveal>Consultor de consórcio</p>
+    <p class="raul__cargo" data-reveal>Especialista em consórcio</p>
 
     <blockquote class="raul__fala" data-reveal>
-      Antes de falar de parcela, eu quero entender o que você quer construir. E se o consórcio não for o caminho, eu
-      falo.
+      “Antes de falar de parcela, eu quero entender o que você quer construir. E se o consórcio não for o caminho, eu
+      falo.”
     </blockquote>
 
     <ul class="raul__fatos" data-reveal>
       {
         fatos.map(([n, l]) => (
           <li>
-            <strong>{n}</strong>
-            <span>{l}</span>
+            <strong>{n}</strong> <span>{l}</span>
           </li>
         ))
       }
     </ul>
 
-    <a href="#simulacao" class="raul__cta" data-reveal>Conversar com o Raul<Seta /></a>
+    <a href={wa("Oi Raul! Vim pelo site e queria conversar sobre consórcio.")} target="_blank" rel="noopener" class="raul__cta" data-reveal>Conversar com o Raul<Seta /></a>
   </div>
 </section>
 
@@ -67,12 +65,9 @@ const fatos = [
     padding: clamp(64px, 10vh, 120px) clamp(24px, 6vw, 112px);
     max-width: 720px;
   }
-  .raul .rotulo {
-    color: #6b6b6f;
-  }
   .raul__nome {
-    margin-top: 28px;
-    font-size: clamp(48px, 5.4vw, 92px);
+    font-size: clamp(40px, 4.2vw, 68px);
+    white-space: nowrap;
   }
   .raul__cargo {
     margin-top: 16px;
@@ -81,32 +76,31 @@ const fatos = [
     color: var(--vermelho);
   }
   .raul__fala {
-    margin: 44px 0 0;
-    padding-left: 20px;
-    border-left: 2px solid var(--vermelho);
-    font-size: clamp(19px, 1.5vw, 23px);
-    line-height: 1.5;
-    color: #2d2d2d;
-    max-width: 26em;
+    margin: 40px 0 0;
+    font-size: clamp(24px, 2.1vw, 34px);
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    line-height: 1.28;
+    color: #1a1a1a;
+    max-width: 19em;
+    text-indent: -0.42em;
   }
   .raul__fatos {
     list-style: none;
-    margin: 48px 0 0;
+    margin: 44px 0 0;
     padding: 0;
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    justify-content: start;
-    gap: 32px;
+    max-width: 30em;
+    border-top: 1px solid var(--linha-clara);
+  }
+  .raul__fatos li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--linha-clara);
+    font-size: 16px;
+    color: #6b6b6f;
   }
   .raul__fatos strong {
-    display: block;
-    font-size: 17px;
     font-weight: 600;
-    letter-spacing: -0.02em;
-  }
-  .raul__fatos span {
-    font-size: 13px;
-    color: #6b6b6f;
+    color: #111;
   }
   .raul__cta {
     display: inline-flex;
@@ -129,9 +123,8 @@ const fatos = [
       height: 62svh;
     }
 
-    .raul__fatos {
-      grid-template-columns: 1fr;
-      gap: 14px;
+    .raul__nome {
+      white-space: normal;
     }
   }
 </style>

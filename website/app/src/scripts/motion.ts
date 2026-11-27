@@ -50,7 +50,7 @@ const $$ = <T extends Element = HTMLElement>(s: string, r: ParentNode = document
     itens[i].hidden = true;
     i = (k + itens.length) % itens.length;
     itens[i].hidden = false;
-    n.textContent = String(i + 1).padStart(2, "0");
+    n.textContent = String(i + 1);
     if (!reduz) {
       const q = itens[i].querySelector("blockquote")!;
       gsap.fromTo(q, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "expo.out" });
@@ -197,7 +197,7 @@ if (!reduz) {
       masc.style.setProperty("--sombra", String(Math.min(1, (st.s - 1) / 20)));
     };
     const tlr = gsap.timeline({
-      scrollTrigger: { trigger: rev, start: "top top", end: "+=360%", pin: true, scrub: 0.8, onRefresh: aplicar },
+      scrollTrigger: { trigger: rev, start: "top top", end: "+=180%", pin: true, scrub: 0.8, onRefresh: aplicar },
     });
     const dica = $("[data-rev-dica]", rev);
     if (dica) tlr.to(dica, { opacity: 0, duration: 0.12, ease: "none" }, 0);
@@ -289,7 +289,7 @@ function construir(sec: HTMLElement) {
     scrollTrigger: {
       trigger: sec,
       start: "top top",
-      end: "+=320%",
+      end: "+=170%",
       pin: true,
       scrub: 0.8,
       anticipatePin: 1,
