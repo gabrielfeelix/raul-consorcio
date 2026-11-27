@@ -35,14 +35,14 @@ const conversa = [
             <p class="msg msg--cliente">{pergunta}</p>
             <div class="msg msg--raul">
               <img src="/img/raul-avatar.webp" alt="" width="32" height="32" loading="lazy" />
-              <p>
+              <div class="msg__corpo">
                 <span class="msg__digitando" aria-hidden="true">
                   <i />
                   <i />
                   <i />
                 </span>
-                <span class="msg__txt">{resposta}</span>
-              </p>
+                <p class="msg__txt">{resposta}</p>
+              </div>
             </div>
           </li>
         ))
@@ -65,7 +65,7 @@ const conversa = [
           const p = e.target as HTMLElement;
           io.unobserve(p);
           p.classList.add("is-on");
-          setTimeout(() => p.classList.add("is-dito"), 900);
+          setTimeout(() => p.classList.add("is-dito"), 1500);
         }),
       { rootMargin: "0px 0px -22% 0px" },
     );
@@ -142,7 +142,10 @@ const conversa = [
     object-fit: cover;
     flex: none;
   }
-  .msg--raul p {
+  .msg__corpo {
+    position: relative;
+  }
+  .msg__txt {
     margin: 0;
     padding: 14px 18px;
     border-radius: 18px 18px 18px 4px;
@@ -150,9 +153,15 @@ const conversa = [
     color: #1a1a1a;
   }
   .msg__digitando {
-    display: none;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    display: inline-flex;
     gap: 4px;
-    padding: 4px 2px;
+    padding: 14px 16px;
+    border-radius: 18px 18px 18px 4px;
+    background: var(--branco);
+    opacity: 0;
   }
   .msg__digitando i {
     width: 7px;
@@ -174,30 +183,43 @@ const conversa = [
     }
   }
 
-  /* Coreografia: só com movimento ligado */
-  :global(html.js-motion) .chat__par .msg {
+  /* Coreografia (só com movimento ligado). O espaço da resposta existe desde o início:
+     nada empurra a página. Pergunta entra, Raul digita, a resposta abre a partir do avatar. */
+  :global(html.js-motion) .msg--cliente {
     opacity: 0;
-    transform: translateY(14px) scale(0.98);
-    transition:
-      opacity 0.45s var(--ease),
-      transform 0.6s var(--ease);
-  }
-  :global(html.js-motion) .chat__par .msg--cliente {
+    transform: translateY(10px) scale(0.96);
     transform-origin: 100% 100%;
+    transition:
+      opacity 0.4s var(--ease),
+      transform 0.55s var(--ease);
   }
-  :global(html.js-motion) .chat__par .msg--raul {
-    transform-origin: 0 100%;
-    transition-delay: 0.35s;
+  :global(html.js-motion) .msg--raul img {
+    opacity: 0;
+    transition: opacity 0.4s var(--ease) 0.35s;
   }
-  :global(html.js-motion) .chat__par.is-on .msg {
+  :global(html.js-motion) .msg__txt {
+    visibility: hidden;
+    clip-path: inset(calc(100% - 46px) calc(100% - 64px) 0 0 round 18px 18px 18px 4px);
+    color: transparent;
+    transition:
+      clip-path 0.7s var(--ease),
+      color 0.5s var(--ease) 0.25s;
+  }
+  :global(html.js-motion) .chat__par.is-on .msg--cliente {
     opacity: 1;
     transform: none;
   }
-  :global(html.js-motion) .chat__par.is-on:not(.is-dito) .msg__digitando {
-    display: inline-flex;
+  :global(html.js-motion) .chat__par.is-on .msg--raul img {
+    opacity: 1;
   }
-  :global(html.js-motion) .chat__par:not(.is-dito) .msg__txt {
-    display: none;
+  :global(html.js-motion) .chat__par.is-on:not(.is-dito) .msg__digitando {
+    opacity: 1;
+    transition: opacity 0.3s var(--ease) 0.45s;
+  }
+  :global(html.js-motion) .chat__par.is-dito .msg__txt {
+    visibility: visible;
+    clip-path: inset(0 0 0 0 round 18px 18px 18px 4px);
+    color: #1a1a1a;
   }
 
   @media (max-width: 860px) {

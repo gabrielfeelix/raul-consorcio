@@ -101,10 +101,45 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       </fieldset>
 
       <div class="sim__passo sim__res" data-passo="resultado" hidden>
-        <p class="res__rot">Sua parcela fica entre, por mês</p>
-        <strong class="res__valor" data-res-parcela>—</strong>
-        <p class="res__txt" data-res-texto></p>
-        <p class="res__txt" data-res-caminho></p>
+        <p class="res__rot">Parcela estimada</p>
+        <p class="res__valor"><strong data-res-parcela>—</strong><span>/mês</span></p>
+        <ul class="res__chips">
+          <li>Carta de <b data-res-carta>—</b></li>
+          <li><b data-res-prazo>—</b> de plano</li>
+        </ul>
+
+        <div class="res__plano">
+          <div class="res__bandeira">
+            <span class="res__marco-meta" data-res-meta-txt>Você quer o bem aqui<small>por sorteio ou lance</small></span>
+          </div>
+          <div class="res__trilho">
+            <i class="res__meta" data-res-meta></i>
+          </div>
+          <div class="res__marcos">
+            <span>Hoje<small>começa a pagar</small></span>
+            <span>Fim do plano<small data-res-fim>—</small></span>
+          </div>
+        </div>
+
+        <div class="res__cmp">
+          <div class="res__barra">
+            <span>Consórcio</span>
+            <div><i data-cmp-c></i></div>
+            <b data-cmp-cv>—</b>
+          </div>
+          <div class="res__barra res__barra--fin">
+            <span>Financiamento</span>
+            <div><i data-cmp-f></i></div>
+            <b data-cmp-fv>—</b>
+          </div>
+          <p class="res__eco"><b data-cmp-eco>—</b> a menos em juros</p>
+        </div>
+
+        <div class="res__dica">
+          <img src="/img/raul-avatar.webp" alt="" width="32" height="32" loading="lazy" />
+          <p data-res-caminho></p>
+        </div>
+
         <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
         <details class="res__contato">
           <summary>Prefere que o Raul te chame? Deixe seu contato.</summary>
@@ -723,29 +758,175 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       display: none;
     }
   }
-  /* Resultado enxuto */
+  /* Resultado */
   .res__rot {
-    font-size: 15px;
+    font-size: 14px;
+    font-weight: 600;
     color: #6b6b6f;
   }
   .res__valor {
-    display: block;
-    margin-top: 6px;
-    font-size: clamp(34px, 3.6vw, 52px);
+    margin-top: 4px;
+  }
+  .res__valor span {
+    margin-left: 6px;
+    white-space: nowrap;
+  }
+  .res__valor strong {
+    font-size: clamp(32px, 3.4vw, 48px);
     font-weight: 600;
     letter-spacing: -0.045em;
     line-height: 1.05;
     font-variant-numeric: tabular-nums;
   }
-  .res__txt {
-    margin-top: 18px;
-    max-width: 34em;
-    font-size: 16px;
-    line-height: 1.55;
-    color: #2d2d2d;
+  .res__valor span {
+    font-size: 17px;
+    font-weight: 500;
+    color: #6b6b6f;
   }
-  .res__txt + .res__txt {
+  .res__chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 14px 0 0;
+    padding: 0;
+  }
+  .res__chips li {
+    padding: 6px 12px;
+    border-radius: 99px;
+    background: #f2f2f4;
+    font-size: 13.5px;
+    color: #45454a;
+  }
+  .res__chips b {
+    color: #111;
+  }
+  .res__plano {
+    margin-top: 28px;
+  }
+  .res__trilho {
+    position: relative;
+    height: 10px;
+    border-radius: 99px;
+    background: #ececef;
+  }
+  .res__trilho::before,
+  .res__trilho::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #111;
+    border: 3px solid var(--branco);
+    transform: translateY(-50%);
+  }
+  .res__trilho::before {
+    left: -2px;
+  }
+  .res__trilho::after {
+    right: -2px;
+  }
+  .res__meta {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    border-radius: 99px;
+    background: var(--vermelho);
+    transition: left 0.6s var(--ease), width 0.6s var(--ease);
+  }
+  .res__marcos {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
     margin-top: 10px;
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+  .res__marcos span:last-child {
+    text-align: right;
+  }
+  .res__marcos small,
+  .res__marco-meta small {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8e8e93;
+  }
+  .res__bandeira {
+    position: relative;
+    height: 44px;
+  }
+  .res__marco-meta {
+    position: absolute;
+    bottom: 8px;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--vermelho);
+    white-space: nowrap;
+  }
+  .res__cmp {
+    margin-top: 24px;
+    display: grid;
+    gap: 10px;
+  }
+  .res__barra {
+    display: grid;
+    grid-template-columns: 104px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+  }
+  .res__barra div {
+    height: 8px;
+    border-radius: 99px;
+    background: #ececef;
+    overflow: hidden;
+  }
+  .res__barra i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 99px;
+    background: #1a8f4a;
+    transition: width 0.9s var(--ease);
+  }
+  .res__barra--fin i {
+    background: #8e8e93;
+  }
+  .res__barra b {
+    font-variant-numeric: tabular-nums;
+  }
+  .res__eco {
+    justify-self: start;
+    margin-top: 4px;
+    padding: 6px 12px;
+    border-radius: 99px;
+    background: rgba(26, 143, 74, 0.1);
+    color: #146c38;
+    font-size: 14px;
+  }
+  .res__dica {
+    display: flex;
+    align-items: end;
+    gap: 10px;
+    margin-top: 24px;
+  }
+  .res__dica img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+  .res__dica p {
+    padding: 12px 16px;
+    border-radius: 16px 16px 16px 4px;
+    background: #f2f2f4;
+    font-size: 15px;
+    line-height: 1.5;
+    color: #2d2d2d;
   }
   .sim .res__zap {
     --bg: #1a8f4a;
@@ -899,22 +1080,36 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       const cons = credito * (1 + ref.taxa);
       const eco = brl(Math.round(Math.max(0, fin - cons) / 1000) * 1000);
 
-      form!.querySelector("[data-res-parcela]")!.textContent = parcela;
-      form!.querySelector("[data-res-texto]")!.textContent =
-        `Para uma carta de ${brl(credito)}, em ${n} meses. O bem pode vir antes, por sorteio ou lance, e as parcelas seguem até o fim do plano. ` +
-        `Comparado a um financiamento, você deixaria de pagar cerca de ${eco} em juros.`;
+      const $r = (k: string) => form!.querySelector<HTMLElement>(`[data-${k}]`)!;
+      $r("res-parcela").textContent = parcela;
+      $r("res-carta").textContent = brl(credito);
+      $r("res-prazo").textContent = `${n} meses`;
+      $r("res-fim").textContent = `mês ${n}`;
+      // Janela em que a pessoa quer o bem, no trilho do plano
+      const janela: Record<string, [number, number]> = { ja: [0, 12], "1-2": [12, 24], "3-5": [36, 60], sem: [60, Math.min(120, n)] };
+      const [m0, m1] = janela[val("quando")] ?? [12, 24];
+      const ini = Math.min(92, (m0 / n) * 100), larg = Math.max(4, ((Math.min(m1, n) - m0) / n) * 100);
+      Object.assign($r("res-meta").style, { left: `${ini}%`, width: `${Math.min(larg, 100 - ini)}%` });
+      $r("res-meta-txt").style.left = `${Math.min(ini, 55)}%`;
+      $r("cmp-cv").textContent = brl(Math.round(cons / 1000) * 1000);
+      $r("cmp-fv").textContent = brl(Math.round(fin / 1000) * 1000);
+      $r("cmp-eco").textContent = eco;
+      requestAnimationFrame(() => {
+        $r("cmp-c").style.width = `${(cons / fin) * 100}%`;
+        $r("cmp-f").style.width = "100%";
+      });
 
       const quando = val("quando");
       const lance = val("lance");
       let caminho: string;
       if (quando === "ja" && (lance === "bom" || lance === "bem")) {
-        caminho = "No seu caso, com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
+        caminho = "Com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
       } else if (quando === "ja") {
-        caminho = "No seu caso, com pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender com o Raul se compensa.";
+        caminho = "Com pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender com o Raul se compensa.";
       } else if (quando === "1-2") {
-        caminho = "No seu caso, dá para montar um lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
+        caminho = "Dá para montar um lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
       } else {
-        caminho = "No seu caso, com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para quando fizer mais sentido.";
+        caminho = "Com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para quando fizer mais sentido.";
       }
       form!.querySelector("[data-res-caminho]")!.textContent = caminho;
 
