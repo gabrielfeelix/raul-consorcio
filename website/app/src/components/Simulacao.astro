@@ -109,12 +109,9 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
         </ul>
 
         <div class="zap" aria-label="Mensagem do Raul">
-          <div class="zap__topo">
-            <img src="/img/raul-avatar.webp" alt="" width="36" height="36" loading="lazy" />
-            <div><b>Raul Carvalho</b><small>online</small></div>
-          </div>
-          <div class="zap__fundo">
-            <p class="zap__msg"><span data-res-caminho></span><span class="zap__hora">agora</span></p>
+          <img src="/img/raul-avatar.webp" alt="" width="40" height="40" loading="lazy" />
+          <div class="zap__msgs">
+            <p class="zap__msg"><b class="zap__nome">Raul Carvalho</b><span data-res-caminho></span><span class="zap__hora">agora</span></p>
             <p class="zap__msg"><span data-res-eco></span><span class="zap__hora">agora</span></p>
           </div>
         </div>
@@ -781,54 +778,56 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
     color: #111;
   }
   .zap {
-    margin-top: 24px;
-    border-radius: 16px;
-    overflow: hidden;
-    border: 1px solid #e3e3e6;
-  }
-  .zap__topo {
     display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    background: #008069;
-    color: #fff;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 26px;
   }
-  .zap__topo img {
-    width: 36px;
-    height: 36px;
+  .zap img {
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     object-fit: cover;
+    flex: none;
   }
-  .zap__topo b {
-    display: block;
-    font-size: 15px;
-    font-weight: 600;
-  }
-  .zap__topo small {
-    display: block;
-    font-size: 12px;
-    opacity: 0.85;
-  }
-  .zap__fundo {
+  .zap__msgs {
     display: grid;
     gap: 6px;
-    padding: 16px 14px 18px;
-    background: #efeae2;
+    min-width: 0;
   }
   .zap__msg {
+    position: relative;
     justify-self: start;
-    max-width: 88%;
-    padding: 8px 12px 6px;
-    border-radius: 8px;
+    max-width: 30em;
+    padding: 8px 12px 7px;
+    border-radius: 0 10px 10px 10px;
     background: #fff;
-    box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+    border: 1px solid #e9edef;
+    box-shadow: 0 1px 2px rgba(11, 20, 26, 0.1);
     font-size: 15px;
     line-height: 1.45;
     color: #111b21;
   }
-  .zap__msg:first-child {
-    border-top-left-radius: 0;
+  .zap__msg + .zap__msg {
+    border-radius: 10px;
+  }
+  .zap__msg:first-child::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: -9px;
+    width: 10px;
+    height: 13px;
+    background: #fff;
+    clip-path: polygon(0 0, 100% 0, 100% 100%);
+    filter: drop-shadow(-1px 0 0 #e9edef);
+  }
+  .zap__nome {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #008069;
   }
   .zap__hora {
     float: right;
