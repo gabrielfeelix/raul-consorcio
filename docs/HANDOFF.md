@@ -1,42 +1,41 @@
-# Handoff — rodada "tirar a cara de IA" da LP (versão A)
+# Handoff — LP versão A: refazer "Como funciona" e "Com o Raul"
 
-Leia antes: `docs/STATE.md`. Trabalhar na versão A (`website/app/src/pages/index.astro`).
+Leia antes: `docs/STATE.md` e `docs/DECISIONS.md`. Base: commit `dd40a3c` (main).
+No ar: https://raul-consorcio-v3.vercel.app (versão A; `/b/` é teste, ignorar).
 
-## Feedback do Raul (WhatsApp, 26/11) + decisões do Gabriel
-O Raul gostou da linha geral e dos efeitos de página "abrindo e fechando". Achou "cara de IA" em padrões específicos:
+## O problema
+Duas seções seguidas repetem o mesmo esqueleto: **título + texto à esquerda (sticky) e uma lista vertical crescendo à direita**.
+- `website/app/src/components/Construcao.astro` — "Como funciona o consórcio": linha do tempo vertical com 5 etapas e ícones; animação em `construir()` de `src/scripts/motion.ts`.
+- `website/app/src/components/ComORaul.astro` — "Como é fazer consórcio com o Raul": conversa estilo WhatsApp (3 trocas), balões entram em sequência.
 
-1. **Blocos iguais lado a lado** (3 ou 4 colunas): fatos do Consultor ("8 anos | Multimarcas | Maringá/PR"), garantias da Simulação ("1 min | 0 | 100%"), os 4 cards de `Casos.astro`, passos do resultado da simulação.
-2. **Barrinha vertical vermelha** ao lado de texto: citação em `Consultor.astro` (~linha 86), "Caminho possível" em `Simulacao.astro` (~linha 555).
-3. **Numeração 01/02/03** e rótulo pequeno em caixa alta acima dos títulos (`.rotulo` com `<b>NN</b>` em ~9 seções; `prom__n` em Promessas; contador em ParaQuem).
-4. **Seções de texto em geral**: o Gabriel acha especialmente ruim `Promessas.astro` (frase riscada à esquerda + "A verdade" à direita) — refazer de outro jeito ou remover.
+O Gabriel (designer) quer que cada uma tenha apresentação própria, do jeito que LPs modernas de produto/design apresentam processos. Pode virar 2 seções novas em vez de uma.
 
-Regra do Gabriel (designer): **não centralizar texto de leitura**. Leitura em F, alinhada à esquerda. Centralizar só título de virada/seção de impacto.
+## Tarefa
+1. Pesquisar como LPs modernas apresentam processo/etapas: Framer marketplace e templates, Godly, Awwwards, landing pages de fintech e produto (ex.: Nubank, Revolut, Stripe, Linear, Wise, Mercury). Trazer 4–6 referências concretas com URL e o mecanismo de cada uma (interação, layout, motion).
+2. Escolher e implementar uma apresentação para "Como funciona" e outra, diferente, para "Com o Raul". Decisões de layout, tipografia e motion na thread principal (Opus).
+3. Validar: prints 1440×900 e 390×844; rodar um agente persona de baixo letramento (ex.: motorista de app, 5ª série, desconfiado) e um crítico de design de estúdio. Corrigir o que eles apontarem.
+4. Publicar (abaixo), commit e push na main, atualizar `docs/STATE.md`.
 
-## Pedidos concretos do Raul
-- Botão do **WhatsApp no topo** (Nav). Link: `wa()` em `src/data/site.ts`.
-- **Capa**: título "Seu próximo grande passo começa com um plano". Sub: "Consultoria personalizada com Raul Carvalho. Presencial e online." (ele atende fora do PR também; não parecer regional).
-- **Ordem** (menu e página): Quem é o Raul → Como funciona → Tipos de consórcio → Depoimentos → Simulação (simulação por último).
-- **Consultor**: nome "Raul Carvalho" numa linha só (fonte menor); "Consultor de consórcio" → "Especialista em consórcio"; manter "8 anos"; "Multimarcas" → "Mais de 100 clientes atendidos com consórcio"; trocar "Maringá/PR" por algo não regional (ex.: "Presencial e online, em todo o Brasil"). Foto será trocada quando ele mandar as novas.
-- Estrutura combinada com ele: 1 capa → 2 quem é ele e o objetivo → (uma "parada" visual de transição, ref.: marquee grande tipo PCYES Drop Dead) → 3 como funciona o consórcio → 4 como funciona com ele (tipos/depoimentos) → 5 simulação.
-
-## LP longa / scroll cansativo
-- `Construcao.astro` pina `+=320%` e `Revelacao` pina `+=360%` (em `src/scripts/motion.ts`). O próprio Raul perguntou se alguém chegaria ao fim. Reduzir os pins (~150–180%) e encurtar a página: candidatos a sair ou fundir são `Casos`, `Promessas`, `ParaQuem`, `Videos` (decidir com o Gabriel).
-
-## Sugestão de execução
-1. Remover números dos rótulos (ou o rótulo inteiro onde for redundante).
-2. Tirar as barrinhas verticais; citação do Consultor com tipografia maior, sem barra.
-3. Fatos do Consultor em lista empilhada (número/negrito + texto), sem 3 colunas; garantias da Simulação viram uma frase.
-4. Refazer/remover Promessas; tirar Casos; revisar ParaQuem (tirar 01/02).
-5. Pedidos concretos acima + reordenar `index.astro` e links do `Nav.astro` (Nav aceita prop `links`).
-6. Encurtar pins.
-7. QA em print (desktop 1440×900 e mobile 390×844) antes de publicar.
+## Regras do Gabriel e do Raul (valem para tudo)
+- **Não** usar: texto à esquerda + componente vertical à direita; blocos iguais lado a lado (3–4 colunas); barrinha vertical vermelha ao lado de texto; numeração 01/02/03; rótulo pequeno em caixa alta acima de título; visual de "revista editorial" (só tipografia grande, fios e frases soltas). Tudo isso lê como "cara de IA".
+- **Sim**: componentes modernos e bonitos, com affordance óbvia, pouca informação por bloco. Texto de leitura alinhado à esquerda; centralizar só título de impacto.
+- Manter os termos técnicos (mostram que o Raul é do ramo), sempre com explicação simples junto: carta de crédito = valor do bem; contemplação = quando o dinheiro sai; lance = entrada para sair antes; assembleia = sorteio do mês; taxa de administração = pagamento da empresa, já na parcela. O conteúdo atual das 5 etapas está no array `passos` de `Construcao.astro`.
+- O Raul e o Gabriel gostaram da ideia da **conversa** (dúvida do cliente + resposta do Raul). Pode mudar a forma, não precisa sumir. Não usar moldura de app (barra verde/fundo bege): só rosto + balões.
+- Página curta e mobile-first: sem pin longo, sem layout shift em animação, sem esperas longas (a conversa roda inteira em ~4 s). WhatsApp sempre verde (`#1a8f4a`). Copy calma, sem pressa.
+- A logo RC (provisória) não explica etapas: fica só na marca.
 
 ## Como publicar
 ```
 cd website/app && npm run build
-D=<pasta de deploy com .vercel ligada ao projeto raul-consorcio-v3>
+D=<pasta de deploy ligada ao projeto raul-consorcio-v3>
 cp -r dist/. $D/ && cd $D && vercel deploy --prod --yes
 ```
-A pasta de deploy antiga estava no scratchpad da sessão anterior e pode ter sumido. Se sumiu: criar pasta nova, copiar `dist/` e rodar `vercel link` no projeto `raul-consorcio-v3` (conta `gabrielbarbosa-8923`) antes do deploy. `public/vercel.json` já força barra no fim (`/b` → `/b/`).
+A pasta de deploy anterior ficava no scratchpad da sessão e some. Se não existir: criar pasta nova, copiar `dist/`, `vercel link --yes --project raul-consorcio-v3` (conta `gabrielbarbosa-8923`) e **apagar o `.env.local` e o `.gitignore` que o link cria** antes do deploy (senão sobem como arquivo público). Playwright para QA: `npm i playwright` numa pasta do scratchpad (chromium já está em `~/.cache/ms-playwright`). Servir `dist/` com `python3 -m http.server`.
 
-Commit/push: Gabriel autoriza push direto na `main` (padrão do repo).
+## Pegadinhas já resolvidas (não reintroduzir)
+- `motion.ts` captura links `href^="#"` para rolagem suave; confere o href no clique porque o botão de WhatsApp do resultado nasce `#` e vira externo.
+- No `<script>` da simulação, não usar variáveis antes de declarar (já quebrou o resultado uma vez).
+- Astro engole espaço entre texto e elemento inline quando há quebra de linha no markup.
+
+## Ainda depende do Raul
+CNPJ real (o zerado no rodapé é o maior gatilho de desconfiança), administradoras parceiras, depoimentos reais com foto, fotos novas dele, taxas reais por modalidade, revisão dos textos na voz dele (FAQ de FGTS inclusa).
