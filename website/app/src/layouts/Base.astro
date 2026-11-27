@@ -1,0 +1,54 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+const {
+  title = "Raul Consórcio — Você constrói patrimônio",
+  description = "Consultoria em consórcio de imóvel, veículo, pesados e serviços. Planejamento com várias administradoras, presencial em Maringá e online.",
+} = Astro.props;
+const og = new URL("/og.jpg", Astro.site ?? Astro.url).href;
+const canonica = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#0b0b0c" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Raul Consórcio" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={og} />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Raul Consórcio — Você constrói patrimônio" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={og} />
+    <script is:inline>
+      if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.documentElement.classList.add("js-motion");
+      }
+    </script>
+  </head>
+  <body>
+    <slot />
+    <div class="grao" aria-hidden="true"></div>
+    <script>
+      import "../scripts/motion";
+    </script>
+  </body>
+</html>

@@ -1,0 +1,11 @@
+---
+// Texto que troca letra a letra no hover (padrão do Velorn)
+interface Props {
+  texto: string;
+}
+const { texto } = Astro.props;
+---
+
+<span class="onda" aria-label={texto}>
+  {[...texto].map((c, i) => <span aria-hidden="true" style={`--i:${i}`}>{c}</span>)}
+</span>

@@ -1,0 +1,102 @@
+---
+import { INSTAGRAM, wa } from "../data/site";
+import Onda from "./Onda.astro";
+import Seta from "./Seta.astro";
+const ano = new Date().getFullYear();
+---
+
+<footer class="rod">
+  <div class="wrap">
+    <div class="rod__cta">
+      <h2 class="display d-l" data-split>
+        <span class="linha"><span>Seu patrimônio</span></span>
+        <span class="linha"><span>começa numa conversa.</span></span>
+      </h2>
+      <div class="rod__acoes" data-reveal>
+        <a href="#simulacao" class="btn"><Onda texto="Fazer simulação" /><Seta /></a>
+        <a href={wa("Olá, Raul. Vim pelo site e quero conversar sobre consórcio.")} target="_blank" rel="noopener" class="btn btn--fantasma">
+          <Onda texto="Chamar no WhatsApp" />
+        </a>
+      </div>
+    </div>
+
+    <div class="rod__links">
+      <a href={INSTAGRAM} target="_blank" rel="noopener"><Onda texto="Instagram" /></a>
+      <a href="#modalidades"><Onda texto="Modalidades" /></a>
+      <a href="#faq"><Onda texto="Dúvidas" /></a>
+      <span>Maringá/PR · presencial e online</span>
+    </div>
+
+    <img src="/marca/logo-horizontal-branco.svg" alt="Raul Consórcio" class="rod__marca" data-rod-marca loading="lazy" />
+
+    <div class="rod__legal">
+      <span>© {ano} Raul Consórcio. CNPJ 00.000.000/0000-00</span>
+      <span>Consórcio é regulado pelo Banco Central do Brasil. Simulações são estimativas e não constituem oferta. <a href="/privacidade">Privacidade</a></span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .rod {
+    padding: clamp(96px, 14vh, 160px) 0 32px;
+    background: var(--preto);
+    border-top: 1px solid var(--linha);
+    overflow: hidden;
+  }
+  .rod__cta {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .rod__cta h2 {
+    max-width: 11em;
+  }
+  .rod__acoes {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .rod__links {
+    display: flex;
+    gap: 28px;
+    flex-wrap: wrap;
+    margin: clamp(72px, 12vh, 140px) 0 28px;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .rod__links span {
+    margin-left: auto;
+    color: var(--cinza);
+  }
+  .rod__marca {
+    width: 100%;
+    height: auto;
+    padding: 24px 0;
+    border-top: 1px solid var(--linha);
+    border-bottom: 1px solid var(--linha);
+  }
+  .rod__legal {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    font-size: 12px;
+    color: var(--cinza);
+  }
+  @media (max-width: 700px) {
+    .rod__links span {
+      margin-left: 0;
+    }
+    .rod__acoes {
+      flex-direction: column;
+      width: 100%;
+    }
+    .rod__acoes .btn {
+      justify-content: center;
+    }
+  }
+</style>

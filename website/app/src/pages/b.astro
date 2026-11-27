@@ -1,0 +1,51 @@
+---
+// Versão B (não publicar ainda): mesma identidade da A, narrativa centrada no sonho e nas dúvidas
+// de quem chega. O Raul entra depois que a pessoa entendeu o caminho.
+import Base from "../layouts/Base.astro";
+import Nav from "../components/Nav.astro";
+import HeroB from "../components/b/HeroB.astro";
+import TravasB from "../components/b/TravasB.astro";
+import Construcao from "../components/Construcao.astro";
+import Frase from "../components/Frase.astro";
+import Revelacao from "../components/Revelacao.astro";
+import Modalidades from "../components/Modalidades.astro";
+import Faixa from "../components/Faixa.astro";
+import Consultor from "../components/Consultor.astro";
+import Depoimentos from "../components/Depoimentos.astro";
+import Simulacao from "../components/Simulacao.astro";
+import BarraCta from "../components/BarraCta.astro";
+import Rodape from "../components/Rodape.astro";
+
+const links = [
+  ["#travas", "Dúvidas"],
+  ["#construcao", "Como funciona"],
+  ["#consultor", "Quem te ajuda"],
+  ["#modalidades", "Seu objetivo"],
+  ["#simulacao", "Simulação"],
+];
+---
+
+<Base title="Raul Consórcio — Do sonho ao patrimônio, sem juros">
+  <Nav links={links} />
+  <main class="pagina-b">
+    <HeroB />
+    <TravasB />
+    <Construcao titulo="Do sonho ao bem, em três etapas." />
+    <Frase inicio="E é aqui que o sonho" fim="sai do papel." sub="Com a carta contemplada, você compra à vista, como quem tem o dinheiro na mão." />
+    <Revelacao />
+    <Consultor />
+    <Depoimentos />
+    <Modalidades />
+    <Faixa />
+    <Simulacao />
+  </main>
+  <Rodape />
+  <BarraCta />
+</Base>
+
+<style is:global>
+  /* Na B a ordem muda; os números dos rótulos saem para não ficarem fora de sequência */
+  .pagina-b .rotulo b {
+    display: none;
+  }
+</style>

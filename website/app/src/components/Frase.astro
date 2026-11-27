@@ -1,0 +1,46 @@
+---
+// Conclusão das 3 etapas: uma frase só, grande e centralizada, antes do patrimônio aparecer.
+interface Props {
+  inicio?: string;
+  fim?: string;
+  sub?: string;
+}
+const {
+  inicio = "E é aqui que o plano",
+  fim = "vira patrimônio.",
+  sub = "Com a carta contemplada, você compra à vista o que planejou.",
+} = Astro.props;
+---
+
+<section class="frase" aria-label="Conclusão">
+  <div class="wrap">
+    <p class="frase__txt display" data-fill>
+      {inicio} <span>{fim}</span>
+    </p>
+    <p class="frase__sub" data-reveal>{sub}</p>
+  </div>
+</section>
+
+<style>
+  .frase {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    background: var(--preto);
+    padding: 120px 0;
+  }
+  .frase__txt {
+    font-size: clamp(44px, 7.4vw, 128px);
+    max-width: 11em;
+    margin: 0 auto;
+  }
+  .frase__txt span {
+    color: var(--vermelho);
+  }
+  .frase__sub {
+    margin-top: 32px;
+    font-size: clamp(17px, 1.4vw, 21px);
+    color: rgba(255, 255, 255, 0.7);
+  }
+</style>

@@ -1,0 +1,157 @@
+---
+// Versão B: as dúvidas escritas como a pessoa pensa, com a resposta já à vista.
+// Nada de clique: quem só passa o olho lê o negrito; quem quer, lê a frase de baixo.
+const travas = [
+  [
+    "Tenho medo de pagar anos e nunca ser contemplado.",
+    "O lance te dá controle.",
+    "Só pelo sorteio, ninguém garante data. Com lance, você decide quanto e quando ofertar.",
+  ],
+  [
+    "Não sei se a parcela cabe no meu bolso.",
+    "Sem juros, ela tende a ser menor.",
+    "É o valor do bem dividido no prazo, mais a taxa de administração. A simulação mostra a sua em 1 minuto.",
+  ],
+  [
+    "Já ouvi falar que consórcio é golpe.",
+    "Consórcio é regulado pelo Banco Central.",
+    "Golpe é quem promete contemplação garantida ou pede Pix para “reservar” cota. Antes de assinar, confira a administradora.",
+  ],
+  [
+    "Preciso disso logo, não daqui a dez anos.",
+    "Com reserva para lance, pode ser em meses.",
+    "Sem reserva, existe o lance embutido, que usa parte da própria carta. Tem custo, e vale ver se compensa.",
+  ],
+  [
+    "Financiamento não é mais rápido?",
+    "Mais rápido, e bem mais caro.",
+    "No imóvel, os juros podem dobrar o total pago. Consórcio troca pressa por economia.",
+  ],
+];
+---
+
+<section class="trv" id="travas">
+  <div class="wrap trv__in">
+    <div class="trv__topo">
+      <p class="rotulo" data-reveal>Antes de começar</p>
+      <h2 class="display d-m trv__titulo" data-split>
+        <span class="linha"><span>O que te separa</span></span>
+        <span class="linha"><span><em>do seu sonho?</em></span></span>
+      </h2>
+      <p class="trv__sub" data-reveal>As dúvidas que quase todo mundo tem antes de começar, com resposta direta.</p>
+      <a href="#simulacao" class="trv__cta" data-reveal>Ver os números do meu caso →</a>
+    </div>
+
+    <ol class="trv__lista">
+      {
+        travas.map(([q, curta, longa], i) => (
+          <li class="trv__item" data-reveal>
+            <span class="trv__n">{String(i + 1).padStart(2, "0")}</span>
+            <div>
+              <h3 class="trv__q">{q}</h3>
+              <p class="trv__r">
+                <strong>{curta}</strong> {longa}
+              </p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .trv {
+    background: var(--papel);
+    color: #111;
+    padding: clamp(96px, 14vh, 160px) 0;
+  }
+  .trv .rotulo {
+    color: #6b6b6f;
+  }
+  .trv__in {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+  .trv__topo {
+    position: sticky;
+    top: 110px;
+  }
+  .trv__titulo {
+    margin-top: 24px;
+  }
+  .trv__titulo em {
+    font-style: normal;
+    color: var(--vermelho);
+  }
+  .trv__sub {
+    margin-top: 20px;
+    max-width: 22em;
+    font-size: 17px;
+    color: #45454a;
+  }
+  .trv__cta {
+    display: inline-block;
+    margin-top: 28px;
+    font-size: 15px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--vermelho);
+  }
+
+  .trv__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .trv__item {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    padding: clamp(26px, 4vh, 36px) 0;
+    border-top: 1px solid var(--linha-clara);
+  }
+  .trv__item:last-child {
+    border-bottom: 1px solid var(--linha-clara);
+  }
+  .trv__n {
+    padding-top: 0.45em;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--vermelho);
+    font-variant-numeric: tabular-nums;
+  }
+  .trv__q {
+    font-size: clamp(21px, 1.9vw, 27px);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: -0.03em;
+  }
+  .trv__r {
+    margin-top: 10px;
+    max-width: 36em;
+    font-size: 17px;
+    line-height: 1.6;
+    color: #45454a;
+  }
+  .trv__r strong {
+    color: #111;
+    font-weight: 600;
+  }
+
+  @media (max-width: 900px) {
+    .trv__in {
+      grid-template-columns: minmax(0, 1fr);
+    }
+    .trv__topo {
+      position: static;
+    }
+    .trv__item {
+      grid-template-columns: 34px minmax(0, 1fr);
+    }
+    .trv__r {
+      font-size: 16px;
+    }
+  }
+</style>

@@ -1,0 +1,10 @@
+---
+interface Props {
+  class?: string;
+}
+const { class: cls = "btn__seta" } = Astro.props;
+---
+
+<svg class={cls} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+  <path d="M4.5 11.5l7-7M5.5 4.5h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"></path>
+</svg>

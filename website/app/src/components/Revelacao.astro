@@ -1,0 +1,104 @@
+---
+// O símbolo construído na seção anterior vira janela e cresce até revelar o patrimônio.
+---
+
+<section class="rev" data-rev aria-label="Patrimônio construído">
+  <div class="rev__palco">
+    <div class="rev__mascara" data-rev-mascara>
+      <div class="rev__imgs" data-rev-img>
+        <img src="/img/rev/imovel.webp" alt="Casa moderna iluminada ao anoitecer" decoding="async" />
+        <img src="/img/rev/veiculo.webp" alt="Carro na garagem de casa à noite" decoding="async" />
+        <img src="/img/rev/pesados.webp" alt="Trator no campo ao entardecer" decoding="async" />
+        <img src="/img/rev/investimento.webp" alt="Prédio residencial iluminado" decoding="async" />
+      </div>
+    </div>
+    <p class="rev__dica" data-rev-dica>Depois da contemplação</p>
+    <div class="rev__texto wrap">
+      <p class="rotulo" data-rev-txt>Depois da contemplação</p>
+      <h2 class="display d-l" data-rev-txt>Você compra<br />à vista o seu <span class="rev__palavra" data-rev-palavra>imóvel.</span></h2>
+      <p class="rev__sub" data-rev-txt>Casa, carro, máquina ou investimento: a carta de crédito serve para o que você planejou.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .rev {
+    position: relative;
+    background: var(--preto);
+  }
+  .rev__palco {
+    position: relative;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .rev__mascara {
+    position: absolute;
+    inset: 0;
+    -webkit-mask: url("/marca/simbolo-branco.svg") center / auto 34% no-repeat;
+    mask: url("/marca/simbolo-branco.svg") center / auto 34% no-repeat;
+    will-change: transform;
+  }
+  .rev__imgs {
+    position: absolute;
+    inset: 0;
+    will-change: transform;
+  }
+  .rev__imgs img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .rev__imgs img + img {
+    opacity: 0;
+  }
+  .rev__palavra {
+    color: var(--branco);
+    border-bottom: 0.06em solid var(--vermelho);
+  }
+  .rev__mascara::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(0deg, rgba(11, 11, 12, 0.92) 0%, rgba(11, 11, 12, 0.7) 30%, rgba(11, 11, 12, 0.2) 60%, rgba(11, 11, 12, 0) 80%),
+      linear-gradient(90deg, rgba(11, 11, 12, 0.55) 0%, rgba(11, 11, 12, 0) 60%);
+    opacity: var(--sombra, 1);
+  }
+  .rev__texto {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(32px, 7vh, 72px);
+  }
+  .rev__dica {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(50% + 20vh);
+    text-align: center;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--cinza);
+  }
+  .rev__sub {
+    margin-top: 20px;
+    font-size: clamp(17px, 1.4vw, 21px);
+    color: rgba(255, 255, 255, 0.85);
+    max-width: 30em;
+  }
+  .rev__texto .rotulo {
+    color: rgba(255, 255, 255, 0.75);
+    margin-bottom: 18px;
+  }
+  :global(html.js-motion) [data-rev-txt] {
+    opacity: 0;
+  }
+  :global(html:not(.js-motion)) .rev__mascara {
+    -webkit-mask: none;
+    mask: none;
+  }
+</style>

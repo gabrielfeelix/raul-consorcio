@@ -1,0 +1,934 @@
+---
+import { modalidades } from "../data/site";
+import Seta from "./Seta.astro";
+
+const quando = [
+  ["ja", "O quanto antes", "Aí o lance faz diferença"],
+  ["1-2", "Em 1 a 2 anos", "Tempo para juntar uma reserva"],
+  ["3-5", "Em 3 a 5 anos", "Planejamento com calma"],
+  ["sem", "Sem pressa", "É para construir patrimônio"],
+];
+const lance = [
+  ["nao", "Ainda não", "Tudo bem, dá para começar assim"],
+  ["pouco", "Um pouco", "Até uns 10% do valor"],
+  ["bom", "Sim, uma boa reserva", "Mais de 10% do valor"],
+  ["bem", "Tenho um bem para usar", "Um carro ou imóvel que pode vender"],
+];
+const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
+---
+
+<section class="sim" id="simulacao">
+  <div class="wrap sim__in">
+    <div class="sim__intro">
+      <p class="rotulo" data-reveal><b>04</b> Simulação</p>
+      <h2 class="display d-m" data-split>
+        <span class="linha"><span>Vamos começar</span></span>
+        <span class="linha"><span>pelo seu plano.</span></span>
+      </h2>
+      <p class="sim__texto" data-reveal>
+        Quatro perguntas, menos de um minuto. Você vê a parcela estimada na hora, sem deixar contato.
+      </p>
+      <ul class="sim__garantias" data-reveal>
+        <li><b>1 min</b><span>para responder</span></li>
+        <li><b>0</b><span>cadastro para ver o resultado</span></li>
+        <li><b>100%</b><span>sem compromisso</span></li>
+      </ul>
+      <div class="sim__raul" data-reveal>
+        <img src="/img/raul-avatar.webp" alt="" width="48" height="48" loading="lazy" />
+        <p>Quem lê a sua simulação é o Raul. <span>Não é robô nem call center.</span></p>
+      </div>
+    </div>
+
+    <form class="sim__card" data-sim novalidate>
+      <ol class="sim__etapas" aria-hidden="true">
+        {etapas.map((e, k) => <li class={k === 0 ? "is-atual" : ""}>{e}</li>)}
+      </ol>
+      <p class="sr" data-sim-n aria-live="polite">Pergunta 1 de 4</p>
+
+      <fieldset class="sim__passo" data-passo="objetivo">
+        <legend>O que você quer conquistar?</legend>
+        <div class="sim__ops">
+          {
+            modalidades.map((m) => (
+              <label class="op">
+                <input type="radio" name="objetivo" value={m.id} />
+                <span class="op__c">
+                  <img class="op__img" src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" />
+                  <span class="op__t">
+                    <b>{m.nome}</b>
+                    <small>{m.usos.slice(0, 3).join(", ")}</small>
+                  </span>
+                  <i class="op__r" />
+                </span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset class="sim__passo" data-passo="valor" hidden>
+        <legend>Qual o valor aproximado do que você quer?<small class="sim__dica">Pode ser uma ideia. Depois o Raul ajusta com você.</small></legend>
+        <div class="sim__ops" data-ops-valor></div>
+      </fieldset>
+
+      <fieldset class="sim__passo" data-passo="quando" hidden>
+        <legend>Para quando você precisa?</legend>
+        <div class="sim__ops">
+          {
+            quando.map(([v, t, s]) => (
+              <label class="op">
+                <input type="radio" name="quando" value={v} />
+                <span class="op__c">
+                  <span class="op__t"><b>{t}</b><small>{s}</small></span>
+                  <i class="op__r" />
+                </span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <fieldset class="sim__passo" data-passo="lance" hidden>
+        <legend>Você tem algum valor guardado para dar de lance?<small class="sim__dica">Lance é uma oferta em dinheiro (ou um bem) para ser contemplado antes.</small></legend>
+        <div class="sim__ops">
+          {
+            lance.map(([v, t, s]) => (
+              <label class="op">
+                <input type="radio" name="lance" value={v} />
+                <span class="op__c">
+                  <span class="op__t"><b>{t}</b><small>{s}</small></span>
+                  <i class="op__r" />
+                </span>
+              </label>
+            ))
+          }
+        </div>
+      </fieldset>
+
+      <div class="sim__passo sim__res" data-passo="resultado" hidden>
+        <p class="sim__res-rot">Primeira leitura do seu caso</p>
+        <div class="res__destaque">
+          <span>Parcela estimada</span>
+          <strong data-res-parcela>—</strong>
+          <em>por mês, com prazo de referência de <b data-res-prazo>—</b></em>
+        </div>
+
+        <div class="cmp">
+          <p class="cmp__t">Total pago até ter o bem</p>
+          <div class="cmp__linha">
+            <span>Consórcio</span>
+            <div class="cmp__barra"><i data-cmp-c></i></div>
+            <strong data-cmp-cv>—</strong>
+          </div>
+          <div class="cmp__linha cmp__linha--fin">
+            <span>Financiamento</span>
+            <div class="cmp__barra"><i data-cmp-f></i></div>
+            <strong data-cmp-fv>—</strong>
+          </div>
+          <p class="cmp__eco">Você deixaria de pagar cerca de <strong data-cmp-eco>—</strong> em juros.</p>
+        </div>
+
+        <div class="res__caminho">
+          <span>Caminho possível</span>
+          <p data-res-caminho></p>
+        </div>
+        <p class="sim__res-nota">
+          Estimativa com taxa de administração média de mercado. O valor real depende da administradora, do grupo e da
+          estratégia de lance.
+        </p>
+
+        <div class="res__contato">
+          <h3>Quer a análise completa?</h3>
+          <p>Deixe seu contato e o Raul te chama no WhatsApp, em horário comercial.</p>
+          <div class="sim__contato">
+            <label>
+              <span>Seu nome</span>
+              <input name="nome" autocomplete="name" required />
+            </label>
+            <label>
+              <span>WhatsApp</span>
+              <input name="fone" type="tel" inputmode="tel" autocomplete="tel" placeholder="(44) 9 0000-0000" required />
+            </label>
+          </div>
+          <label class="sim__lgpd">
+            <input type="checkbox" name="lgpd" />
+            <span>Autorizo o Raul a falar comigo pelo WhatsApp sobre esta simulação. <a href="/privacidade" target="_blank">Política de privacidade</a></span>
+          </label>
+          <button type="submit" class="btn sim__enviar">Quero minha análise<Seta /></button>
+          <ol class="passos">
+            <li><b>1</b>O Raul te chama</li>
+            <li><b>2</b>Conversa de 30 min</li>
+            <li><b>3</b>Análise sem compromisso</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="sim__nav">
+        <button type="button" class="sim__voltar" data-sim-voltar hidden>← Voltar</button>
+        <p class="sim__nota-nav" data-sim-nota>Toque numa opção para seguir</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<style is:global>
+  .sim {
+    background: var(--papel);
+    color: #111;
+    padding: clamp(96px, 14vh, 160px) 0;
+  }
+  .sim .rotulo {
+    color: #6b6b6f;
+  }
+  .sim__in {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 96px);
+    align-items: start;
+  }
+  .sim__intro {
+    position: sticky;
+    top: 110px;
+  }
+  .sim__intro h2 {
+    margin: 24px 0 24px;
+  }
+  .sim__texto {
+    color: #45454a;
+    max-width: 24em;
+    font-size: 17px;
+  }
+  .sim__garantias {
+    list-style: none;
+    margin: 40px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--linha-clara);
+    border-bottom: 1px solid var(--linha-clara);
+  }
+  .sim__garantias li {
+    padding: 18px 16px 18px 0;
+  }
+  .sim__garantias li + li {
+    padding-left: 16px;
+    border-left: 1px solid var(--linha-clara);
+  }
+  .sim__garantias b {
+    display: block;
+    font-size: clamp(26px, 2.4vw, 36px);
+    font-weight: 600;
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+  .sim__garantias span {
+    display: block;
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.35;
+    color: #6b6b6f;
+  }
+  .sim__raul {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .sim__raul img {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+  .sim__raul p {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .sim__raul span {
+    display: block;
+    font-weight: 500;
+    color: #6b6b6f;
+  }
+
+  /* Card */
+  .sim__card {
+    background: var(--branco);
+    border-radius: 16px;
+    padding: clamp(22px, 2.6vw, 40px);
+    box-shadow: 0 1px 0 var(--linha-clara), 0 40px 80px -48px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
+  .sim__etapas {
+    list-style: none;
+    margin: 0 0 28px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+  .sim__etapas li {
+    font-size: 12px;
+    font-weight: 600;
+    color: #a1a1a6;
+    transition: color 0.3s var(--ease);
+  }
+  .sim__etapas li::before {
+    content: "";
+    display: block;
+    height: 3px;
+    border-radius: 99px;
+    background: var(--cinza-claro);
+    margin-bottom: 10px;
+    transition: background-color 0.4s var(--ease);
+  }
+  .sim__etapas li.is-feito,
+  .sim__etapas li.is-atual {
+    color: #111;
+  }
+  .sim__etapas li.is-feito::before,
+  .sim__etapas li.is-atual::before {
+    background: var(--vermelho);
+  }
+
+  .sim__passo {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    min-width: 0;
+  }
+  .sim__passo[hidden] {
+    display: none;
+  }
+  .sim__passo:not([hidden]) {
+    animation: sim-entra 0.45s var(--ease);
+  }
+  @keyframes sim-entra {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+  }
+  .sim legend {
+    padding: 0;
+    font-size: clamp(24px, 2.2vw, 32px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    margin-bottom: 22px;
+  }
+  .sim__dica {
+    display: block;
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.45;
+    color: #6b6b6f;
+  }
+
+  /* Opções em linha */
+  .sim__ops {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .op {
+    position: relative;
+    cursor: pointer;
+    display: block;
+  }
+  .op input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .op__c {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 64px;
+    padding: 10px 16px 10px 12px;
+    border: 1px solid var(--linha-clara);
+    border-radius: 12px;
+    transition:
+      border-color 0.25s var(--ease),
+      background-color 0.25s var(--ease),
+      transform 0.25s var(--ease);
+  }
+  .op__c:not(:has(.op__img)) {
+    padding-left: 18px;
+  }
+  .op__img {
+    width: 52px;
+    height: 52px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex: none;
+  }
+  .op__t {
+    flex: 1;
+    min-width: 0;
+  }
+  .op__t b {
+    display: block;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .op__t small {
+    display: block;
+    margin-top: 2px;
+    font-size: 13px;
+    color: #6b6b6f;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .op__r {
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1.5px solid #c7c7cc;
+    position: relative;
+    transition:
+      border-color 0.25s var(--ease),
+      background-color 0.25s var(--ease);
+  }
+  .op__r::after {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
+    background: var(--branco);
+    transform: scale(0);
+    transition: transform 0.25s var(--ease);
+  }
+  .op:hover .op__c {
+    border-color: #111;
+    background: #fafafa;
+  }
+  .op:hover .op__r {
+    border-color: #111;
+  }
+  .op input:checked + .op__c {
+    border-color: var(--vermelho);
+    background: rgba(166, 17, 31, 0.04);
+    box-shadow: inset 0 0 0 1px var(--vermelho);
+  }
+  .op input:checked + .op__c .op__r {
+    border-color: var(--vermelho);
+    background: var(--vermelho);
+  }
+  .op input:checked + .op__c .op__r::after {
+    transform: scale(1);
+  }
+  .op input:focus-visible + .op__c {
+    outline: 2px solid #111;
+    outline-offset: 2px;
+  }
+  .op:active .op__c {
+    transform: scale(0.99);
+  }
+
+  /* Rodapé do card */
+  .sim__nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+    min-height: 36px;
+  }
+  .sim__voltar {
+    background: none;
+    border: 0;
+    padding: 8px 0;
+    font: inherit;
+    font-weight: 600;
+    color: #6b6b6f;
+    cursor: pointer;
+  }
+  .sim__voltar:hover {
+    color: #111;
+  }
+  .sim__nota-nav {
+    margin-left: auto;
+    font-size: 13px;
+    color: #a1a1a6;
+  }
+
+  /* Resultado */
+  .sim__res-rot {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--vermelho);
+    margin-bottom: 14px;
+  }
+  .res__destaque span {
+    display: block;
+    font-size: 14px;
+    color: #6b6b6f;
+  }
+  .res__destaque strong {
+    display: block;
+    margin: 4px 0 6px;
+    font-size: clamp(32px, 3.4vw, 48px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 1.05;
+    font-variant-numeric: tabular-nums;
+  }
+  .res__destaque em {
+    font-style: normal;
+    font-size: 14px;
+    color: #6b6b6f;
+  }
+  .res__destaque em b {
+    color: #111;
+  }
+  .cmp {
+    margin-top: 22px;
+    padding: 18px 20px;
+    border-radius: 12px;
+    background: #f6f6f7;
+  }
+  .cmp__t {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b6b6f;
+    margin-bottom: 10px;
+  }
+  .cmp__linha {
+    display: grid;
+    grid-template-columns: 104px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 6px 0;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  .cmp__barra {
+    height: 10px;
+    border-radius: 99px;
+    background: #e6e6e9;
+    overflow: hidden;
+  }
+  .cmp__barra i {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    background: #111;
+    transition: width 0.9s var(--ease);
+  }
+  .cmp__linha--fin .cmp__barra i {
+    background: var(--vermelho);
+  }
+  .cmp__linha strong {
+    font-variant-numeric: tabular-nums;
+  }
+  .cmp__eco {
+    margin-top: 10px;
+    font-size: 15px;
+  }
+  .cmp__eco strong {
+    color: #1f7a4d;
+  }
+  .res__caminho {
+    margin-top: 20px;
+    padding-left: 16px;
+    border-left: 3px solid var(--vermelho);
+  }
+  .res__caminho span {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b6b6f;
+  }
+  .res__caminho p {
+    margin-top: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+  .sim__res-nota {
+    margin-top: 14px;
+    font-size: 12.5px;
+    color: #8e8e93;
+  }
+
+  .res__contato {
+    margin-top: 24px;
+    padding: 24px;
+    border-radius: 14px;
+    background: #111;
+    color: var(--branco);
+  }
+  .res__contato h3 {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .res__contato > p {
+    margin-top: 4px;
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.7);
+  }
+  .sim__contato {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 20px;
+  }
+  .sim__contato label span {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+  .sim__contato input {
+    width: 100%;
+    height: 52px;
+    padding: 0 14px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 10px;
+    font: inherit;
+    color: var(--branco);
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .sim__contato input::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+  .sim__contato input:focus {
+    outline: none;
+    border-color: var(--branco);
+  }
+  .sim__contato input[aria-invalid="true"] {
+    border-color: #ff6b76;
+  }
+  .sim__lgpd {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 16px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+  }
+  .sim__lgpd input {
+    width: 18px;
+    height: 18px;
+    margin: 1px 0 0;
+    accent-color: var(--vermelho);
+    flex: none;
+  }
+  .sim__lgpd a {
+    text-decoration: underline;
+  }
+  .sim__lgpd.is-erro {
+    color: #ff8a93;
+  }
+  .sim__enviar {
+    width: 100%;
+    justify-content: center;
+    margin-top: 18px;
+    height: 56px;
+  }
+  .passos {
+    list-style: none;
+    margin: 18px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+  }
+  .passos li {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+  .passos b {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+    font-size: 11px;
+  }
+
+  @media (max-width: 900px) {
+    .sim__in {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+    .sim__intro {
+      position: static;
+    }
+    .sim__texto {
+      font-size: 16px;
+    }
+    .sim__garantias {
+      margin-top: 24px;
+    }
+    .sim__garantias li {
+      padding: 14px 10px 14px 0;
+    }
+    .sim__garantias li + li {
+      padding-left: 12px;
+    }
+    .sim__raul {
+      display: none;
+    }
+    .sim__card {
+      padding: 20px 16px;
+      margin: 0 calc(var(--margem) * -0.5);
+    }
+    .sim__contato {
+      grid-template-columns: 1fr;
+    }
+    .cmp__linha {
+      grid-template-columns: 1fr auto;
+      row-gap: 6px;
+    }
+    .cmp__barra {
+      grid-column: 1 / -1;
+      grid-row: 2;
+    }
+    .res__contato {
+      padding: 20px 16px;
+      margin: 24px -4px 0;
+    }
+    .passos {
+      grid-template-columns: 1fr;
+    }
+    .sim__nota-nav {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { modalidades, wa } from "../data/site";
+
+  // Hipóteses de referência (mesma base da calculadora: imóvel 240m / 22%).
+  // Confirmar com o Raul as taxas médias por modalidade.
+  const REF: Record<string, { prazo: number; taxa: number; faixas: [string, number][] }> = {
+    imovel: { prazo: 240, taxa: 0.22, faixas: [["Até R$ 200 mil", 180e3], ["R$ 200 a 400 mil", 300e3], ["R$ 400 a 700 mil", 550e3], ["Acima de R$ 700 mil", 850e3]] },
+    veiculo: { prazo: 80, taxa: 0.15, faixas: [["Até R$ 60 mil", 55e3], ["R$ 60 a 120 mil", 90e3], ["R$ 120 a 250 mil", 180e3], ["Acima de R$ 250 mil", 300e3]] },
+    pesados: { prazo: 100, taxa: 0.16, faixas: [["Até R$ 300 mil", 250e3], ["R$ 300 a 600 mil", 450e3], ["R$ 600 mil a 1 mi", 800e3], ["Acima de R$ 1 mi", 1.2e6]] },
+    servicos: { prazo: 40, taxa: 0.18, faixas: [["Até R$ 20 mil", 18e3], ["R$ 20 a 40 mil", 30e3], ["R$ 40 a 80 mil", 60e3], ["Acima de R$ 80 mil", 100e3]] },
+    investimento: { prazo: 200, taxa: 0.2, faixas: [["Até R$ 300 mil", 250e3], ["R$ 300 a 600 mil", 450e3], ["R$ 600 mil a 1 mi", 800e3], ["Acima de R$ 1 mi", 1.2e6]] },
+  };
+
+  // Juros mensais de referência do financiamento/crédito equivalente (hipóteses, confirmar com o Raul)
+  const FIN: Record<string, number> = { imovel: 0.0095, veiculo: 0.018, pesados: 0.015, servicos: 0.03, investimento: 0.0095 };
+
+  const brl = (v: number) =>
+    v.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 });
+  const arred = (v: number) => Math.round(v / 10) * 10;
+
+  // Indicação de parceiro: link da plataforma com ?ref=CODIGO
+  const refUrl = new URLSearchParams(location.search).get("ref");
+  if (refUrl) sessionStorage.setItem("raul_ref", refUrl.slice(0, 40));
+  const ref = sessionStorage.getItem("raul_ref");
+
+  // Ponto único para mandar o lead ao CRM da plataforma (Supabase) quando o backend existir.
+  // Defina PUBLIC_LEAD_ENDPOINT no build para ativar; sem ele, o lead segue só pelo WhatsApp.
+  async function gravarLead(lead: Record<string, string | null | undefined>) {
+    const url = import.meta.env.PUBLIC_LEAD_ENDPOINT;
+    if (!url) return;
+    try {
+      await fetch(url, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(lead), keepalive: true });
+    } catch {}
+  }
+
+  // Eventos para GA4 (dataLayer) e Meta Pixel, se estiverem instalados
+  const track = (ev: string, d: Record<string, unknown> = {}) => {
+    const w = window as any;
+    w.dataLayer?.push({ event: ev, ...d });
+    w.fbq?.("trackCustom", ev, d);
+  };
+
+  const form = document.querySelector<HTMLFormElement>("[data-sim]");
+  if (form) {
+    const ordem = ["objetivo", "valor", "quando", "lance", "resultado"];
+    const passos = Object.fromEntries(
+      ordem.map((p) => [p, form.querySelector<HTMLElement>(`[data-passo="${p}"]`)!]),
+    );
+    const num = form.querySelector<HTMLElement>("[data-sim-n]")!;
+    const voltar = form.querySelector<HTMLButtonElement>("[data-sim-voltar]")!;
+    const etapas = form.querySelectorAll<HTMLElement>(".sim__etapas li");
+    const notaNav = form.querySelector<HTMLElement>("[data-sim-nota]");
+    const opsValor = form.querySelector<HTMLElement>("[data-ops-valor]")!;
+    let atual = 0;
+
+    const val = (n: string) => (form.elements.namedItem(n) as RadioNodeList | null)?.value ?? "";
+
+    function ir(i: number, rolar = true) {
+      atual = i;
+      ordem.forEach((p, k) => (passos[p].hidden = k !== i));
+      const final = i === ordem.length - 1;
+      num.textContent = final ? "Resultado" : `Pergunta ${i + 1} de 4`;
+      voltar.hidden = i === 0;
+      etapas.forEach((el, k) => {
+        el.classList.toggle("is-feito", k < i);
+        el.classList.toggle("is-atual", k === i);
+      });
+      if (notaNav) notaNav.hidden = final;
+      if (final) calcular();
+      const alvo = passos[ordem[i]].querySelector<HTMLElement>("input");
+      alvo?.focus({ preventScroll: true });
+      // No celular, mantém o card inteiro à vista a cada pergunta
+      const r = form!.getBoundingClientRect();
+      track("sim_passo", { passo: ordem[i] });
+      if (rolar && (r.top < 60 || r.top > innerHeight * 0.4)) {
+        window.scrollTo({ top: scrollY + r.top - 76, behavior: "smooth" });
+      }
+    }
+
+    function montarValores() {
+      const ref = REF[val("objetivo")];
+      if (!ref) return;
+      opsValor.innerHTML = ref.faixas
+        .map(
+          ([t], k) =>
+            `<label class="op"><input type="radio" name="valor" value="${k}" /><span class="op__c"><span class="op__t"><b>${t}</b></span><i class="op__r"></i></span></label>`,
+        )
+        .join("");
+    }
+
+    function calcular() {
+      const obj = val("objetivo");
+      const ref = REF[obj];
+      const credito = ref.faixas[Number(val("valor"))]?.[1] ?? ref.faixas[0][1];
+      const base = (credito * (1 + ref.taxa)) / ref.prazo;
+      form!.querySelector("[data-res-parcela]")!.textContent = `${brl(arred(base * 0.9))} a ${brl(arred(base * 1.1))}`;
+      form!.querySelector("[data-res-prazo]")!.textContent = `${ref.prazo} meses`;
+
+      const i = FIN[obj], n = ref.prazo;
+      const fin = ((credito * i) / (1 - Math.pow(1 + i, -n))) * n;
+      const cons = credito * (1 + ref.taxa);
+      const fmt = (v: number) => brl(Math.round(v / 1000) * 1000);
+      form!.querySelector("[data-cmp-cv]")!.textContent = fmt(cons);
+      form!.querySelector("[data-cmp-fv]")!.textContent = fmt(fin);
+      form!.querySelector("[data-cmp-eco]")!.textContent = fmt(Math.max(0, fin - cons));
+      requestAnimationFrame(() => {
+        form!.querySelector<HTMLElement>("[data-cmp-c]")!.style.width = `${(cons / fin) * 100}%`;
+        form!.querySelector<HTMLElement>("[data-cmp-f]")!.style.width = "100%";
+      });
+
+      const quando = val("quando");
+      const lance = val("lance");
+      let caminho: string;
+      if (quando === "ja" && (lance === "bom" || lance === "bem")) {
+        caminho = "Com a reserva que você tem, um lance bem posicionado pode antecipar a contemplação já nos primeiros meses.";
+      } else if (quando === "ja") {
+        caminho = "Para quem tem pressa e pouca reserva, existe o lance embutido. Ele tem um custo, e vale entender se compensa no seu caso.";
+      } else if (quando === "1-2") {
+        caminho = "Dá para montar uma estratégia de lance programado: você junta a reserva enquanto paga e escolhe a hora de ofertar.";
+      } else {
+        caminho = "Com tempo a seu favor, o plano pode contar com o sorteio e guardar o lance para o momento em que fizer mais sentido.";
+      }
+      form!.querySelector("[data-res-caminho]")!.textContent = caminho;
+    }
+
+    form.addEventListener("change", (e) => {
+      const t = e.target as HTMLInputElement;
+      if (t.type !== "radio") return;
+      if (t.name === "objetivo") montarValores();
+      setTimeout(() => ir(Math.min(atual + 1, ordem.length - 1)), 260);
+    });
+
+    voltar.addEventListener("click", () => ir(Math.max(atual - 1, 0)));
+
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const nome = form.elements.namedItem("nome") as HTMLInputElement;
+      const fone = form.elements.namedItem("fone") as HTMLInputElement;
+      let ok = true;
+      for (const c of [nome, fone]) {
+        const vazio = c.value.trim().length < 2;
+        c.setAttribute("aria-invalid", String(vazio));
+        if (vazio && ok) {
+          c.focus();
+          ok = false;
+        }
+      }
+      const lgpd = form.elements.namedItem("lgpd") as HTMLInputElement;
+      lgpd.closest("label")!.classList.toggle("is-erro", !lgpd.checked);
+      if (ok && !lgpd.checked) {
+        lgpd.focus();
+        ok = false;
+      }
+      if (!ok) return;
+      track("sim_envio", { objetivo: val("objetivo") });
+      track("Lead");
+      const m = modalidades.find((x) => x.id === val("objetivo"));
+      const ref = REF[val("objetivo")];
+      const faixa = ref.faixas[Number(val("valor"))]?.[0];
+      const quandoTxt = (form.querySelector(`input[name="quando"]:checked + .op__c b`) as HTMLElement)?.textContent;
+      const lanceTxt = (form.querySelector(`input[name="lance"]:checked + .op__c b`) as HTMLElement)?.textContent;
+      gravarLead({
+        nome: nome.value.trim(),
+        whatsapp: fone.value.trim(),
+        objetivo: m?.nome,
+        valor: faixa,
+        prazo: quandoTxt,
+        lance: lanceTxt,
+        indicadoPor: ref,
+        origem: "lp-simulacao",
+      });
+      const msg =
+        `Olá, Raul. Sou ${nome.value.trim()} e fiz a simulação no site.\n\n` +
+        `Objetivo: ${m?.nome}\nValor: ${faixa}\nPrazo: ${quandoTxt}\nReserva para lance: ${lanceTxt}\n\n` +
+        `Meu WhatsApp: ${fone.value.trim()}` +
+        (ref ? `\nIndicação: ${ref}` : "");
+      window.open(wa(msg), "_blank", "noopener");
+    });
+
+    const tipo = new URLSearchParams(location.search).get("tipo");
+    if (tipo) {
+      const r = form.querySelector<HTMLInputElement>(`input[name="objetivo"][value="${CSS.escape(tipo)}"]`);
+      if (r) {
+        r.checked = true;
+        montarValores();
+        ir(1, false);
+      }
+    }
+
+    // Links "Simular imóvel" etc. pré-selecionam o objetivo
+    document.querySelectorAll<HTMLAnchorElement>("[data-objetivo]").forEach((a) =>
+      a.addEventListener("click", () => {
+        const r = form.querySelector<HTMLInputElement>(`input[name="objetivo"][value="${a.dataset.objetivo}"]`);
+        if (!r) return;
+        r.checked = true;
+        montarValores();
+        ir(1);
+      }),
+    );
+  }
+</script>

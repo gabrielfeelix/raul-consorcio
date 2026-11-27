@@ -1,0 +1,168 @@
+---
+import { modalidades } from "../data/site";
+import Seta from "./Seta.astro";
+const linhas = ["Cada objetivo", "pede um plano", "diferente."];
+---
+
+<section class="mod" id="modalidades">
+  <div class="wrap">
+    <div class="mod__topo">
+      <p class="rotulo" data-reveal><b>05</b> Tipos de consórcio</p>
+      <p class="mod__sub" data-reveal>O Raul trabalha com todos. Toque no seu para simular.</p>
+    </div>
+
+    <h2 class="mod__escada display d-l">
+      {
+        linhas.map((l, i) => (
+          <span class="mod__degrau" style={`--d:${i}`}>
+            <span data-fill-line>{l}</span>
+          </span>
+        ))
+      }
+    </h2>
+  </div>
+
+  <div class="mod__grade wrap">
+    {
+      modalidades.map((m) => (
+        <a href="#simulacao" class="card" data-objetivo={m.id} data-reveal>
+          <img src={`/img/mod/${m.id}.webp`} alt="" loading="lazy" />
+          <div class="card__txt">
+            <h3>{m.nome}</h3>
+            <p>{m.usos.slice(0, 3).join(" · ")}</p>
+            <span class="card__cta">
+              Simular {m.nome.toLowerCase()}
+              <Seta />
+            </span>
+          </div>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .mod {
+    background: var(--papel);
+    color: #111;
+    padding: clamp(96px, 14vh, 160px) 0;
+  }
+  .mod .rotulo {
+    color: #6b6b6f;
+  }
+  .mod__topo {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    align-items: baseline;
+    flex-wrap: wrap;
+  }
+  .mod__sub {
+    font-size: 15px;
+    font-weight: 500;
+    color: #45454a;
+  }
+  .mod__escada {
+    margin: 40px 0 clamp(48px, 7vh, 80px);
+  }
+  .mod__degrau {
+    display: block;
+    padding: 0.06em 0 0.1em calc(var(--d) * 1.2em);
+    border-bottom: 1px solid var(--linha-clara);
+  }
+  .mod__degrau > span {
+    display: inline-block;
+    padding: 0 0.04em 0.16em 0;
+    margin-bottom: -0.16em;
+    background: linear-gradient(90deg, #111 var(--p, 100%), #c3c3c7 var(--p, 100%));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .mod__grade {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .card {
+    position: relative;
+    display: block;
+    aspect-ratio: 3 / 4.4;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--preto);
+    color: var(--branco);
+    isolation: isolate;
+  }
+  .card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    transition: transform 0.9s var(--ease);
+  }
+  .card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(0deg, rgba(11, 11, 12, 0.92) 0%, rgba(11, 11, 12, 0.35) 45%, rgba(11, 11, 12, 0) 70%);
+  }
+  .card__txt {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+  }
+  .card h3 {
+    font-size: clamp(22px, 1.9vw, 30px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+  }
+  .card p {
+    margin-top: 6px;
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 16px;
+    font-size: 14px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--vermelho);
+  }
+  .card:hover img {
+    transform: scale(1.06);
+  }
+  .card:hover :global(.btn__seta) {
+    transform: translate(3px, -3px);
+  }
+  .card:focus-visible {
+    outline: 3px solid var(--vermelho);
+    outline-offset: 3px;
+  }
+  @media (max-width: 1100px) {
+    .mod__grade {
+      grid-auto-flow: column;
+      grid-template-columns: none;
+      grid-auto-columns: minmax(240px, 62vw);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding-bottom: 8px;
+    }
+    .mod__grade::-webkit-scrollbar {
+      display: none;
+    }
+    .card {
+      scroll-snap-align: start;
+    }
+  }
+</style>

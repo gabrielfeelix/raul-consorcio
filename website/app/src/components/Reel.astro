@@ -1,0 +1,80 @@
+---
+// Reels do Instagram do Raul. O embed carrega só perto da tela (loading=lazy)
+// e é recortado para mostrar só o vídeo (mesmo truque da v2).
+interface Props {
+  codigo: string;
+  titulo: string;
+}
+const { codigo, titulo } = Astro.props;
+---
+
+<figure class="reel">
+  <div class="reel__tela">
+    <iframe
+      src={`https://www.instagram.com/p/${codigo}/embed/`}
+      title={titulo}
+      loading="lazy"
+      scrolling="no"
+      allowtransparency="true"
+      allowfullscreen
+    ></iframe>
+    <span class="reel__pega" data-reel-pega aria-hidden="true"></span>
+  </div>
+  <figcaption>
+    <strong>{titulo}</strong>
+    <span>Vídeo de 1 minuto</span>
+  </figcaption>
+</figure>
+
+<style>
+  .reel {
+    margin: 0;
+  }
+  .reel__tela {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #e8e8ed;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.04), 0 18px 40px -24px rgba(0, 0, 0, 0.35);
+  }
+  iframe {
+    position: absolute;
+    top: -56px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 178%;
+    height: 1200px;
+    border: 0;
+  }
+  /* Camada que deixa arrastar o carrossel por cima do vídeo; o centro (play) fica livre */
+  .reel__pega {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    cursor: grab;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0, 30% 40%, 30% 60%, 70% 60%, 70% 40%, 30% 40%, 0 0);
+  }
+  .reel__pega.is-livre {
+    display: none;
+  }
+  @media (hover: none) {
+    .reel__pega {
+      display: none;
+    }
+  }
+  figcaption {
+    padding: 16px 4px 0;
+  }
+  figcaption strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+  figcaption span {
+    font-size: 14px;
+    color: #6e6e73;
+  }
+</style>

@@ -1,0 +1,81 @@
+---
+import Onda from "./Onda.astro";
+interface Props {
+  links?: string[][];
+}
+const padrao = [
+  ["#consultor", "Quem é o Raul"],
+  ["#construcao", "Como funciona"],
+  ["#simulacao", "Simulação"],
+  ["#modalidades", "Tipos de consórcio"],
+  ["#depoimentos", "Depoimentos"],
+];
+const { links = padrao } = Astro.props;
+---
+
+<header class="nav" data-nav>
+  <div class="nav__in wrap">
+    <a href="#topo" class="nav__logo" aria-label="Raul Consórcio, início">
+      <img src="/marca/logo-horizontal-branco.svg" alt="Raul Consórcio" width="168" height="28" />
+    </a>
+    <nav class="nav__links" aria-label="Seções">
+      {links.map(([href, t]) => <a href={href}><Onda texto={t} /></a>)}
+    </nav>
+    <a href="#simulacao" class="btn nav__cta"><Onda texto="Fazer simulação" /></a>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    transition: transform 0.6s var(--ease), background-color 0.4s var(--ease);
+  }
+  .nav.is-solid {
+    background: rgba(11, 11, 12, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 1px 0 var(--linha);
+  }
+  .nav.is-hidden {
+    transform: translateY(-100%);
+  }
+  .nav__in {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 76px;
+  }
+  .nav__logo img {
+    height: 26px;
+    width: auto;
+  }
+  .nav__links {
+    display: flex;
+    gap: 30px;
+    margin-left: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.72);
+  }
+  .nav__links a:hover {
+    color: var(--branco);
+  }
+  .nav__cta {
+    height: 42px;
+    padding: 0 18px;
+    font-size: 14px;
+  }
+  @media (max-width: 900px) {
+    .nav__links {
+      display: none;
+    }
+    .nav__cta {
+      display: none;
+    }
+    .nav__in {
+      height: 64px;
+    }
+  }
+</style>

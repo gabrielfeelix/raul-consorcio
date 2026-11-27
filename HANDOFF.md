@@ -10,13 +10,13 @@ Três projetos para o Raul Vitor (marca **Raul Consórcio**), consultor de cons�
 |---|---|---|---|
 | `plataforma/app` | Plataforma de indicações: Raul gere indicações e parceiros; parceiro indica e acompanha comissão e nível | `npm install && npm run dev` → http://localhost:3100 | Protótipo completo, **sem banco** (dados de exemplo no localStorage via `src/lib/loja.tsx`) |
 | `calculadora/app` | Calculadora consultiva de consórcio de imóvel, em 5 passos numa dobra só | `npm install && npm run dev` → http://localhost:5174 · `npm test` (22 testes) | Pronta para apresentar; regra de antecipação é hipótese |
-| `website/` | Landing page v2 estática no ar (raul-consorcio.vercel.app) | estático, `website/site/` | **v3 ainda não começou** (próxima grande tarefa) |
+| `website/` | LP v2 no ar (`website/site/`, raul-consorcio.vercel.app) e **v3 em `website/app/`** (Astro + GSAP/ScrollTrigger + Lenis) | v3: `cd website/app && npm run dev` | v3 com todas as seções montadas, não publicada. Referências em `website/REFERENCIAS-V3.md` |
 
 Requisitos detalhados de cada um: `README.md` de cada pasta (vieram das reuniões com o Raul).
 
 ## Identidade (manual oficial: `MANUAL RAUL.pdf` na raiz)
 
-- **Paleta (só estas):** vinho `#7A0000` (principal), vermelho Ademicon `#CE2616`, preto `#111111`, cinza escuro `#2D2D2D`, cinza claro `#E5E5E5`, branco.
+- **Paleta (só estas):** vermelho Raul `#A6111F` (principal, substitui o `#CE2616` da Ademicon — pedido do Raul em 25/11/2026: "eu não sou Ademicon"), vinho `#7A0000` (tom escuro: hover, fundos fechados), preto `#111111`, cinza escuro `#2D2D2D`, cinza claro `#E5E5E5`, branco.
 - **Regra do usuário:** vinho **só no botão principal/CTA**. Resto em neutros sóbrios (cinza frio, nunca bege). Vermelho `#CE2616` para custo/alerta. Verde só com função de sinal positivo ("isso é bom pra você": ganho, valorização, economia).
 - **Fonte:** Montserrat em tudo (inclusive números, com `tabular-nums`).
 - **Tom:** consultor, nunca vendedor. Simples, direto, elegante. Sem exclamação, pressão, sensacionalismo, linguagem infantil. Frase central: "Menos impulsividade. Mais estratégia." Promessa: "Você não compra um consórcio. Você constrói patrimônio."

@@ -1,0 +1,106 @@
+---
+const palavras = ["Planejamento", "Estratégia", "Patrimônio"];
+const trilho = [...palavras, ...palavras, ...palavras];
+---
+
+<section class="faixa" data-faixa aria-label="Princípio">
+  <div class="faixa__trilho" data-trilho aria-hidden="true">
+    {
+      trilho.map((p) => (
+        <span>
+          {p}
+          <i>·</i>
+        </span>
+      ))
+    }
+  </div>
+
+  <figure class="faixa__foto" data-faixa-foto>
+    <img src="/img/raul-quadro.webp" alt="Raul explicando sorteio e lance no quadro" loading="lazy" />
+  </figure>
+
+  <div class="faixa__base wrap">
+    <p class="rotulo">Raul Carvalho · Consultor</p>
+    <p class="faixa__frase">Menos impulsividade. Mais estratégia.</p>
+  </div>
+</section>
+
+<style>
+  .faixa {
+    position: relative;
+    min-height: 100svh;
+    background: var(--vermelho);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .faixa__trilho {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: flex;
+    white-space: nowrap;
+    transform: translateY(-50%);
+    font-size: clamp(96px, 17vw, 280px);
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    color: var(--branco);
+    z-index: -1;
+    will-change: transform;
+  }
+  .faixa__trilho span {
+    padding-right: 0.2em;
+  }
+  .faixa__trilho i {
+    font-style: normal;
+    padding-left: 0.2em;
+    opacity: 0.5;
+  }
+  .faixa__foto {
+    margin: 0;
+    width: min(34vw, 420px);
+    aspect-ratio: 3 / 4;
+    border-radius: var(--raio);
+    overflow: hidden;
+    box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.6);
+  }
+  .faixa__foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .faixa__base {
+    position: absolute;
+    bottom: 36px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+  }
+  .faixa .rotulo {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  .faixa__frase {
+    font-size: clamp(18px, 1.6vw, 24px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    max-width: 16em;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .faixa__foto {
+      width: 62vw;
+    }
+    .faixa__base {
+      flex-direction: column;
+      align-items: start;
+    }
+    .faixa__frase {
+      text-align: left;
+    }
+  }
+</style>

@@ -1,0 +1,158 @@
+---
+const perguntas = [
+  ["Consórcio demora muito?", "Depende da estratégia. Só pelo sorteio, ninguém sabe a data. Com lance planejado, você passa a ter controle sobre quando ser contemplado."],
+  ["Sai mais caro no fim?", "Consórcio não tem juros. O custo é a taxa de administração, diluída no prazo. Comparado a um financiamento, a diferença costuma ser grande, e eu mostro os números do seu caso."],
+  ["Quanto custa de verdade?", "Quatro coisas: a taxa de administração (a remuneração da administradora, diluída nas parcelas), o fundo de reserva (protege o grupo se alguém atrasa), o seguro (quita o saldo em caso de imprevisto) e o reajuste anual da carta, que acompanha um índice como o INCC no imóvel. Eu mostro cada uma no seu caso antes de qualquer assinatura."],
+  ["É seguro?", "Consórcio é regulado e fiscalizado pelo Banco Central. Trabalho só com administradoras autorizadas e explico cada regra antes da assinatura."],
+  ["Por que um consultor e não direto na administradora?", "Porque eu comparo várias. Meu trabalho é encontrar o grupo e a estratégia que servem para o seu objetivo, e acompanhar você até a contemplação."],
+  ["Atende fora de Maringá?", "Sim. O atendimento é presencial em Maringá e online para qualquer cidade."],
+];
+---
+
+<section class="faq" id="faq">
+  <div class="wrap faq__in">
+    <div>
+      <p class="rotulo" data-reveal><b>07</b> Dúvidas</p>
+      <h2 class="display d-m faq__titulo" data-split>
+        <span class="linha"><span>O que todo mundo</span></span>
+        <span class="linha"><span>pergunta antes.</span></span>
+      </h2>
+    </div>
+    <div class="faq__lista">
+      {
+        perguntas.map(([p, r]) => (
+          <details data-reveal>
+            <summary>
+              {p}
+              <span class="faq__mais" aria-hidden="true" />
+            </summary>
+            <div class="faq__r"><p>{r}</p></div>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Acordeão com curva orgânica: arranca rápido e assenta devagar (ease-out exponencial)
+  const EASE_ABRE = "cubic-bezier(0.16, 1, 0.3, 1)";
+  const EASE_FECHA = "cubic-bezier(0.32, 0.72, 0, 1)";
+  const reduzido = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const itens = [...document.querySelectorAll<HTMLDetailsElement>(".faq details")];
+
+  function animar(d: HTMLDetailsElement, abrir: boolean) {
+    const s = d.querySelector("summary")!;
+    const r = d.querySelector<HTMLElement>(".faq__r")!;
+    (d as any)._anim?.cancel();
+    (d as any)._animR?.cancel();
+    const de = d.offsetHeight;
+    if (abrir) d.open = true;
+    d.classList.toggle("is-aberto", abrir);
+    const para = abrir ? s.offsetHeight + r.offsetHeight : s.offsetHeight;
+    if (reduzido) {
+      if (!abrir) d.open = false;
+      return;
+    }
+    d.style.overflow = "hidden";
+    const a = d.animate({ height: [`${de}px`, `${para}px`] }, { duration: abrir ? 700 : 520, easing: abrir ? EASE_ABRE : EASE_FECHA });
+    (d as any)._animR = r.animate(
+      abrir
+        ? { opacity: [0, 1], transform: ["translateY(-8px)", "translateY(0)"] }
+        : { opacity: [1, 0], transform: ["translateY(0)", "translateY(-6px)"] },
+      { duration: abrir ? 600 : 300, delay: abrir ? 80 : 0, easing: EASE_ABRE, fill: "both" },
+    );
+    (d as any)._anim = a;
+    a.onfinish = () => {
+      if (!abrir) d.open = false;
+      d.style.overflow = "";
+      (d as any)._animR?.cancel();
+    };
+  }
+
+  itens.forEach((d) =>
+    d.querySelector("summary")!.addEventListener("click", (e) => {
+      e.preventDefault();
+      const abrir = !d.classList.contains("is-aberto");
+      if (abrir) itens.forEach((o) => o !== d && o.classList.contains("is-aberto") && animar(o, false));
+      animar(d, abrir);
+    }),
+  );
+</script>
+
+<style>
+  .faq {
+    padding: clamp(96px, 14vh, 160px) 0;
+  }
+  .faq__in {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 96px);
+  }
+  .faq__titulo {
+    margin-top: 24px;
+  }
+  details {
+    border-top: 1px solid var(--linha);
+  }
+  details:last-child {
+    border-bottom: 1px solid var(--linha);
+  }
+  summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    padding: 26px 0;
+    cursor: pointer;
+    font-size: clamp(18px, 1.5vw, 22px);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__mais {
+    position: relative;
+    flex: none;
+    width: 14px;
+    height: 14px;
+  }
+  .faq__mais::before,
+  .faq__mais::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 6px;
+    width: 14px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .faq__mais::after {
+    transform: rotate(90deg);
+  }
+  details.is-aberto .faq__mais::after {
+    transform: rotate(0);
+  }
+  details.is-aberto .faq__mais::before {
+    transform: rotate(180deg);
+  }
+  summary {
+    transition: color 0.3s var(--ease);
+  }
+  summary:hover {
+    color: rgba(255, 255, 255, 0.75);
+  }
+  details p {
+    padding: 0 48px 28px 0;
+    color: rgba(255, 255, 255, 0.7);
+    max-width: 38em;
+  }
+  @media (max-width: 860px) {
+    .faq__in {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

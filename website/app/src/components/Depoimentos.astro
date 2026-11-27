@@ -1,0 +1,185 @@
+---
+import { depoimentos, DEPOIMENTOS_SAO_EXEMPLO, INSTAGRAM } from "../data/site";
+import Onda from "./Onda.astro";
+import Seta from "./Seta.astro";
+const total = String(depoimentos.length).padStart(2, "0");
+---
+
+<section class="dep" id="depoimentos" data-dep>
+  <div class="wrap">
+    <div class="dep__topo">
+      <p class="rotulo" data-reveal><b>06</b> Depoimentos</p>
+      {DEPOIMENTOS_SAO_EXEMPLO && <span class="dep__aviso">Textos de exemplo · aguardando depoimentos reais autorizados</span>}
+    </div>
+
+    <h2 class="display d-m dep__titulo" data-split>
+      <span class="linha"><span>Quem planejou</span></span>
+      <span class="linha"><span>conta como foi.</span></span>
+    </h2>
+
+    <div class="dep__palco">
+      <div class="dep__aspas" aria-hidden="true">“</div>
+      <div class="dep__itens" aria-live="polite">
+        {
+          depoimentos.map((d, i) => (
+            <figure class="dep__item" data-dep-item={i} hidden={i !== 0}>
+              <blockquote class="d-s">{d.texto}</blockquote>
+              <figcaption>
+                <img class="dep__foto" src={`/img/dep/${i + 1}.webp`} alt="" width="56" height="56" loading="lazy" />
+                <div>
+                  <strong>{d.nome}</strong>
+                  <span>{d.contexto}</span>
+                </div>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+      <div class="dep__ctrl">
+        <span class="dep__cont"><b data-dep-n>01</b> / {total}</span>
+        <div class="dep__botoes">
+          <button type="button" data-dep-ant aria-label="Depoimento anterior">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+          </button>
+          <button type="button" data-dep-prox aria-label="Próximo depoimento">
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+          </button>
+        </div>
+        <a href="#simulacao" class="btn dep__cta"><Onda texto="Quero conversar com o Raul" /><Seta /></a>
+        <a href={INSTAGRAM} target="_blank" rel="noopener" class="dep__insta">
+          <Onda texto="Ver vídeos no Instagram" /><Seta />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dep {
+    padding: clamp(96px, 14vh, 160px) 0;
+    background: var(--preto);
+  }
+  .dep__topo {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .dep__aviso {
+    font-size: 12px;
+    font-weight: 500;
+    color: #f0b4ba;
+    border: 1px dashed rgba(240, 180, 186, 0.4);
+    border-radius: 6px;
+    padding: 4px 10px;
+  }
+  .dep__titulo {
+    margin: 24px 0 clamp(48px, 8vh, 96px);
+  }
+  .dep__palco {
+    display: grid;
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 0 24px;
+    border-top: 1px solid var(--linha);
+    padding-top: 48px;
+  }
+  .dep__aspas {
+    font-size: 160px;
+    line-height: 0.8;
+    font-weight: 600;
+    color: var(--vermelho);
+  }
+  .dep__item {
+    margin: 0;
+  }
+  .dep__item blockquote {
+    margin: 0;
+    font-size: clamp(26px, 3vw, 46px);
+    font-weight: 500;
+    max-width: 22em;
+  }
+  .dep__item figcaption {
+    display: flex;
+    gap: 14px;
+    margin-top: 28px;
+    font-size: 15px;
+  }
+  .dep__item figcaption {
+    align-items: center;
+  }
+  .dep__item figcaption strong,
+  .dep__item figcaption span {
+    display: block;
+  }
+  .dep__item figcaption span {
+    margin-top: 2px;
+    color: var(--cinza);
+  }
+  .dep__foto {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 0 2px var(--preto), 0 0 0 3px rgba(255, 255, 255, 0.18);
+  }
+  .dep__ctrl {
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-top: 56px;
+    flex-wrap: wrap;
+  }
+  .dep__cont {
+    font-size: 14px;
+    color: var(--cinza);
+  }
+  .dep__cont b {
+    color: var(--branco);
+    font-weight: 600;
+  }
+  .dep__botoes {
+    display: flex;
+    gap: 8px;
+  }
+  .dep__botoes button {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: var(--raio);
+    border: 1px solid var(--linha);
+    background: none;
+    transition: background-color 0.3s var(--ease);
+  }
+  .dep__botoes button:hover {
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .dep__botoes svg {
+    width: 16px;
+  }
+  .dep__insta {
+    margin-left: auto;
+    display: inline-flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  @media (max-width: 700px) {
+    .dep__palco {
+      grid-template-columns: 1fr;
+    }
+    .dep__aspas {
+      font-size: 96px;
+      height: 56px;
+    }
+    .dep__ctrl {
+      grid-column: 1;
+    }
+    .dep__insta {
+      margin-left: 0;
+    }
+  }
+</style>

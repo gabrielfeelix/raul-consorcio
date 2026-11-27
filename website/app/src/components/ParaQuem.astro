@@ -1,0 +1,191 @@
+---
+import { wa } from "../data/site";
+import Seta from "./Seta.astro";
+
+const sim = [
+  "Quer comprar um bem sem pagar juros de financiamento.",
+  "Consegue planejar com alguns meses ou anos de antecedência.",
+  "Quer construir patrimônio com disciplina.",
+  "Tem, ou pode juntar, uma reserva para lance.",
+];
+const nao = [
+  "Precisa do bem amanhã e não tem reserva para lance.",
+  "Procura “contemplação garantida”.",
+  "Não tem folga no orçamento para a parcela.",
+];
+---
+
+<section class="pq" aria-labelledby="pq-titulo">
+  <div class="wrap">
+    <div class="pq__topo">
+      <h2 id="pq-titulo" class="display d-m" data-split>
+        <span class="linha"><span>Consórcio não é</span></span>
+        <span class="linha"><span>para todo mundo.</span></span>
+      </h2>
+      <p class="pq__sub" data-reveal>E tudo bem. Prefiro te dizer isso antes de qualquer simulação.</p>
+    </div>
+
+    <div class="pq__grade">
+      <div class="pq__col" data-reveal>
+        <p class="pq__palavra">Sim,</p>
+        <p class="pq__se">se você</p>
+        <ol>{sim.map((t) => <li>{t}</li>)}</ol>
+      </div>
+      <div class="pq__col pq__col--nao" data-reveal>
+        <p class="pq__palavra">Não,</p>
+        <p class="pq__se">se você</p>
+        <ol>{nao.map((t) => <li>{t}</li>)}</ol>
+      </div>
+    </div>
+
+    <div class="pq__raul" data-reveal>
+      <img src="/img/raul-avatar.webp" alt="" width="56" height="56" loading="lazy" />
+      <p>
+        Caiu no “não”? Me chama mesmo assim. Eu te digo qual alternativa faz mais sentido para o seu caso.
+        <span>Raul Carvalho</span>
+      </p>
+      <a class="pq__link" href={wa("Oi Raul! Queria saber se consórcio faz sentido pra mim.")} target="_blank" rel="noopener">
+        Perguntar ao Raul<Seta />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .pq {
+    background: var(--branco);
+    color: #111;
+    padding: clamp(96px, 14vh, 160px) 0;
+  }
+  .pq__topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 24px 48px;
+    flex-wrap: wrap;
+  }
+  .pq__sub {
+    max-width: 21em;
+    font-size: 17px;
+    color: #6b6b6f;
+  }
+
+  .pq__grade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: clamp(48px, 8vh, 88px);
+    border-top: 1px solid var(--linha-clara);
+  }
+  .pq__col {
+    padding: clamp(28px, 4vh, 44px) clamp(24px, 4vw, 64px) 0 0;
+  }
+  .pq__col--nao {
+    padding-left: clamp(24px, 4vw, 64px);
+    padding-right: 0;
+    border-left: 1px solid var(--linha-clara);
+  }
+  .pq__palavra {
+    font-size: clamp(64px, 8.5vw, 136px);
+    font-weight: 700;
+    line-height: 0.9;
+    letter-spacing: -0.06em;
+  }
+  .pq__col--nao .pq__palavra {
+    color: var(--vermelho);
+  }
+  .pq__se {
+    margin: 14px 0 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cinza);
+  }
+  .pq__col ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: n;
+  }
+  .pq__col li {
+    counter-increment: n;
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    padding: 16px 0;
+    border-top: 1px solid var(--linha-clara);
+    font-size: clamp(17px, 1.35vw, 20px);
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: -0.01em;
+  }
+  .pq__col li::before {
+    content: counter(n, decimal-leading-zero);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--cinza);
+    padding-top: 0.35em;
+    font-variant-numeric: tabular-nums;
+  }
+  .pq__col--nao li {
+    color: #45454a;
+  }
+
+  .pq__raul {
+    display: flex;
+    align-items: center;
+    gap: 20px 24px;
+    flex-wrap: wrap;
+    margin-top: clamp(48px, 7vh, 72px);
+    padding: 24px 28px;
+    border-radius: 16px;
+    background: var(--papel);
+  }
+  .pq__raul img {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .pq__raul p {
+    flex: 1 1 320px;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1.45;
+  }
+  .pq__raul p span {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--cinza);
+  }
+  .pq__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    padding-bottom: 3px;
+    border-bottom: 1px solid var(--vermelho);
+  }
+  .pq__link:hover :global(.btn__seta) {
+    transform: translate(3px, -3px);
+  }
+
+  @media (max-width: 760px) {
+    .pq__grade {
+      grid-template-columns: 1fr;
+    }
+    .pq__col,
+    .pq__col--nao {
+      padding: 32px 0 0;
+      border-left: 0;
+    }
+    .pq__col--nao {
+      margin-top: 24px;
+    }
+    .pq__raul {
+      padding: 20px;
+    }
+  }
+</style>

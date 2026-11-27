@@ -1,0 +1,220 @@
+---
+// Responde ao medo nº 1 do cliente de consórcio: promessa falsa e golpe.
+// As frases são as que o cliente já ouviu por aí; o risco é feito à mão.
+const itens = [
+  [
+    "Sua carta sai no mês que vem.",
+    "Contemplação garantida não existe. Por lei, ela acontece só por sorteio ou por lance (Lei 11.795/2008, art. 22). Quem garante data está mentindo.",
+  ],
+  [
+    "Faz um Pix pra reservar a cota.",
+    "Você lê o contrato inteiro, com taxas e regras do grupo, antes de pagar qualquer coisa. E o pagamento vai para a administradora, nunca para a conta de uma pessoa.",
+  ],
+  [
+    "Assina hoje, que amanhã acaba.",
+    "Se o plano não fizer sentido para você, eu digo. Decisão de patrimônio não se toma no impulso.",
+  ],
+];
+---
+
+<section class="prom" aria-labelledby="prom-titulo">
+  <div class="wrap">
+    <div class="prom__topo">
+      <div>
+        <p class="rotulo" data-reveal>Compromisso</p>
+        <h2 id="prom-titulo" class="display d-m prom__titulo" data-split>
+          <span class="linha"><span>O que eu nunca</span></span>
+          <span class="linha"><span>vou te prometer.</span></span>
+        </h2>
+      </div>
+      <p class="prom__intro" data-reveal>
+        Frases que muita gente já ouviu de vendedor de consórcio. Comigo, não.
+      </p>
+    </div>
+
+    <ol class="prom__lista">
+      {
+        itens.map(([frase, verdade], i) => (
+          <li class="prom__item" data-prom>
+            <span class="prom__n">{String(i + 1).padStart(2, "0")}</span>
+            <p class="prom__frase">
+              <span class="risco">“{frase}”</span>
+            </p>
+            <div class="prom__verdade">
+              <span>A verdade</span>
+              <p>{verdade}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="prom__bc" data-reveal>
+      <p>Antes de assinar com qualquer pessoa, inclusive comigo: confira se a administradora é autorizada pelo Banco Central.</p>
+      <a href="https://www.bcb.gov.br/estabilidadefinanceira/encontreinstituicao" target="_blank" rel="noopener">
+        Consultar no Banco Central ↗
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const itens = document.querySelectorAll<HTMLElement>("[data-prom]");
+  const io = new IntersectionObserver(
+    (es) =>
+      es.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add("is-on");
+          io.unobserve(e.target);
+        }
+      }),
+    { rootMargin: "0px 0px -30% 0px" },
+  );
+  itens.forEach((el) => io.observe(el));
+</script>
+
+<style>
+  .prom {
+    padding: clamp(96px, 14vh, 160px) 0;
+    background: var(--preto);
+  }
+  .prom__topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: clamp(48px, 8vh, 88px);
+  }
+  .prom__titulo {
+    margin-top: 24px;
+  }
+  .prom__intro {
+    max-width: 22em;
+    font-size: 17px;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .prom__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .prom__item {
+    display: grid;
+    grid-template-columns: 56px minmax(0, 7fr) minmax(0, 4fr);
+    gap: clamp(16px, 3vw, 48px);
+    align-items: baseline;
+    padding: clamp(28px, 4.5vh, 48px) 0;
+    border-top: 1px solid var(--linha);
+  }
+  .prom__n {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--cinza);
+    font-variant-numeric: tabular-nums;
+  }
+  .prom__frase {
+    font-size: clamp(28px, 3.6vw, 54px);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.035em;
+    color: var(--branco);
+    text-wrap: balance;
+    text-indent: -0.4em;
+  }
+
+  /* Risco feito à mão, um por linha quando a frase quebra */
+  .risco {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 24' preserveAspectRatio='none'%3E%3Cpath d='M3 14 C 60 8, 120 17, 190 11 S 320 6, 397 12' fill='none' stroke='%23A6111F' stroke-width='4' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3Cpath d='M10 17 C 90 12, 200 19, 392 9' fill='none' stroke='%23A6111F' stroke-width='2.5' stroke-linecap='round' vector-effect='non-scaling-stroke'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 56%;
+    background-size: 100% 0.42em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  :global(.js-motion) .risco {
+    background-size: 0% 0.42em;
+    transition: background-size 0.9s var(--ease) 0.15s;
+  }
+  :global(.js-motion) .is-on .risco {
+    background-size: 100% 0.42em;
+  }
+  .prom__frase,
+  .prom__verdade {
+    transition: opacity 0.6s var(--ease);
+  }
+  :global(.js-motion) .prom__item:not(.is-on) .prom__verdade {
+    opacity: 0;
+  }
+  :global(.js-motion) .prom__item.is-on .prom__frase {
+    color: rgba(255, 255, 255, 0.55);
+    transition: color 0.6s var(--ease) 0.8s;
+  }
+
+  .prom__verdade span {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6fcf97;
+    margin-bottom: 8px;
+  }
+  .prom__verdade p {
+    font-size: 16px;
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .prom__bc {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px 48px;
+    flex-wrap: wrap;
+    padding-top: 32px;
+    border-top: 1px solid var(--linha);
+  }
+  .prom__bc p {
+    max-width: 38em;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85);
+  }
+  .prom__bc a {
+    flex: none;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 14px 22px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition:
+      background 0.3s var(--ease),
+      color 0.3s var(--ease);
+  }
+  .prom__bc a:hover {
+    background: var(--branco);
+    color: var(--preto);
+  }
+
+  @media (max-width: 900px) {
+    .prom__item {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+    .prom__n {
+      margin-bottom: -4px;
+    }
+    .prom__bc a {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    :global(.js-motion) .risco {
+      background-size: 100% 0.42em;
+      transition: none;
+    }
+  }
+</style>

@@ -1,0 +1,189 @@
+---
+import Reel from "./Reel.astro";
+import { INSTAGRAM } from "../data/site";
+const reels = [
+  ["DaLCY9Js1IL", "O que é consórcio?"],
+  ["Db5fcsJspK0", "Como funciona o lance"],
+  ["DbwQe7nsARH", "Lance livre, fixo e embutido"],
+  ["DavD5t9sQYo", "Como funciona a contemplação"],
+  ["Da0bcOAMg4C", "Trocar financiamento por consórcio"],
+  ["Db_VwngsAap", "Antecipação de parcelas"],
+];
+---
+
+<section class="vid" id="videos" data-vid>
+  <div class="wrap vid__topo">
+    <div>
+      <p class="vid__rot">Vídeos</p>
+      <h2 class="vid__titulo">Ficou com dúvida? O Raul explica em um minuto.</h2>
+    </div>
+    <div class="vid__ctrl">
+      <a href={INSTAGRAM} target="_blank" rel="noopener" class="vid__mais">Ver todos no Instagram</a>
+      <button type="button" data-vid-ant aria-label="Vídeos anteriores">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>
+      </button>
+      <button type="button" data-vid-prox aria-label="Próximos vídeos">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="vid__trilho" data-vid-trilho>
+    {reels.map(([c, t]) => <Reel codigo={c} titulo={t} />)}
+  </div>
+</section>
+
+<style>
+  .vid {
+    padding: clamp(88px, 12vh, 140px) 0;
+    background: #f5f5f7;
+    color: #1d1d1f;
+  }
+  .vid__topo {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .vid__rot {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--vermelho);
+    margin-bottom: 8px;
+  }
+  .vid__titulo {
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+    max-width: 16em;
+  }
+  .vid__ctrl {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .vid__mais {
+    margin-right: 12px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #0b0b0c;
+  }
+  .vid__mais:hover {
+    text-decoration: underline;
+  }
+  .vid__ctrl button {
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border: 0;
+    border-radius: 50%;
+    background: #e3e3e8;
+    color: #1d1d1f;
+    transition: background-color 0.25s var(--ease), opacity 0.25s;
+  }
+  .vid__ctrl button:hover {
+    background: #d2d2d7;
+  }
+  .vid__ctrl button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+  .vid__ctrl svg {
+    width: 14px;
+  }
+  .vid__trilho {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: clamp(230px, 21vw, 290px);
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    margin-top: 40px;
+    padding: 8px max(var(--margem), calc((100vw - var(--max)) / 2 + var(--margem))) 24px;
+    scroll-padding: 0 max(var(--margem), calc((100vw - var(--max)) / 2 + var(--margem)));
+    scrollbar-width: none;
+  }
+  .vid__trilho.is-arrastando {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+    user-select: none;
+  }
+  .vid__trilho.is-arrastando :global([data-reel-pega]) {
+    cursor: grabbing;
+  }
+  .vid__trilho::-webkit-scrollbar {
+    display: none;
+  }
+  .vid__trilho > :global(*) {
+    scroll-snap-align: start;
+  }
+  @media (max-width: 700px) {
+    .vid__ctrl button {
+      display: none;
+    }
+    .vid__mais {
+      margin: 0;
+    }
+  }
+</style>
+
+<script>
+  const trilho = document.querySelector<HTMLElement>("[data-vid-trilho]");
+  const ant = document.querySelector<HTMLButtonElement>("[data-vid-ant]");
+  const prox = document.querySelector<HTMLButtonElement>("[data-vid-prox]");
+  if (trilho && ant && prox) {
+    const passo = () => (trilho.firstElementChild as HTMLElement).offsetWidth + 20;
+    const estado = () => {
+      ant.disabled = trilho.scrollLeft < 8;
+      prox.disabled = trilho.scrollLeft + trilho.clientWidth >= trilho.scrollWidth - 8;
+    };
+    ant.addEventListener("click", () => trilho.scrollBy({ left: -passo() * 2 }));
+    prox.addEventListener("click", () => trilho.scrollBy({ left: passo() * 2 }));
+    trilho.addEventListener("scroll", estado, { passive: true });
+    estado();
+
+    // Arrastar com o mouse, com inércia; o snap assenta no card ao soltar
+    let x0 = 0, s0 = 0, ultX = 0, ultT = 0, vel = 0, ativo = false, moveu = false;
+    trilho.addEventListener("pointerdown", (e) => {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      ativo = true;
+      moveu = false;
+      x0 = ultX = e.clientX;
+      ultT = performance.now();
+      s0 = trilho.scrollLeft;
+      vel = 0;
+    });
+    window.addEventListener("pointermove", (e) => {
+      if (!ativo) return;
+      const dx = e.clientX - x0;
+      if (!moveu && Math.abs(dx) > 5) {
+        moveu = true;
+        trilho.classList.add("is-arrastando");
+        trilho.setPointerCapture?.(e.pointerId);
+      }
+      if (!moveu) return;
+      const t = performance.now();
+      vel = (e.clientX - ultX) / Math.max(1, t - ultT);
+      ultX = e.clientX;
+      ultT = t;
+      trilho.scrollLeft = s0 - dx;
+    });
+    window.addEventListener("pointerup", (e) => {
+      if (!ativo) return;
+      ativo = false;
+      const alvo = e.target as HTMLElement;
+      if (!moveu) {
+        // clique simples: libera o vídeo daquele card
+        alvo.closest?.("[data-reel-pega]")?.classList.add("is-livre");
+        return;
+      }
+      trilho.classList.remove("is-arrastando");
+      trilho.scrollBy({ left: -vel * 260, behavior: "smooth" });
+    });
+    trilho.addEventListener("dragstart", (e) => e.preventDefault());
+  }
+</script>
