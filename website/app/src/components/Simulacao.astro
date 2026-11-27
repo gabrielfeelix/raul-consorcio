@@ -108,39 +108,18 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
           <li><b data-res-prazo>—</b> de plano</li>
         </ul>
 
-        <div class="res__plano">
-          <div class="res__bandeira">
-            <span class="res__marco-meta" data-res-meta-txt>Você quer o bem aqui<small>por sorteio ou lance</small></span>
+        <div class="zap" aria-label="Mensagem do Raul">
+          <div class="zap__topo">
+            <img src="/img/raul-avatar.webp" alt="" width="36" height="36" loading="lazy" />
+            <div><b>Raul Carvalho</b><small>online</small></div>
           </div>
-          <div class="res__trilho">
-            <i class="res__meta" data-res-meta></i>
-          </div>
-          <div class="res__marcos">
-            <span>Hoje<small>começa a pagar</small></span>
-            <span>Fim do plano<small data-res-fim>—</small></span>
+          <div class="zap__fundo">
+            <p class="zap__msg"><span data-res-caminho></span><span class="zap__hora">agora</span></p>
+            <p class="zap__msg"><span data-res-eco></span><span class="zap__hora">agora</span></p>
           </div>
         </div>
 
-        <div class="res__cmp">
-          <div class="res__barra">
-            <span>Consórcio</span>
-            <div><i data-cmp-c></i></div>
-            <b data-cmp-cv>—</b>
-          </div>
-          <div class="res__barra res__barra--fin">
-            <span>Financiamento</span>
-            <div><i data-cmp-f></i></div>
-            <b data-cmp-fv>—</b>
-          </div>
-          <p class="res__eco"><b data-cmp-eco>—</b> a menos em juros</p>
-        </div>
-
-        <div class="res__dica">
-          <img src="/img/raul-avatar.webp" alt="" width="32" height="32" loading="lazy" />
-          <p data-res-caminho></p>
-        </div>
-
-        <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Enviar resultado no WhatsApp<Seta /></a>
+        <a class="btn res__zap" data-res-zap href="#" target="_blank" rel="noopener">Continuar no WhatsApp<Seta /></a>
         <details class="res__contato">
           <summary>Prefere que o Raul te chame? Deixe seu contato.</summary>
             <div class="sim__contato">
@@ -801,132 +780,61 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
   .res__chips b {
     color: #111;
   }
-  .res__plano {
-    margin-top: 28px;
-  }
-  .res__trilho {
-    position: relative;
-    height: 10px;
-    border-radius: 99px;
-    background: #ececef;
-  }
-  .res__trilho::before,
-  .res__trilho::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #111;
-    border: 3px solid var(--branco);
-    transform: translateY(-50%);
-  }
-  .res__trilho::before {
-    left: -2px;
-  }
-  .res__trilho::after {
-    right: -2px;
-  }
-  .res__meta {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    border-radius: 99px;
-    background: var(--vermelho);
-    transition: left 0.6s var(--ease), width 0.6s var(--ease);
-  }
-  .res__marcos {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    font-size: 13.5px;
-    font-weight: 600;
-  }
-  .res__marcos span:last-child {
-    text-align: right;
-  }
-  .res__marcos small,
-  .res__marco-meta small {
-    display: block;
-    font-size: 12px;
-    font-weight: 500;
-    color: #8e8e93;
-  }
-  .res__bandeira {
-    position: relative;
-    height: 44px;
-  }
-  .res__marco-meta {
-    position: absolute;
-    bottom: 8px;
-    font-size: 13.5px;
-    font-weight: 600;
-    color: var(--vermelho);
-    white-space: nowrap;
-  }
-  .res__cmp {
+  .zap {
     margin-top: 24px;
-    display: grid;
-    gap: 10px;
-  }
-  .res__barra {
-    display: grid;
-    grid-template-columns: 104px minmax(0, 1fr) auto;
-    align-items: center;
-    gap: 12px;
-    font-size: 14px;
-  }
-  .res__barra div {
-    height: 8px;
-    border-radius: 99px;
-    background: #ececef;
+    border-radius: 16px;
     overflow: hidden;
+    border: 1px solid #e3e3e6;
   }
-  .res__barra i {
-    display: block;
-    height: 100%;
-    width: 0;
-    border-radius: 99px;
-    background: #1a8f4a;
-    transition: width 0.9s var(--ease);
-  }
-  .res__barra--fin i {
-    background: #8e8e93;
-  }
-  .res__barra b {
-    font-variant-numeric: tabular-nums;
-  }
-  .res__eco {
-    justify-self: start;
-    margin-top: 4px;
-    padding: 6px 12px;
-    border-radius: 99px;
-    background: rgba(26, 143, 74, 0.1);
-    color: #146c38;
-    font-size: 14px;
-  }
-  .res__dica {
+  .zap__topo {
     display: flex;
-    align-items: end;
+    align-items: center;
     gap: 10px;
-    margin-top: 24px;
+    padding: 10px 14px;
+    background: #008069;
+    color: #fff;
   }
-  .res__dica img {
-    width: 32px;
-    height: 32px;
+  .zap__topo img {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
-    flex: none;
   }
-  .res__dica p {
-    padding: 12px 16px;
-    border-radius: 16px 16px 16px 4px;
-    background: #f2f2f4;
+  .zap__topo b {
+    display: block;
     font-size: 15px;
-    line-height: 1.5;
-    color: #2d2d2d;
+    font-weight: 600;
+  }
+  .zap__topo small {
+    display: block;
+    font-size: 12px;
+    opacity: 0.85;
+  }
+  .zap__fundo {
+    display: grid;
+    gap: 6px;
+    padding: 16px 14px 18px;
+    background: #efeae2;
+  }
+  .zap__msg {
+    justify-self: start;
+    max-width: 88%;
+    padding: 8px 12px 6px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 1px 0.5px rgba(11, 20, 26, 0.13);
+    font-size: 15px;
+    line-height: 1.45;
+    color: #111b21;
+  }
+  .zap__msg:first-child {
+    border-top-left-radius: 0;
+  }
+  .zap__hora {
+    float: right;
+    margin: 8px 0 -2px 12px;
+    font-size: 11px;
+    color: #667781;
   }
   .sim .res__zap {
     --bg: #1a8f4a;
@@ -1084,20 +992,8 @@ const etapas = ["Objetivo", "Valor", "Prazo", "Lance"];
       $r("res-parcela").textContent = parcela;
       $r("res-carta").textContent = brl(credito);
       $r("res-prazo").textContent = `${n} meses`;
-      $r("res-fim").textContent = `mês ${n}`;
-      // Janela em que a pessoa quer o bem, no trilho do plano
-      const janela: Record<string, [number, number]> = { ja: [0, 12], "1-2": [12, 24], "3-5": [36, 60], sem: [60, Math.min(120, n)] };
-      const [m0, m1] = janela[val("quando")] ?? [12, 24];
-      const ini = Math.min(92, (m0 / n) * 100), larg = Math.max(4, ((Math.min(m1, n) - m0) / n) * 100);
-      Object.assign($r("res-meta").style, { left: `${ini}%`, width: `${Math.min(larg, 100 - ini)}%` });
-      $r("res-meta-txt").style.left = `${Math.min(ini, 55)}%`;
-      $r("cmp-cv").textContent = brl(Math.round(cons / 1000) * 1000);
-      $r("cmp-fv").textContent = brl(Math.round(fin / 1000) * 1000);
-      $r("cmp-eco").textContent = eco;
-      requestAnimationFrame(() => {
-        $r("cmp-c").style.width = `${(cons / fin) * 100}%`;
-        $r("cmp-f").style.width = "100%";
-      });
+      $r("res-eco").textContent =
+        `Comparando com um financiamento no mesmo prazo, você deixaria de pagar cerca de ${eco} em juros.`;
 
       const quando = val("quando");
       const lance = val("lance");
