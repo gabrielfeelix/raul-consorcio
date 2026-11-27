@@ -36,8 +36,23 @@ O Gabriel (designer) quer que cada uma tenha apresentação própria, do jeito q
   - Condição do Gabriel: ousado pode, mas **fácil de entender** para cliente leigo.
 - **Exemplo de "sem cara de IA" (Gabriel amou)**: Wealthsimple — https://www.wealthsimple.com. Não copiar, mas é o tom certo: fonte geométrica com personalidade (sans tipo Futura nos textos, serifada só no título grande "Trusted by over 4 million Canadians"), botões em pílula com contorno fino, frase curta centralizada, muito respiro, gradiente suave de fundo, cartões arredondados em cor pastel, um objeto 3D bonito (moeda) em vez de ícone.
 - **Segunda rodada de refs (27/11)**: reprovadas Maxima Finance, ZAK, Noomo; Explicit "+-, sem cara de IA mas feio". Lento: links quebrados. Obsidian Assembly e Obys Ukraine: lindas, mas não para o Raul (salvas em `../jogos/cova-para-um/referencias-externas/site-landing-page.md`).
-- **Ao listar refs**: um link por item, numeração batendo com o link, e testar se abre antes de mandar.
+- **Terceira rodada (27/11)**: reprovadas Affirm, Klarna Pay in 4, Afterpay, Wealthsimple automated-investing, Sezzle, Splitwise. "+-": Airbnb host/homes. "Legalzinho, bom pra celular": Apple Pay (https://www.apple.com/apple-pay/). "Legal, mas pra vender produto": Monzo savings (https://monzo.com/savings-isas).
+- **Ao listar refs**: um link por item, numeração batendo com o link, e **ver o print da seção antes de mandar** (descrever só o que está no print, nunca de memória).
 - **Como trabalhar a próxima rodada**: ver os 4 (frames de vídeo via ffmpeg `fps=6/dur,tile=3x2`, ou filmstrip Playwright), extrair o mecanismo comum, propor 1–2 direções em texto + 1 quadro de referência ANTES de codar, esperar ok. Fonte que funcionou: busca `site:awwwards.com/inspiration <tema>`; vídeos em `assets.awwwards.com/awards/element/...mp4`. Fonte que não funcionou: marketplace Framer (genérico).
+
+## Rodada 27/11 (noite) — 3 modelos no ar para comparar
+Público, sem login (projeto Vercel separado `raul-consorcio-modelos`, não é o oficial):
+- Modelo 1 https://raul-consorcio-modelos.vercel.app/ — Como funciona `modelo="troca"` (escuro, foto `casa-cena.webp` + um cartão de interface por etapa) + Com o Raul `modelo="trilho"` (dúvidas em cartões arrastáveis).
+- Modelo 2 https://raul-consorcio-modelos.vercel.app/modelos/2/ — Como funciona `modelo="pilha"` (claro, cartões empilhados tipo notificação) + Com o Raul `modelo="baralho"`.
+- Modelo 3 https://raul-consorcio-modelos.vercel.app/modelos/3/ — `troca` + Com o Raul `modelo="jornada"` (fotos reais do Raul).
+Código: props `modelo` em `src/components/Construcao.astro` e `ComORaul.astro`; páginas `src/pages/modelos/2.astro` e `3.astro`. `index.astro` hoje usa o modelo 1 (produção raul-consorcio-v3 NÃO foi atualizada).
+
+**Veredito do Gabriel:**
+- Como funciona, modelo 2 (pilha): "não achei horrível, mas os cards parecem IA, dá pra melhorar". A base (foto real + pílulas + cena) fica; refazer o visual dos cartões de interface.
+- Com o Raul: os 3 "uma merda". Recomeçar. Não precisa ser conversa nem dúvidas: pode ser processo ou outra coisa legal. Sem áudio/voz.
+- Direção geral: **confiança e cinema** (cinematográfico, foto real, câmera lenta), nada de cara de desenho infantil. Já há câmera (zoom/deslocamento por etapa) e vinheta na cena.
+- Conferir: num print dele o texto do cartão de trás ainda vazava na pilha; o conserto (`.is-atras > * {opacity:0}`) está no código, confirmar no link.
+- Limpar depois: `construir()` em `src/scripts/motion.ts` ficou sem uso (a seção não tem mais `data-build`); apagar o projeto Vercel `raul-consorcio-modelos` quando escolher.
 
 ## Como publicar
 ```

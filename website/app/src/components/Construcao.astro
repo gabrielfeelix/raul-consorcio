@@ -1,215 +1,816 @@
 ---
-// Como funciona o consórcio: linha do tempo com ícones simples.
-// Cada etapa traz o termo técnico (mostra que o Raul é do ramo) e, ao lado,
-// o que ele quer dizer em linguagem de todo dia. A linha se preenche ao rolar.
+// Como funciona o consórcio: uma cena só (foto real de uma casa) e, por cima dela,
+// um cartão de interface que muda a cada etapa: a carta de crédito, as parcelas pagas,
+// o sorteio da assembleia, a contemplação e a compra à vista. Pílulas em cima trocam a
+// etapa; a troca roda sozinha enquanto a cena está na tela e para quando a pessoa mexe.
+// Tom de referência: Wealthsimple (respiro, frase centralizada, pílulas de contorno fino,
+// objeto real em vez de ícone). Termo técnico sempre com a explicação simples embaixo.
 interface Props {
   titulo?: string;
+  // "troca": um cartão por vez sobre a foto (fundo escuro).
+  // "pilha": fundo claro; os cartões se empilham como notificações, o anterior fica atrás.
+  modelo?: "troca" | "pilha";
 }
-const { titulo = "Como funciona o consórcio." } = Astro.props;
-const passos = [
+const { titulo = "Como funciona o consórcio.", modelo = "troca" } = Astro.props;
+const etapas = [
   {
-    icone: "alvo",
-    t: "Você escolhe o valor do bem",
+    aba: "Valor do bem",
     termo: "Carta de crédito",
-    d: "É o valor do que você quer comprar: a casa, o carro, a máquina.",
+    d: "É o valor do bem que você quer comprar: a casa, o carro, a máquina. Você escolhe esse valor no começo.",
   },
   {
-    icone: "calendario",
-    t: "Paga uma parcela por mês",
-    termo: "Sem juros de banco",
-    d: "Tem só a taxa de administração, que é o pagamento da empresa do consórcio, já somada na parcela.",
+    aba: "Parcela",
+    termo: "Parcela sem juros",
+    d: "Todo mundo do grupo paga uma parcela por mês. Não tem juros de banco: só a taxa de administração, que é o pagamento da empresa do consórcio, já somada na parcela.",
   },
   {
-    icone: "sorteio",
-    t: "Todo mês tem sorteio",
+    aba: "Sorteio",
     termo: "Assembleia",
-    d: "É o encontro mensal do grupo. Nele acontece o sorteio e quem quiser pode dar um lance.",
+    d: "É o sorteio do mês. Todo mês o grupo se reúne e alguém é sorteado para receber o valor.",
   },
   {
-    icone: "dinheiro",
-    t: "Sorteado ou com lance, você recebe",
+    aba: "Contemplação",
     termo: "Contemplação",
-    d: "É quando o dinheiro sai para você. O lance é uma entrada que você oferece para sair antes, sem depender da sorte.",
+    d: "É quando o dinheiro sai para você. Pode ser por sorteio ou por lance, que é uma entrada que você oferece para receber antes.",
   },
   {
-    icone: "chave",
-    t: "Compra à vista e segue pagando",
-    termo: "O bem já é seu",
-    d: "Você compra à vista e usa desde o primeiro dia. As parcelas continuam até o fim do plano.",
+    aba: "Compra",
+    termo: "Compra à vista",
+    d: "Com o valor liberado, você compra à vista e já usa o bem. As parcelas continuam até o fim do plano.",
   },
 ];
-const icones: Record<string, string> = {
-  alvo: '<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="0.8" fill="currentColor"/>',
-  calendario: '<rect x="4" y="5.5" width="16" height="14" rx="2.5"/><path d="M4 10h16M8.5 3.5v4M15.5 3.5v4"/>',
-  sorteio: '<circle cx="12" cy="12" r="8"/><path d="M8.5 12.5l2.3 2.3 4.7-5"/>',
-  dinheiro: '<rect x="3.5" y="7" width="17" height="10" rx="2"/><circle cx="12" cy="12" r="2.4"/><path d="M6.5 10v4M17.5 10v4"/>',
-  chave: '<circle cx="8.5" cy="12" r="4"/><path d="M12.5 12H20.5M17.5 12v3M20 12v2"/>',
-};
+const meses = ["janeiro", "fevereiro", "março"];
 ---
 
-<section class="build" id="construcao" data-build>
-  <div class="build__in wrap">
-    <div class="build__col">
-      <h2 class="display build__titulo" data-split>
-        <span class="linha"><span>{titulo}</span></span>
-      </h2>
-      <p class="build__sub" data-reveal>
-        Um grupo de pessoas junta dinheiro todo mês. A cada mês, alguém do grupo recebe o valor para comprar o seu bem,
-        até que todos recebam.
-      </p>
-    </div>
+<section class:list={["como", `como--${modelo}`]} id="construcao" data-como>
+  <div class="wrap como__in">
+    <h2 class="display como__titulo" data-split>
+      <span class="linha"><span>{titulo}</span></span>
+    </h2>
+    <p class="como__frase" data-reveal>Um grupo junta dinheiro todo mês. A cada mês, alguém recebe. Até todo mundo receber.</p>
 
-    <ol class="tl" data-tl>
-      <span class="tl__trilho" aria-hidden="true"><i data-tl-progresso></i></span>
+    <div class="pilulas" role="tablist" aria-label="Etapas do consórcio" data-reveal>
       {
-        passos.map((p) => (
-          <li class="tl__passo" data-tl-passo>
-            <span class="tl__icone" aria-hidden="true">
-              <svg viewBox="0 0 24 24" set:html={icones[p.icone]} />
-            </span>
-            <div>
-              <h3>{p.t}</h3>
-              <p>
-                <b>{p.termo}:</b> {p.d}
-              </p>
-            </div>
-          </li>
+        etapas.map((e, k) => (
+          <button class:list={["pilula", { "is-ativo": k === 0 }]} role="tab" aria-selected={k === 0 ? "true" : "false"} aria-controls="como-texto" data-ir={k}>
+            {e.aba}
+          </button>
         ))
       }
-    </ol>
+    </div>
+
+    <div class="cena" data-cena data-passo="0" data-reveal>
+      <picture>
+        <source media="(max-width: 700px)" srcset="/img/casa-cena-m.webp" />
+        <img src="/img/casa-cena.webp" alt="Casa iluminada ao entardecer" width="1600" height="1067" loading="lazy" decoding="async" />
+      </picture>
+      <span class="cena__exemplo">Exemplo</span>
+
+      <div class="cartoes" aria-hidden="true">
+        <div class="cartao" data-k="0">
+          <span class="cartao__rotulo">Carta de crédito</span>
+          <strong class="cartao__valor">R$ 300.000</strong>
+          <span class="cartao__nota">O valor da casa que você escolheu</span>
+        </div>
+
+        <div class="cartao" data-k="1">
+          <span class="cartao__rotulo">Suas parcelas</span>
+          <ul class="boletos">
+            {
+              meses.map((m, i) => (
+                <li style={`--i:${i}`}>
+                  <span>Parcela de {m}</span>
+                  <b>R$ 1.890</b>
+                  <i>Paga</i>
+                </li>
+              ))
+            }
+          </ul>
+          <span class="cartao__nota">Taxa de administração já inclusa</span>
+        </div>
+
+        <div class="cartao" data-k="2">
+          <span class="cartao__rotulo">Assembleia de abril · sorteio do mês</span>
+          <div class="sorteio">
+            <span class="sorteio__cota">Cota</span>
+            <span class="rolo"><span class="rolo__fita">0 1 2 3 4 5 6 7 8 9 0</span></span>
+            <span class="rolo"><span class="rolo__fita">5 6 7 8 9 0 1 2 3 4 4</span></span>
+            <span class="rolo"><span class="rolo__fita">2 3 4 5 6 8 9 0 1 2 7</span></span>
+          </div>
+          <span class="cartao__nota sorteio__sua">Saiu a sua cota</span>
+        </div>
+
+        <div class="cartao" data-k="3">
+          <span class="ok"></span>
+          <strong class="cartao__titulo">Você foi contemplado</strong>
+          <span class="cartao__nota">R$ 300.000 liberados para comprar à vista</span>
+          <span class="cartao__chip">Por sorteio ou por lance</span>
+        </div>
+
+        <div class="cartao" data-k="4">
+          <span class="cartao__rotulo">Casa comprada à vista</span>
+          <strong class="cartao__titulo">A chave é sua.</strong>
+          <span class="plano"><i></i></span>
+          <span class="cartao__nota">Parcela 6 de 180 · segue pagando até o fim do plano</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="como__rodape">
+      <div class="explica" id="como-texto" role="tabpanel" aria-live="polite">
+        {
+          etapas.map((e, k) => (
+            <div class:list={["explica__item", { "is-ativo": k === 0 }]} data-k={k}>
+              <h3>{e.termo}</h3>
+              <p>{e.d}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="setas">
+        <button class="seta" data-passo-ir="-1" aria-label="Etapa anterior">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+        </button>
+        <button class="seta" data-passo-ir="1" aria-label="Próxima etapa">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </button>
+      </div>
+    </div>
   </div>
 </section>
 
+<script>
+  document.querySelectorAll<HTMLElement>("[data-como]").forEach((sec) => {
+    const cena = sec.querySelector<HTMLElement>("[data-cena]")!;
+    const pilulas = [...sec.querySelectorAll<HTMLButtonElement>("[data-ir]")];
+    const textos = [...sec.querySelectorAll<HTMLElement>(".explica__item")];
+    const cartoes = [...sec.querySelectorAll<HTMLElement>(".cartao")];
+    const n = pilulas.length;
+    const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let atual = 0;
+    let auto = !reduz;
+    let visivel = false;
+    let relogio = 0;
+
+    const ir = (k: number) => {
+      atual = (k + n) % n;
+      cena.dataset.passo = String(atual);
+      pilulas.forEach((p, i) => {
+        p.classList.toggle("is-ativo", i === atual);
+        p.setAttribute("aria-selected", String(i === atual));
+      });
+      textos.forEach((t, i) => t.classList.toggle("is-ativo", i === atual));
+      // Profundidade de cada cartão na pilha (0 = o da frente; negativo = ainda não chegou).
+      cartoes.forEach((c, i) => {
+        const d = atual - i;
+        c.style.setProperty("--d", String(Math.max(0, d)));
+        c.classList.toggle("is-futuro", d < 0);
+        c.classList.toggle("is-longe", d > 2);
+        c.classList.toggle("is-atras", d > 0);
+      });
+      sec.classList.add("is-pronto");
+      // No celular as pílulas rolam para o lado: mantém a ativa à vista.
+      const p = pilulas[atual];
+      const fila = p.parentElement!;
+      if (fila.scrollWidth > fila.clientWidth)
+        fila.scrollTo({ left: p.offsetLeft - (fila.clientWidth - p.offsetWidth) / 2, behavior: reduz ? "auto" : "smooth" });
+    };
+
+    // Troca automática: 4,8 s por etapa, só com a cena na tela; para de vez quando a pessoa mexe.
+    const agendar = () => {
+      clearTimeout(relogio);
+      if (auto && visivel) relogio = window.setTimeout(() => (ir(atual + 1), agendar()), 4800);
+    };
+    const assumir = () => {
+      auto = false;
+      clearTimeout(relogio);
+    };
+
+    pilulas.forEach((p, i) => p.addEventListener("click", () => (assumir(), ir(i))));
+    sec.querySelectorAll<HTMLButtonElement>("[data-passo-ir]").forEach((b) =>
+      b.addEventListener("click", () => (assumir(), ir(atual + Number(b.dataset.passoIr)))),
+    );
+
+    // Arrastar a cena para o lado também troca (celular).
+    let x0 = 0, y0 = 0;
+    cena.addEventListener("touchstart", (e) => ((x0 = e.touches[0].clientX), (y0 = e.touches[0].clientY)), { passive: true });
+    cena.addEventListener(
+      "touchend",
+      (e) => {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) < 44 || Math.abs(dx) < Math.abs(e.changedTouches[0].clientY - y0) * 1.5) return;
+        assumir();
+        ir(atual + (dx < 0 ? 1 : -1));
+      },
+      { passive: true },
+    );
+
+    if ("IntersectionObserver" in window)
+      new IntersectionObserver(
+        (es) => {
+          visivel = es[0].isIntersecting;
+          if (visivel) agendar();
+          else clearTimeout(relogio);
+        },
+        { threshold: 0.5 },
+      ).observe(cena);
+  });
+</script>
+
 <style>
-  .build {
-    background: var(--preto);
+  .como {
+    color: var(--branco);
+    background:
+      radial-gradient(70% 60% at 88% 100%, rgba(166, 17, 31, 0.28) 0%, rgba(166, 17, 31, 0) 70%),
+      radial-gradient(60% 50% at 0% 0%, rgba(120, 140, 160, 0.16) 0%, rgba(120, 140, 160, 0) 70%),
+      linear-gradient(180deg, #17181b 0%, #1d1f23 100%);
   }
-  .build__in {
+  .como__in {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(32px, 6vw, 112px);
-    align-items: start;
-    padding-top: clamp(72px, 10vh, 120px);
-    padding-bottom: clamp(72px, 10vh, 120px);
+    justify-items: center;
+    padding-top: clamp(80px, 12vh, 140px);
+    padding-bottom: clamp(80px, 12vh, 140px);
   }
-  .build__col {
-    position: sticky;
-    top: 110px;
+  .como__titulo {
+    font-size: clamp(36px, 5vw, 76px);
+    text-align: center;
   }
-  .build__titulo {
-    font-size: clamp(36px, 4vw, 64px);
-  }
-  .build__sub {
-    margin-top: 20px;
-    max-width: 24em;
-    font-size: 17px;
-    line-height: 1.55;
+  .como__frase {
+    margin: 18px 0 0;
+    max-width: 30em;
+    text-align: center;
+    font-size: clamp(17px, 1.4vw, 21px);
+    line-height: 1.45;
     color: rgba(255, 255, 255, 0.72);
   }
-  .tl {
+
+  /* Pílulas de contorno fino (ativa = preenchida) */
+  .pilulas {
+    display: flex;
+    gap: 8px;
+    margin-top: clamp(32px, 5vh, 48px);
+    max-width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding: 2px;
+  }
+  .pilulas::-webkit-scrollbar {
+    display: none;
+  }
+  .pilula {
+    flex: none;
+    height: 44px;
+    padding: 0 20px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: none;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    transition:
+      background-color 0.3s var(--ease),
+      color 0.3s var(--ease),
+      border-color 0.3s var(--ease);
+  }
+  .pilula:hover {
+    border-color: rgba(255, 255, 255, 0.7);
+    color: var(--branco);
+  }
+  .pilula.is-ativo {
+    background: var(--branco);
+    border-color: var(--branco);
+    color: var(--preto);
+  }
+  .pilula:focus-visible,
+  .seta:focus-visible {
+    outline: 2px solid var(--branco);
+    outline-offset: 3px;
+  }
+
+  /* Cena: foto real + cartão de interface por cima */
+  .cena {
     position: relative;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 30px;
-  }
-  .tl__trilho {
-    position: absolute;
-    left: 23px;
-    top: 24px;
-    bottom: 24px;
-    width: 2px;
-    border-radius: 2px;
-    background: rgba(255, 255, 255, 0.12);
+    width: 100%;
+    max-width: 1040px;
+    margin-top: 20px;
+    aspect-ratio: 2 / 1;
+    border-radius: 28px;
     overflow: hidden;
+    background: #23262b;
+    isolation: isolate;
   }
-  .tl__trilho i {
-    display: block;
+  .cena img {
     width: 100%;
     height: 100%;
-    background: var(--vermelho);
-    transform-origin: 50% 0;
+    object-fit: cover;
+    object-position: 30% 50%;
+    transform-origin: 40% 55%;
+    transform: scale(1.04);
+    transition: transform 2.4s cubic-bezier(0.25, 0.1, 0.2, 1);
   }
-  .tl__passo {
-    position: relative;
-    display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
-    gap: 20px;
-    align-items: start;
+  /* Câmera: a cada etapa a foto se move devagar (zoom e deslocamento), como num corte de filme. */
+  .cena[data-passo="1"] img {
+    transform: scale(1.1) translate(-1.5%, 1%);
   }
-  .tl__icone {
-    position: relative;
+  .cena[data-passo="2"] img {
+    transform: scale(1.16) translate(1.5%, -1%);
+  }
+  .cena[data-passo="3"] img {
+    transform: scale(1.08) translate(-1%, -0.5%);
+  }
+  .cena[data-passo="4"] img {
+    transform: scale(1.02);
+  }
+  /* Vinheta: escurece as bordas e segura o olhar no centro. */
+  .cena::before {
+    content: "";
+    position: absolute;
+    inset: 0;
     z-index: 1;
+    background: radial-gradient(120% 90% at 45% 50%, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.45) 100%);
+    pointer-events: none;
+  }
+  .cena::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgba(10, 10, 12, 0) 40%, rgba(10, 10, 12, 0.45) 100%);
+    pointer-events: none;
+  }
+  .cena__exemplo {
+    position: absolute;
+    z-index: 2;
+    top: 16px;
+    left: 16px;
+    padding: 5px 12px;
+    border-radius: 99px;
+    background: rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    color: var(--branco);
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .cartoes {
+    position: absolute;
+    z-index: 2;
+    right: clamp(20px, 5%, 64px);
+    top: 50%;
+    width: min(360px, 42%);
+    display: grid;
+    transform: translateY(-50%);
+  }
+  .cartao {
+    grid-area: 1 / 1;
+    align-self: center;
+    display: grid;
+    gap: 6px;
+    padding: 22px 24px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    color: #141416;
+    box-shadow:
+      0 30px 60px -20px rgba(0, 0, 0, 0.5),
+      0 0 0 1px rgba(255, 255, 255, 0.4) inset;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(26px) scale(0.94);
+    filter: blur(6px);
+    transition:
+      opacity 0.35s var(--ease),
+      transform 0.35s var(--ease),
+      filter 0.35s var(--ease),
+      visibility 0s linear 0.35s;
+  }
+  /* Entrada com mola: sobe, passa um pouco do ponto e assenta. */
+  .cena[data-passo="0"] .cartao[data-k="0"],
+  .cena[data-passo="1"] .cartao[data-k="1"],
+  .cena[data-passo="2"] .cartao[data-k="2"],
+  .cena[data-passo="3"] .cartao[data-k="3"],
+  .cena[data-passo="4"] .cartao[data-k="4"] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    filter: none;
+    transition:
+      opacity 0.45s var(--ease) 0.12s,
+      transform 0.8s cubic-bezier(0.2, 1.35, 0.35, 1) 0.12s,
+      filter 0.45s var(--ease) 0.12s,
+      visibility 0s;
+  }
+  .cartao__rotulo {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6b6b72;
+  }
+  .cartao__valor {
+    font-size: clamp(30px, 3.2vw, 44px);
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+  }
+  .cartao__titulo {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    line-height: 1.1;
+  }
+  .cartao__nota {
+    font-size: 14px;
+    line-height: 1.4;
+    color: #55555c;
+  }
+  .cartao__chip {
+    justify-self: start;
+    margin-top: 6px;
+    padding: 5px 12px;
+    border-radius: 99px;
+    border: 1px solid rgba(20, 20, 22, 0.18);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* Parcelas: três boletos pagos, um depois do outro */
+  .boletos {
+    list-style: none;
+    margin: 6px 0 4px;
+    padding: 0;
+    display: grid;
+    gap: 6px;
+  }
+  .boletos li {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f1f0ee;
+    font-size: 14px;
+  }
+  .boletos b {
+    font-weight: 700;
+  }
+  .boletos i {
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 99px;
+    background: rgba(166, 17, 31, 0.1);
+    color: var(--vermelho);
+  }
+  .cena[data-passo="1"] .boletos li {
+    animation: boleto 0.6s cubic-bezier(0.2, 1.3, 0.35, 1) both;
+    animation-delay: calc(0.35s + var(--i) * 0.22s);
+  }
+  @keyframes boleto {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+  }
+
+  /* Sorteio: cada dígito é uma fita vertical que roda e para no número da cota */
+  .sorteio {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 4px 0;
+  }
+  .sorteio__cota {
+    margin-right: 6px;
+    font-size: 20px;
+    font-weight: 600;
+    color: #6b6b72;
+  }
+  .rolo {
+    display: block;
+    width: 0.8em;
+    height: 1.15em;
+    overflow: hidden;
+    font-size: clamp(34px, 3.4vw, 46px);
+    font-weight: 700;
+    line-height: 1.15;
+    border-radius: 8px;
+    background: #f1f0ee;
+  }
+  .rolo__fita {
+    display: block;
+    width: 0.8em;
+    text-align: center;
+    word-spacing: 1em;
+    white-space: normal;
+    transform: translateY(-11.5em);
+  }
+  .cena[data-passo="2"] .rolo__fita {
+    animation: rolar 1.6s cubic-bezier(0.25, 0.9, 0.3, 1) 0.35s both;
+  }
+  .cena[data-passo="2"] .rolo:nth-of-type(2) .rolo__fita {
+    animation-duration: 1.9s;
+  }
+  .cena[data-passo="2"] .rolo:nth-of-type(3) .rolo__fita {
+    animation-duration: 2.2s;
+  }
+  @keyframes rolar {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-11.5em);
+    }
+  }
+  .sorteio__sua {
+    font-weight: 600;
+    color: var(--vermelho);
+  }
+  .cena[data-passo="2"] .sorteio__sua {
+    animation: aparece 0.4s var(--ease) 2.5s both;
+  }
+  @keyframes aparece {
+    from {
+      opacity: 0;
+    }
+  }
+
+  /* Contemplação: o check se desenha */
+  .ok {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-bottom: 6px;
+    border-radius: 50%;
+    background: var(--vermelho);
+  }
+  .ok::after {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 10px;
+    width: 10px;
+    height: 19px;
+    border: solid var(--branco);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+  .cena[data-passo="3"] .ok {
+    animation: pulsa 0.7s cubic-bezier(0.2, 1.5, 0.35, 1) 0.25s both;
+  }
+  .cena[data-passo="3"] .ok::after {
+    animation: marca 0.4s var(--ease) 0.55s both;
+  }
+  @keyframes pulsa {
+    from {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+  }
+  @keyframes marca {
+    from {
+      transform: rotate(45deg) scale(0);
+    }
+  }
+
+  /* Compra: barra do plano (6 de 180) */
+  .plano {
+    display: block;
+    height: 6px;
+    margin: 8px 0 2px;
+    border-radius: 6px;
+    background: #ebe9e6;
+    overflow: hidden;
+  }
+  .plano i {
+    display: block;
+    width: 3.33%;
+    height: 100%;
+    background: var(--vermelho);
+    transform-origin: 0 50%;
+  }
+  .cena[data-passo="4"] .plano i {
+    animation: enche 0.9s var(--ease) 0.4s both;
+  }
+  @keyframes enche {
+    from {
+      transform: scaleX(0);
+    }
+  }
+
+  /* Explicação embaixo: todas na mesma célula, a altura não muda na troca. */
+  .como__rodape {
+    width: 100%;
+    max-width: 1040px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-top: 28px;
+  }
+  .explica {
+    display: grid;
+    max-width: 40em;
+  }
+  .explica__item {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.3s var(--ease),
+      visibility 0s linear 0.3s;
+  }
+  .explica__item.is-ativo {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.45s var(--ease) 0.1s,
+      visibility 0s;
+  }
+  .explica h3 {
+    font-size: clamp(22px, 2vw, 28px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+  }
+  .explica p {
+    margin: 8px 0 0;
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.55;
+    color: rgba(255, 255, 255, 0.74);
+  }
+  .setas {
+    display: flex;
+    gap: 10px;
+    flex: none;
+  }
+  .seta {
     display: grid;
     place-items: center;
-    width: 48px;
+    width: 64px;
     height: 48px;
-    border-radius: 50%;
-    background: #1c1c1f;
-    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: none;
     color: var(--branco);
     transition:
-      background-color 0.4s var(--ease),
-      border-color 0.4s var(--ease);
+      background-color 0.25s var(--ease),
+      color 0.25s var(--ease);
   }
-  .tl__icone svg {
-    width: 24px;
-    height: 24px;
+  .seta:hover {
+    background: var(--branco);
+    color: var(--preto);
+  }
+  .seta svg {
+    width: 22px;
+    height: 22px;
     fill: none;
     stroke: currentColor;
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
-  .tl__passo.is-on .tl__icone {
-    background: var(--vermelho);
-    border-color: var(--vermelho);
+
+  @media (max-width: 700px) {
+    .como__titulo {
+      font-size: 36px;
+    }
+    .pilulas {
+      align-self: stretch;
+      justify-self: stretch;
+      margin-left: calc(var(--margem) * -1);
+      margin-right: calc(var(--margem) * -1);
+      padding: 2px var(--margem);
+    }
+    .cena {
+      aspect-ratio: 4 / 5;
+      border-radius: 22px;
+    }
+    .cena::after {
+      background: linear-gradient(180deg, rgba(10, 10, 12, 0) 35%, rgba(10, 10, 12, 0.55) 100%);
+    }
+    .cartoes {
+      left: 14px;
+      right: 14px;
+      top: auto;
+      bottom: 14px;
+      width: auto;
+      transform: none;
+    }
+    .cartao {
+      align-self: end;
+      padding: 18px 20px;
+      border-radius: 18px;
+    }
+    .como__rodape {
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 22px;
+    }
   }
-  .tl__passo h3 {
-    padding-top: 4px;
-    font-size: clamp(19px, 1.6vw, 24px);
-    font-weight: 600;
-    letter-spacing: -0.03em;
+
+  /* ---------- Modelo "pilha": claro, cartões empilhados como notificações ---------- */
+  .como--pilha {
+    color: #17171a;
+    background:
+      radial-gradient(70% 60% at 90% 0%, rgba(232, 180, 170, 0.45) 0%, rgba(232, 180, 170, 0) 70%),
+      radial-gradient(60% 60% at 0% 100%, rgba(214, 196, 230, 0.4) 0%, rgba(214, 196, 230, 0) 70%),
+      #f6f1ec;
   }
-  .tl__passo p {
-    margin-top: 6px;
-    max-width: 30em;
-    font-size: 15.5px;
-    line-height: 1.55;
-    color: rgba(255, 255, 255, 0.7);
+  .como--pilha .como__frase,
+  .como--pilha .explica p {
+    color: #4a4a50;
   }
-  .tl__passo p b {
-    font-weight: 600;
+  .como--pilha .pilula {
+    border-color: rgba(20, 20, 22, 0.28);
+    color: #2a2a2e;
+  }
+  .como--pilha .pilula:hover {
+    border-color: #17171a;
+    color: #17171a;
+  }
+  .como--pilha .pilula.is-ativo {
+    background: #17171a;
+    border-color: #17171a;
     color: var(--branco);
   }
-  @media (max-width: 860px) {
-    .build__in {
-      grid-template-columns: 1fr;
-      gap: 36px;
+  .como--pilha .seta {
+    border-color: rgba(20, 20, 22, 0.35);
+    color: #17171a;
+  }
+  .como--pilha .seta:hover {
+    background: #17171a;
+    color: var(--branco);
+  }
+  .como--pilha .pilula:focus-visible,
+  .como--pilha .seta:focus-visible {
+    outline-color: #17171a;
+  }
+  .como--pilha .cartoes {
+    align-items: start;
+  }
+  .como--pilha .cartao {
+    align-self: stretch;
+    align-content: center;
+    z-index: calc(10 - var(--d, 0));
+    transform-origin: 50% 0;
+  }
+  /* Os dois anteriores ficam atrás, menores e mais apagados; os futuros esperam embaixo. */
+  .como--pilha .cena .cartao {
+    opacity: clamp(0, 1 - var(--d, 0) * 0.3, 1);
+    visibility: visible;
+    filter: none;
+    transform: translateY(calc(var(--d, 0) * -16px)) scale(calc(1 - var(--d, 0) * 0.06));
+    transition:
+      opacity 0.5s var(--ease),
+      transform 0.8s cubic-bezier(0.2, 1.3, 0.35, 1);
+  }
+  /* Atrás: só a folha (opaca, sem conteúdo), para não embaralhar com o da frente. */
+  .como--pilha .cena .cartao.is-atras {
+    background: #f3efea;
+  }
+  .como--pilha .cena .cartao.is-atras > * {
+    opacity: 0;
+    transition: opacity 0.2s var(--ease);
+  }
+  .como--pilha .cena .cartao > * {
+    transition: opacity 0.4s var(--ease) 0.2s;
+  }
+  .como--pilha .cena .cartao.is-futuro {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(40px) scale(0.96);
+  }
+  .como--pilha .cena .cartao.is-longe,
+  .como--pilha:not(.is-pronto) .cena .cartao:not([data-k="0"]) {
+    opacity: 0;
+  }
+  .como--pilha .cartoes {
+    top: 50%;
+    transform: translateY(-42%);
+  }
+  @media (max-width: 700px) {
+    .como--pilha .cartoes {
+      top: auto;
+      transform: none;
     }
-    .build__col {
-      position: static;
+    .como--pilha .cartao {
+      align-self: stretch;
+      transform-origin: 50% 100%;
     }
-    .build__titulo {
-      font-size: 34px;
-    }
-    .build__sub {
-      font-size: 16px;
-    }
-    .tl {
-      gap: 26px;
-    }
-    .tl__passo {
-      grid-template-columns: 44px minmax(0, 1fr);
-      gap: 16px;
-    }
-    .tl__icone {
-      width: 44px;
-      height: 44px;
-    }
-    .tl__trilho {
-      left: 21px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cena img,
+    .cartao,
+    .cena .boletos li,
+    .cena .rolo__fita,
+    .cena .ok,
+    .cena .ok::after,
+    .cena .plano i,
+    .cena .sorteio__sua {
+      animation: none !important;
+      transition: none !important;
     }
   }
 </style>

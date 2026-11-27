@@ -1,6 +1,6 @@
 # Estado — Landing page v3 (Raul Consórcio)
 
-Atualizado: 2026-11-27. Commit base: `34f8ab0`.
+Atualizado: 2026-11-27 (noite). Em andamento: refazer "Como funciona" e "Com o Raul" — ver `docs/HANDOFF.md`, rodada da noite.
 
 ## Onde está
 - Código: `website/app/` (Astro 7 estático + GSAP/ScrollTrigger + Lenis, Montserrat Variable, CSS puro com tokens em `src/styles/global.css`).

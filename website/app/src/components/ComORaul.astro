@@ -1,80 +1,167 @@
 ---
-// "Como funciona o consórcio com você" (item 4 da estrutura combinada com o Raul).
-// Formato de conversa: o atendimento dele acontece no WhatsApp. Cada etapa é uma dúvida
-// real de cliente e a resposta do Raul, que "digita" e responde quando entra na tela.
+// "Como é fazer consórcio com o Raul": as dúvidas que todo cliente manda, em cartões grandes
+// que se arrastam para o lado. Em cada cartão, a pergunta do cliente em letra grande e a
+// resposta do Raul num balão com o rosto dele (ele "digita" quando o cartão chega na tela).
 // Só afirma o que o site já afirma (compara administradoras, explica antes da assinatura,
 // acompanha até a contemplação).
-import Seta from "./Seta.astro";
 import { wa } from "../data/site";
+interface Props {
+  // "trilho": cartões lado a lado que se arrastam. "baralho": um cartão na frente, os outros atrás.
+  // "jornada": o processo com o Raul em cartões com foto dele, da conversa até a chave.
+  modelo?: "trilho" | "baralho" | "jornada";
+}
+const { modelo = "trilho" } = Astro.props;
 const conversa = [
-  ["Tá, mas por onde a gente começa?", "Por uma conversa. Eu quero entender o que você quer comprar, para quando e quanto cabe no seu mês sem apertar o resto."],
-  ["E qual empresa de consórcio é a melhor?", "Depende do seu objetivo. Eu comparo as administradoras (as empresas que cuidam do grupo) e te mostro o plano que serve para você. Antes de assinar, te explico cada taxa, com os números do seu caso."],
-  ["E depois que eu assinar, sumo do seu radar?", "Não. Eu acompanho os sorteios do mês (as assembleias), te ajudo a decidir a hora de dar um lance e fico do seu lado até o bem estar na sua mão."],
+  {
+    pergunta: "Tá, mas por onde a gente começa?",
+    resposta: "Por uma conversa. Eu quero entender o que você quer comprar, para quando e quanto cabe no seu mês sem apertar o resto.",
+  },
+  {
+    pergunta: "E qual empresa de consórcio é a melhor?",
+    resposta:
+      "Depende do seu objetivo. Eu comparo as administradoras (as empresas que cuidam do grupo) e te mostro o plano que serve para você. Antes de assinar, te explico cada taxa com os números do seu caso.",
+  },
+  {
+    pergunta: "E depois que eu assinar, sumo do seu radar?",
+    resposta: "Não. Eu acompanho os sorteios do mês (as assembleias), te ajudo a decidir a hora de dar um lance e fico do seu lado até o bem estar na sua mão.",
+  },
+];
+const jornada = [
+  { foto: "/img/raul-proposta.webp", pos: "30% 40%", t: "Primeiro, uma conversa", d: "Sem compromisso. Ele entende o que você quer comprar, para quando e quanto cabe no seu mês." },
+  { foto: "/img/raul-trabalho.webp", pos: "50% 30%", t: "Ele compara as administradoras", d: "Administradoras são as empresas que cuidam do grupo. Você vê o plano que serve para você." },
+  { foto: "/img/raul-quadro.webp", pos: "40% 25%", t: "Tudo explicado antes de assinar", d: "Cada taxa e cada parcela, com os números do seu caso. Você só assina quando entendeu." },
+  { foto: "/img/casa-cena-m.webp", pos: "50% 50%", t: "Do seu lado até a chave", d: "Ele acompanha os sorteios do mês e te ajuda a decidir a hora de dar um lance." },
 ];
 ---
 
-<section class="com" id="com-raul" aria-labelledby="com-titulo">
-  <div class="wrap com__in">
-    <div class="com__lado">
-      <h2 id="com-titulo" class="display com__titulo" data-split>
-        <span class="linha"><span>Como é fazer</span></span>
-        <span class="linha"><span>consórcio</span></span>
-        <span class="linha"><span>com o Raul.</span></span>
-      </h2>
-      <p class="com__sub" data-reveal>As dúvidas que todo cliente manda antes de começar, e o que ele responde.</p>
-      <a href={wa("Oi Raul! Vim pelo site e queria marcar uma conversa sobre consórcio.")} target="_blank" rel="noopener" class="btn btn--branco com__cta" data-reveal>
-        Mandar a minha dúvida<Seta />
-      </a>
-    </div>
+<section class:list={["com", `com--${modelo}`]} id="com-raul" aria-labelledby="com-titulo">
+  <div class="wrap com__topo">
+    <h2 id="com-titulo" class="display com__titulo" data-split>
+      <span class="linha"><span>Como é fazer consórcio</span></span>
+      <span class="linha"><span>com o Raul.</span></span>
+    </h2>
+    <p class="com__frase" data-reveal>
+      {modelo === "jornada" ? "Do primeiro oi até a chave na mão, alguém do seu lado." : "As dúvidas que todo cliente manda antes de começar, e o que ele responde."}
+    </p>
+  </div>
 
-    <ol class="chat" data-chat>
-      {
-        conversa.map(([pergunta, resposta]) => (
-          <li class="chat__par">
-            <p class="msg msg--cliente">{pergunta}</p>
-            <div class="msg msg--raul">
-              <img src="/img/raul-avatar.webp" alt="" width="32" height="32" loading="lazy" />
-              <div class="msg__corpo">
-                <span class="msg__digitando" aria-hidden="true">
-                  <i />
-                  <i />
-                  <i />
-                </span>
-                <p class="msg__txt">{resposta}</p>
-              </div>
+  <div class="trilho" data-trilho tabindex="0" aria-label={modelo === "jornada" ? "Como é o atendimento do Raul" : "Dúvidas e respostas do Raul"}>
+    {
+      modelo === "jornada" &&
+        jornada.map((j) => (
+          <article class="etapa">
+            <img src={j.foto} alt="" loading="lazy" decoding="async" style={`object-position:${j.pos}`} />
+            <div class="etapa__txt">
+              <h3>{j.t}</h3>
+              <p>{j.d}</p>
             </div>
-          </li>
+          </article>
         ))
-      }
-    </ol>
+    }
+    {
+      modelo !== "jornada" &&
+      conversa.map((c, k) => (
+        <article class="duvida" data-duvida aria-label={`Dúvida ${k + 1} de ${conversa.length}`}>
+          <p class="duvida__pergunta">“{c.pergunta}”</p>
+          <div class="duvida__resposta">
+            <img src="/img/raul-avatar.webp" alt="Raul" width="48" height="48" loading="lazy" />
+            <div class="balao">
+              <span class="balao__digitando" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </span>
+              <p class="balao__txt">{c.resposta}</p>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+
+  <div class="wrap com__base">
+    <a href={wa("Oi Raul! Vim pelo site e tenho uma dúvida sobre consórcio.")} target="_blank" rel="noopener" class="zap">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38a9.9 9.9 0 0 0 4.74 1.21c5.46 0 9.91-4.45 9.91-9.91C21.95 6.45 17.5 2 12.04 2Zm0 18.15c-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.2 8.2 0 0 1-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24 4.54 0 8.24 3.7 8.24 8.24 0 4.55-3.7 8.24-8.24 8.24Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.12-.16.25-.64.81-.78.97-.14.17-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.02-.38.11-.5.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.17 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.14-1.18-.06-.1-.22-.16-.47-.28Z" /></svg>
+      Mandar a minha dúvida
+    </a>
+    <div class="com__setas">
+      <button class="seta" data-trilho-ir="-1" aria-label="Dúvida anterior">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"></path></svg>
+      </button>
+      <button class="seta" data-trilho-ir="1" aria-label="Próxima dúvida">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+      </button>
+    </div>
   </div>
 </section>
 
 <script>
-  // Cada par entra quando chega à tela: a dúvida aparece, o Raul digita e responde.
-  const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const pares = [...document.querySelectorAll<HTMLElement>("[data-chat] .chat__par")];
-  if (reduz || !("IntersectionObserver" in window)) {
-    pares.forEach((p) => p.classList.add("is-on", "is-dito"));
-  } else {
-    // A conversa inteira roda uma vez quando a seção aparece: uma troca a cada ~1,1 s.
-    // Se a pessoa já passou da seção, mostra tudo na hora.
-    const chat = document.querySelector<HTMLElement>("[data-chat]");
-    const tudo = () => pares.forEach((p) => p.classList.add("is-on", "is-dito"));
-    if (chat && chat.getBoundingClientRect().bottom < 0) tudo();
-    else if (chat) {
+  const trilho = document.querySelector<HTMLElement>("[data-trilho]");
+  if (trilho) {
+    const cartoes = [...trilho.querySelectorAll<HTMLElement>("[data-duvida], .etapa")];
+    const reduz = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const baralho = trilho.closest(".com--baralho") !== null;
+    const n = cartoes.length;
+    let frente = 0;
+    // Baralho: cada cartão sabe a sua distância da frente (0 = frente, 1 e 2 = atrás).
+    const arrumar = () =>
+      cartoes.forEach((c, i) => {
+        const d = (i - frente + n) % n;
+        c.style.setProperty("--d", String(d));
+        c.setAttribute("aria-hidden", String(d !== 0));
+        c.classList.toggle("is-atras", d !== 0);
+      });
+    const virar = (dir: number) => {
+      frente = (frente + dir + n) % n;
+      arrumar();
+      const c = cartoes[frente];
+      if (c.classList.contains("is-espera") && !c.classList.contains("is-dito")) {
+        c.classList.add("is-digitando");
+        setTimeout(() => c.classList.replace("is-digitando", "is-dito"), 800);
+      }
+    };
+    if (baralho) arrumar();
+
+    // Setas: no trilho rola até o cartão vizinho (scroll-snap); no baralho vira o cartão.
+    const passo = () => cartoes[0].offsetWidth + parseFloat(getComputedStyle(trilho).columnGap || "0");
+    document.querySelectorAll<HTMLButtonElement>("[data-trilho-ir]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const dir = Number(b.dataset.trilhoIr);
+        if (baralho) virar(dir);
+        else trilho.scrollBy({ left: dir * passo(), behavior: reduz ? "auto" : "smooth" });
+      }),
+    );
+    // Baralho: arrastar para o lado também vira.
+    if (baralho) {
+      let x0 = 0;
+      trilho.addEventListener("touchstart", (e) => (x0 = e.touches[0].clientX), { passive: true });
+      trilho.addEventListener("touchend", (e) => {
+        const dx = e.changedTouches[0].clientX - x0;
+        if (Math.abs(dx) > 44) virar(dx < 0 ? 1 : -1);
+      }, { passive: true });
+    }
+
+    // Quando um cartão entra de verdade na tela, o Raul "digita" (~0,8 s) e a resposta aparece.
+    // O texto já ocupa o espaço desde o início: nada empurra a página.
+    if (trilho.querySelector(".etapa")) {
+      // Jornada: não tem conversa para animar.
+    } else if (reduz || !("IntersectionObserver" in window)) cartoes.forEach((c) => c.classList.add("is-dito"));
+    else {
+      cartoes.forEach((c) => c.classList.add("is-espera"));
       const io = new IntersectionObserver(
-        (es) => {
-          if (!es[0].isIntersecting) return;
-          io.disconnect();
-          pares.forEach((p, k) => {
-            setTimeout(() => p.classList.add("is-on"), k * 1100);
-            setTimeout(() => p.classList.add("is-dito"), k * 1100 + 650);
-          });
-        },
-        { threshold: 0.2 },
+        (es) =>
+          es.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const c = e.target as HTMLElement;
+            io.unobserve(c);
+            c.classList.add("is-digitando");
+            setTimeout(() => c.classList.replace("is-digitando", "is-dito"), 800);
+          }),
+        { threshold: 0.75 },
       );
-      io.observe(chat);
+      if (baralho) io.observe(cartoes[0]);
+      else cartoes.forEach((c) => io.observe(c));
     }
   }
 </script>
@@ -83,103 +170,114 @@ const conversa = [
   .com {
     background: var(--vermelho);
     color: var(--branco);
-    padding: clamp(72px, 11vh, 128px) 0;
+    padding: clamp(80px, 12vh, 140px) 0;
+    overflow: hidden;
   }
-  .com__in {
+  .com__topo {
     display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
-    gap: clamp(32px, 6vw, 112px);
-    align-items: start;
-  }
-  .com__lado {
-    position: sticky;
-    top: 110px;
+    justify-items: center;
   }
   .com__titulo {
-    font-size: clamp(40px, 4.6vw, 76px);
+    font-size: clamp(36px, 5vw, 76px);
+    text-align: center;
   }
-  .com__sub {
-    margin-top: 20px;
-    max-width: 22em;
-    font-size: 17px;
-    line-height: 1.5;
-    color: rgba(255, 255, 255, 0.78);
-  }
-  .com__cta {
-    margin-top: 28px;
-    --bg: var(--branco);
-    color: var(--vermelho);
-  }
-  .chat {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 28px;
-  }
-  .chat__par {
-    display: grid;
-    gap: 10px;
-  }
-  .msg {
-    margin: 0;
-    font-size: clamp(16px, 1.25vw, 19px);
+  .com__frase {
+    margin: 18px 0 0;
+    max-width: 28em;
+    text-align: center;
+    font-size: clamp(17px, 1.4vw, 21px);
     line-height: 1.45;
+    color: rgba(255, 255, 255, 0.8);
   }
-  .msg--cliente {
-    justify-self: end;
-    max-width: 78%;
-    padding: 12px 16px;
-    border-radius: 18px 18px 4px 18px;
-    background: rgba(0, 0, 0, 0.22);
-    color: var(--branco);
+
+  /* Trilho de cartões: arrasta para o lado, encaixa no cartão. Começa alinhado ao conteúdo
+     e vaza para a direita, mostrando a ponta do próximo (convite para arrastar). */
+  .trilho {
+    --lado: max(var(--margem), calc((100vw - var(--max)) / 2 + var(--margem)));
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: min(620px, 84vw);
+    column-gap: 16px;
+    margin-top: clamp(40px, 6vh, 64px);
+    padding: 0 var(--lado) 4px;
+    scroll-padding-inline: var(--lado);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
   }
-  .msg--raul {
-    justify-self: start;
+  .trilho::-webkit-scrollbar {
+    display: none;
+  }
+  .trilho:focus-visible {
+    outline: 2px solid var(--branco);
+    outline-offset: 4px;
+  }
+  .duvida {
+    scroll-snap-align: start;
+    display: grid;
+    align-content: space-between;
+    gap: 36px;
+    min-height: 380px;
+    padding: clamp(24px, 3vw, 40px);
+    border-radius: 28px;
+    background: #fbf6f1;
+    color: #1a1414;
+  }
+  .duvida__pergunta {
+    margin: 0;
+    font-size: clamp(26px, 2.6vw, 38px);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.12;
+  }
+  .duvida__resposta {
     display: flex;
-    align-items: end;
-    gap: 10px;
-    max-width: 86%;
+    align-items: flex-end;
+    gap: 12px;
   }
-  .msg--raul img {
-    width: 32px;
-    height: 32px;
+  .duvida__resposta img {
+    width: 48px;
+    height: 48px;
+    flex: none;
     border-radius: 50%;
     object-fit: cover;
-    flex: none;
   }
-  .msg__corpo {
+  .balao {
     position: relative;
   }
-  .msg__txt {
+  .balao__txt {
     margin: 0;
     padding: 14px 18px;
-    border-radius: 18px 18px 18px 4px;
+    border-radius: 20px 20px 20px 6px;
     background: var(--branco);
-    color: #1a1a1a;
+    box-shadow: 0 10px 30px -12px rgba(80, 20, 20, 0.25);
+    font-size: clamp(16px, 1.2vw, 18px);
+    line-height: 1.5;
+    color: #2a2222;
   }
-  .msg__digitando {
+  .balao__digitando {
     position: absolute;
     left: 0;
     bottom: 0;
     display: inline-flex;
     gap: 4px;
-    padding: 14px 16px;
-    border-radius: 18px 18px 18px 4px;
+    padding: 16px 18px;
+    border-radius: 20px 20px 20px 6px;
     background: var(--branco);
     opacity: 0;
   }
-  .msg__digitando i {
+  .balao__digitando i {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: #b0b0b5;
+    background: #b5abab;
     animation: digita 1s infinite;
   }
-  .msg__digitando i:nth-child(2) {
+  .balao__digitando i:nth-child(2) {
     animation-delay: 0.15s;
   }
-  .msg__digitando i:nth-child(3) {
+  .balao__digitando i:nth-child(3) {
     animation-delay: 0.3s;
   }
   @keyframes digita {
@@ -188,70 +286,201 @@ const conversa = [
       opacity: 0.5;
     }
   }
-
-  /* Coreografia (só com movimento ligado). O espaço da resposta existe desde o início:
-     nada empurra a página. Pergunta entra, Raul digita, a resposta abre a partir do avatar. */
-  :global(html.js-motion) .msg--cliente {
-    opacity: 0;
-    transform: translateY(10px) scale(0.96);
-    transform-origin: 100% 100%;
-    transition:
-      opacity 0.4s var(--ease),
-      transform 0.55s var(--ease);
-  }
-  :global(html.js-motion) .msg--raul img {
-    opacity: 0;
-    transition: opacity 0.4s var(--ease) 0.35s;
-  }
-  :global(html.js-motion) .msg__txt {
+  /* Espera: a resposta guarda o lugar, invisível. Digitando: pontinhos. Dito: abre a partir do canto. */
+  .duvida.is-espera:not(.is-dito) .balao__txt {
     visibility: hidden;
-    clip-path: inset(calc(100% - 46px) calc(100% - 64px) 0 0 round 18px 18px 18px 4px);
-    color: transparent;
-    transition:
-      clip-path 0.7s var(--ease),
-      color 0.5s var(--ease) 0.25s;
+    clip-path: inset(calc(100% - 48px) calc(100% - 66px) 0 0 round 20px 20px 20px 6px);
   }
-  :global(html.js-motion) .chat__par.is-on .msg--cliente {
+  .duvida.is-digitando .balao__digitando {
     opacity: 1;
-    transform: none;
+    transition: opacity 0.25s var(--ease);
   }
-  :global(html.js-motion) .chat__par.is-on .msg--raul img {
-    opacity: 1;
-  }
-  :global(html.js-motion) .chat__par.is-on:not(.is-dito) .msg__digitando {
-    opacity: 1;
-    transition: opacity 0.3s var(--ease) 0.45s;
-  }
-  :global(html.js-motion) .chat__par.is-dito .msg__txt {
-    visibility: visible;
-    clip-path: inset(0 0 0 0 round 18px 18px 18px 4px);
-    color: #1a1a1a;
+  .duvida.is-espera.is-dito .balao__txt {
+    clip-path: inset(0 0 0 0 round 20px 20px 20px 6px);
+    transition: clip-path 0.6s var(--ease);
   }
 
-  @media (max-width: 860px) {
-    .com__in {
-      grid-template-columns: 1fr;
+  .com__base {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .zap {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    height: 52px;
+    padding: 0 26px;
+    border-radius: 99px;
+    background: #1a8f4a;
+    color: var(--branco);
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.25s var(--ease);
+  }
+  .zap:hover {
+    background: #157a3e;
+  }
+  .zap svg {
+    width: 20px;
+    height: 20px;
+    flex: none;
+  }
+  .com__setas {
+    display: flex;
+    gap: 10px;
+  }
+  .seta {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 48px;
+    border-radius: 99px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    background: none;
+    color: var(--branco);
+    transition:
+      background-color 0.25s var(--ease),
+      color 0.25s var(--ease);
+  }
+  .seta:hover {
+    background: var(--branco);
+    color: var(--vermelho);
+  }
+  .seta:focus-visible,
+  .zap:focus-visible {
+    outline: 2px solid var(--branco);
+    outline-offset: 3px;
+  }
+  .seta svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ---------- Modelo "jornada": cartões com foto, da conversa até a chave ---------- */
+  .com--jornada .trilho {
+    grid-auto-columns: min(400px, 78vw);
+  }
+  .etapa {
+    scroll-snap-align: start;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #fbf6f1;
+    color: #1a1414;
+  }
+  .etapa img {
+    width: 100%;
+    aspect-ratio: 4 / 4.2;
+    object-fit: cover;
+  }
+  .etapa__txt {
+    padding: 22px 24px 26px;
+  }
+  .etapa h3 {
+    font-size: clamp(21px, 1.8vw, 26px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+  }
+  .etapa p {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.5;
+    color: #4d4444;
+  }
+  /* Entrada: os cartões sobem em sequência quando a seção aparece. */
+  :global(html.js-motion) .com--jornada .etapa {
+    animation: sobe linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 60%;
+  }
+  @keyframes sobe {
+    from {
+      opacity: 0;
+      transform: translateY(40px);
     }
-    .com__lado {
-      position: static;
+  }
+
+  /* ---------- Modelo "baralho": um cartão na frente, os outros aparecem atrás ---------- */
+  .com--baralho .trilho {
+    display: grid;
+    grid-auto-flow: row;
+    grid-auto-columns: auto;
+    width: min(680px, calc(100% - 2 * var(--margem)));
+    margin-inline: auto;
+    padding: 0 0 36px;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+  .com--baralho .duvida {
+    grid-area: 1 / 1;
+    z-index: calc(10 - var(--d, 0));
+    transform-origin: 50% 100%;
+    transform: translateY(calc(var(--d, 0) * 18px)) scale(calc(1 - var(--d, 0) * 0.05));
+    box-shadow: 0 30px 60px -30px rgba(40, 0, 0, 0.5);
+    transition:
+      transform 0.7s cubic-bezier(0.2, 1.25, 0.35, 1),
+      filter 0.4s var(--ease);
+  }
+  .com--baralho .duvida.is-atras {
+    filter: brightness(0.93);
+  }
+  .com--baralho .duvida.is-atras > * {
+    opacity: 0;
+    transition: opacity 0.2s var(--ease);
+  }
+  .com--baralho .duvida > * {
+    transition: opacity 0.4s var(--ease) 0.15s;
+  }
+  .com--baralho .com__base {
+    width: min(680px, calc(100% - 2 * var(--margem)));
+    margin-inline: auto;
+    padding: 0;
+  }
+  @media (max-width: 700px) {
+    .com--baralho .com__setas {
+      display: flex;
     }
+    .com--baralho .com__base {
+      flex-direction: column-reverse;
+      align-items: stretch;
+    }
+    .com--baralho .com__setas {
+      justify-content: flex-end;
+    }
+  }
+
+  @media (max-width: 700px) {
     .com__titulo {
       font-size: 34px;
     }
-    .com__sub {
-      font-size: 16px;
+    .trilho {
+      column-gap: 12px;
     }
-    .com__cta {
+    .duvida {
+      min-height: 0;
+      gap: 28px;
+      border-radius: 22px;
+    }
+    .duvida__resposta img {
+      width: 40px;
+      height: 40px;
+    }
+    .com__setas {
       display: none;
     }
-    .chat {
-      gap: 22px;
-    }
-    .msg--cliente {
-      max-width: 86%;
-    }
-    .msg--raul {
-      max-width: 94%;
+    .zap {
+      width: 100%;
+      justify-content: center;
     }
   }
 </style>
